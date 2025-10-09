@@ -1,0 +1,6 @@
+[server]
+maxUploadSize = 500
+
+# Opcional: porta padrão e modo de desenvolvimento
+# port = 8501
+# headless = true

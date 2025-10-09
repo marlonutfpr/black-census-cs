@@ -11,6 +11,10 @@ st.set_page_config(
 st.title("📊 Análise Temporal do Censo da Educação Superior")
 st.sidebar.title("Navegação")
 
+# Opção para carregar arquivo CSV pelo usuário (tem prioridade sobre o arquivo local)
+st.sidebar.subheader("Dados")
+uploaded_file = st.sidebar.file_uploader("Carregar arquivo CSV do censo (opcional)", type=['csv'], help="Escolha um arquivo CSV consolidado para carregar os dados localmente.")
+
 st.markdown(
     """
     Este dashboard interativo permite explorar a evolução da representatividade de estudantes 
@@ -34,7 +38,29 @@ def load_data():
                  "Por favor, certifique-se de que o arquivo está no diretório correto.")
         return pd.DataFrame()
 
-df = load_data()
+df = None
+if uploaded_file is not None:
+    try:
+        # tentar ler como UTF-8 primeiro
+        df = pd.read_csv(uploaded_file, encoding='utf-8', low_memory=False)
+    except Exception:
+        try:
+            # fallback comum para arquivos CSV em Windows/latin1
+            df = pd.read_csv(uploaded_file, encoding='latin-1', low_memory=False)
+        except Exception as e:
+            st.error(f"Não foi possível ler o arquivo enviado: {e}")
+            df = pd.DataFrame()
+    if not df.empty:
+        # garantir colunas numéricas
+        qty_cols = ['qt_ing', 'qt_conc', 'qt_mat']
+        for col in qty_cols:
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+        st.success(f"Arquivo '{getattr(uploaded_file, 'name', 'upload')}' carregado com sucesso.")
+        # armazenar informação de upload na sessão para referência
+        st.session_state['uploaded_file_name'] = getattr(uploaded_file, 'name', None)
+else:
+    df = load_data()
 
 if not df.empty:
     st.sidebar.header("Filtros Globais")
