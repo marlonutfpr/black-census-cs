@@ -1,0 +1,38 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
+# Backup copy of current 1_Visao_Geral.py
+
+def preparar_dados_temporais(df: pd.DataFrame, tipo: str = 'Ingressantes') -> pd.DataFrame:
+    df_local = df.copy()
+    tipos_map = {
+        'Ingressantes': ('qt_ing', 'qt_ing_preta'),
+        'Concluintes': ('qt_conc', 'qt_conc_preta'),
+        'Matriculados': ('qt_mat', 'qt_mat_preta')
+    }
+    total_col, black_col = tipos_map.get(tipo, ('qt_ing', 'qt_ing_preta'))
+    if total_col in df_local.columns:
+        df_local[total_col] = pd.to_numeric(df_local[total_col], errors='coerce').fillna(0)
+    else:
+        df_local[total_col] = 0
+    if black_col in df_local.columns:
+        df_local[black_col] = pd.to_numeric(df_local[black_col], errors='coerce').fillna(0)
+    else:
+        df_local[black_col] = 0
+        st.warning(f"Coluna '{black_col}' não encontrada. A análise de representatividade para '{tipo}' não terá valores de pretos.")
+    temporal_total = df_local.groupby(['nu_ano_censo'])[total_col].sum().reset_index().rename(columns={total_col: 'total_sel'})
+    temporal_black = df_local.groupby(['nu_ano_censo'])[black_col].sum().reset_index().rename(columns={black_col: 'black_sel'})
+    temporal_combined = pd.merge(temporal_total, temporal_black, on='nu_ano_censo', how='left').fillna(0)
+    temporal_combined['other_sel'] = temporal_combined['total_sel'] - temporal_combined['black_sel']
+    temporal_combined['percent_black'] = 0.0
+    temporal_combined['percent_other'] = 0.0
+    nonzero_mask = temporal_combined['total_sel'] != 0
+    if nonzero_mask.any():
+        temporal_combined.loc[nonzero_mask, 'percent_black'] = (temporal_combined.loc[nonzero_mask, 'black_sel'] / temporal_combined.loc[nonzero_mask, 'total_sel'] * 100).round(1)
+        temporal_combined.loc[nonzero_mask, 'percent_other'] = (temporal_combined.loc[nonzero_mask, 'other_sel'] / temporal_combined.loc[nonzero_mask, 'total_sel'] * 100).round(1)
+    
+    return temporal_combined
+
+# ...rest of original file saved as backup...
