@@ -32,20 +32,24 @@ source .venv/bin/activate
 pip install streamlit pandas plotly scipy
 ```
 
+Fonte de dados
+
+O dashboard lê de um banco SQLite (`db/censo.db`) gerado por uma ETL a
+partir do CSV consolidado. Gere o banco uma vez:
+
+```bash
+pip install pandas
+python db/etl.py
+```
+
+Detalhes do modelo relacional e do pipeline em [db/ETL.md](db/ETL.md).
+Ainda é possível, opcionalmente, subir um CSV consolidado pela barra
+lateral (tem prioridade sobre o banco na sessão).
+
 Executando o dashboard
-
-- Posição do arquivo CSV: coloque o arquivo consolidado em `data/dados_censo_computacao_consolidado.csv`.
-
-- Para rodar a versão principal (arquivo `app.py` na raiz, se presente):
 
 ```bash
 streamlit run app.py
-```
-
-- Ou rode a versão dentro da pasta `code/`:
-
-```bash
-streamlit run code/app.py
 ```
 
 Observações e convenções

@@ -1,0 +1,26 @@
+# Dados brutos e consolidados (grandes, derivados — não versionar)
+dados/
+
+# Banco SQLite gerado pela ETL
+db/*.db
+db/*.sqlite
+db/*.sqlite3
+
+# Schema PostgreSQL gerado a partir de schema.sql (artefato derivado)
+db/schema_postgres.sql
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+streamlit_run.log
+streamlit_test.log
+nohup.out
+
+# Tooling
+.claude/

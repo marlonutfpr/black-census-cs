@@ -1,6 +1,39 @@
 
+import os
+
 import streamlit as st
 import pandas as pd
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
+
+
+def _get_db_url() -> str:
+    """Connection string do Supabase: st.secrets > env SUPABASE_DB_URL."""
+    try:
+        return st.secrets["supabase"]["db_url"]
+    except Exception:
+        return os.environ.get("SUPABASE_DB_URL", "")
+
+
+def _build_sa_url(raw: str) -> URL:
+    """Monta a URL do SQLAlchemy a partir de componentes (tolerante a
+    caracteres especiais na senha, ex.: '/'). URL.create faz o escaping."""
+    _, _, rest = raw.partition("://")
+    rest, _, query = rest.partition("?")
+    creds, _, hostpart = rest.rpartition("@")
+    user, _, password = creds.partition(":")
+    hostport, _, dbname = hostpart.partition("/")
+    host, _, port = hostport.rpartition(":")
+    params = dict(p.split("=", 1) for p in query.split("&") if "=" in p)
+    return URL.create(
+        "postgresql+psycopg2",
+        username=user,
+        password=password,
+        host=host,
+        port=int(port) if port else 5432,
+        database=dbname or "postgres",
+        query={"sslmode": params.get("sslmode", "require")},
+    )
 
 st.set_page_config(
     page_title="Análise Censo Educação Superior",
@@ -23,19 +56,67 @@ st.markdown(
     """
 )
 
-@st.cache_data
+@st.cache_resource
+def _engine():
+    raw = _get_db_url()
+    if not raw:
+        return None
+    return create_engine(_build_sa_url(raw), pool_pre_ping=True)
+
+
+# --- Agregação server-side ---------------------------------------------------
+# As páginas só agrupam/filtram por estas 5 dimensões e somam estas medidas.
+# Como SUM é associativo, fazer o roll-up no Postgres e reagrupar por
+# subconjuntos no pandas dá exatamente o mesmo resultado — mas trafega ~10x
+# menos dados que o `SELECT *` (228 colunas x 319k linhas).
+_DIMS = [
+    "nu_ano_censo",
+    "no_regiao",
+    "no_curso",
+    "tp_categoria_administrativa",
+    "tp_modalidade_ensino",
+]
+_MEASURES = [
+    f"qt_{t}{suf}"
+    for t in ("ing", "conc", "mat")
+    for suf in ("", "_preta", "_parda", "_amarela", "_indigena", "_branca", "_cornd")
+]
+_ROLLUP_SQL = (
+    "SELECT "
+    + ", ".join(_DIMS)
+    + ", "
+    + ", ".join(f"COALESCE(SUM({m}), 0) AS {m}" for m in _MEASURES)
+    + " FROM v_censo_consolidado GROUP BY "
+    + ", ".join(_DIMS)
+)
+# A materialized view mv_censo_rollup já contém esse roll-up pré-calculado
+# (criada por db/load_supabase.py). Lê ~9k linhas sem joins (~1s). Se não
+# existir, cai no GROUP BY acima sobre a view.
+_MV_SQL = "SELECT * FROM mv_censo_rollup"
+
+
+@st.cache_data(show_spinner="Carregando dados do Supabase (agregação server-side)...")
 def load_data():
+    engine = _engine()
+    if engine is None:
+        st.error(
+            "Connection string do Supabase não configurada. Defina "
+            "`[supabase] db_url` em `.streamlit/secrets.toml` ou a variável "
+            "de ambiente `SUPABASE_DB_URL`."
+        )
+        return pd.DataFrame()
     try:
-        df = pd.read_csv('dados_censo_computacao_consolidado.csv', encoding='utf-8', low_memory=False)
-        # Garantir que as colunas de quantidade são numéricas
-        qty_cols = ['qt_ing', 'qt_conc', 'qt_mat']
-        for col in qty_cols:
+        try:
+            df = pd.read_sql_query(_MV_SQL, engine)
+        except Exception:
+            # MV ausente (ex.: carga antiga) — agrega a view na hora.
+            df = pd.read_sql_query(_ROLLUP_SQL, engine)
+        for col in _MEASURES:
             if col in df.columns:
                 df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
         return df
-    except FileNotFoundError:
-        st.error("Arquivo 'dados_censo_computacao_consolidado.csv' não encontrado. "
-                 "Por favor, certifique-se de que o arquivo está no diretório correto.")
+    except Exception as e:
+        st.error(f"Não foi possível ler do Supabase: {e}")
         return pd.DataFrame()
 
 df = None
