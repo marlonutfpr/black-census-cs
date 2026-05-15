@@ -48,6 +48,9 @@ cp .streamlit/secrets.toml.example .streamlit/secrets.toml
 python db/load_supabase.py   # recria schema + carrega dados + materialized view
 ```
 
+Ainda é possível, opcionalmente, subir um CSV consolidado pela barra
+lateral (tem prioridade sobre o banco na sessão).
+
 Executando o dashboard localmente
 
 ```bash
@@ -78,7 +81,6 @@ Observações:
   fica lento) e a 1ª carga de cada sessão leva ~6s (cacheada depois).
 - Se houver erro de conexão WebSocket atrás do proxy do Render, adicione ao
   start command `--server.enableCORS false --server.enableXsrfProtection false`.
-
 Observações e convenções
 
 - Seletores de `Ano` e `Tipo de Dado` (Ingressantes / Concluintes / Matriculados) estão na barra lateral.
