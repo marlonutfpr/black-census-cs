@@ -7,6 +7,7 @@ Uso:
     t("page_home")          # retorna a string no idioma ativo
 """
 
+import inspect
 import streamlit as st
 
 LANGUAGES = {
@@ -782,11 +783,11 @@ _STRINGS: dict[str, dict[str, str]] = {
         "it": "📊 Rappresentatività degli Studenti Neri<br>nei Corsi di Informatica in Brasile",
     },
     "home_subtitle": {
-        "pt": "Análise do Censo da Educação Superior &nbsp;|&nbsp; 2009 – 2023",
-        "en": "Higher Education Census Analysis &nbsp;|&nbsp; 2009 – 2023",
-        "es": "Análisis del Censo de Educación Superior &nbsp;|&nbsp; 2009 – 2023",
-        "fr": "Analyse du Recensement de l'Enseignement Supérieur &nbsp;|&nbsp; 2009 – 2023",
-        "it": "Analisi del Censimento dell'Istruzione Superiore &nbsp;|&nbsp; 2009 – 2023",
+        "pt": "Análise do Censo da Educação Superior &nbsp;|&nbsp; 2009 – 2024",
+        "en": "Higher Education Census Analysis &nbsp;|&nbsp; 2009 – 2024",
+        "es": "Análisis del Censo de Educación Superior &nbsp;|&nbsp; 2009 – 2024",
+        "fr": "Analyse du Recensement de l'Enseignement Supérieur &nbsp;|&nbsp; 2009 – 2024",
+        "it": "Analisi del Censimento dell'Istruzione Superiore &nbsp;|&nbsp; 2009 – 2024",
     },
     "home_about_title": {
         "pt": "Sobre este Dashboard",
@@ -801,7 +802,7 @@ _STRINGS: dict[str, dict[str, str]] = {
             Computação das instituições de ensino superior brasileiras.
 
             Os dados provêm do **Censo da Educação Superior** (INEP/MEC), cobrindo
-            **15 anos consecutivos** (2009 a 2023), e permitem acompanhar como essa
+            **16 anos consecutivos** (2009 a 2024), e permitem acompanhar como essa
             população se posiciona nas etapas de **ingresso**, **matrícula** e
             **conclusão** dos cursos.
 
@@ -813,7 +814,7 @@ _STRINGS: dict[str, dict[str, str]] = {
             courses at Brazilian higher education institutions.
 
             Data comes from the **Higher Education Census** (INEP/MEC), covering
-            **15 consecutive years** (2009 to 2023), tracking how this population
+            **16 consecutive years** (2009 to 2024), tracking how this population
             is positioned at the stages of **entry**, **enrollment**, and
             **graduation**.
 
@@ -825,7 +826,7 @@ _STRINGS: dict[str, dict[str, str]] = {
             Computación de las instituciones de educación superior brasileñas.
 
             Los datos provienen del **Censo de Educación Superior** (INEP/MEC), cubriendo
-            **15 años consecutivos** (2009 a 2023), y permiten seguir cómo esta
+            **16 años consecutivos** (2009 a 2024), y permiten seguir cómo esta
             población se posiciona en las etapas de **ingreso**, **matrícula** y
             **egreso** de los cursos.
 
@@ -837,7 +838,7 @@ _STRINGS: dict[str, dict[str, str]] = {
             en informatique des établissements d'enseignement supérieur brésiliens.
 
             Les données proviennent du **Recensement de l'Enseignement Supérieur** (INEP/MEC),
-            couvrant **15 années consécutives** (2009 à 2023), et permettent de suivre
+            couvrant **16 années consécutives** (2009 à 2024), et permettent de suivre
             comment cette population se positionne aux étapes d'**entrée**, d'**inscription** et
             de **diplomation**.
 
@@ -849,7 +850,7 @@ _STRINGS: dict[str, dict[str, str]] = {
             Informatica delle istituzioni di istruzione superiore brasiliane.
 
             I dati provengono dal **Censimento dell'Istruzione Superiore** (INEP/MEC), coprendo
-            **15 anni consecutivi** (dal 2009 al 2023), e permettono di seguire come questa
+            **16 anni consecutivi** (dal 2009 al 2024), e permettono di seguire come questa
             popolazione si posiziona nelle fasi di **immatricolazione**, **iscrizione** e
             **laurea**.
 
@@ -858,11 +859,11 @@ _STRINGS: dict[str, dict[str, str]] = {
             e delle tendenze nel tempo.""",
     },
     "home_source": {
-        "pt": "**Fonte dos dados**\nCenso da Educação Superior\nINEP / MEC\n\n**Período coberto**\n2009 a 2023\n\n**Área analisada**\nCursos de Computação\n(graduação presencial e EaD)\n\n**Recorte racial**\nCor/raça *preta* (IBGE)",
-        "en": "**Data Source**\nHigher Education Census\nINEP / MEC\n\n**Period covered**\n2009 to 2023\n\n**Area analyzed**\nComputer Science Courses\n(in-person and distance learning)\n\n**Racial focus**\nRace/color *black* (IBGE)",
-        "es": "**Fuente de datos**\nCenso de Educación Superior\nINEP / MEC\n\n**Período cubierto**\n2009 a 2023\n\n**Área analizada**\nCursos de Computación\n(presencial y a distancia)\n\n**Recorte racial**\nColor/raza *negra* (IBGE)",
-        "fr": "**Source des données**\nRecensement de l'Enseignement Supérieur\nINEP / MEC\n\n**Période couverte**\n2009 à 2023\n\n**Domaine analysé**\nFormations en Informatique\n(présentiel et à distance)\n\n**Axe racial**\nCouleur/race *noire* (IBGE)",
-        "it": "**Fonte dei dati**\nCensimento dell'Istruzione Superiore\nINEP / MEC\n\n**Periodo coperto**\ndal 2009 al 2023\n\n**Area analizzata**\nCorsi di Informatica\n(presenza e a distanza)\n\n**Focus razziale**\nColore/razza *nera* (IBGE)",
+        "pt": "**Fonte dos dados**\nCenso da Educação Superior\nINEP / MEC\n\n**Período coberto**\n2009 a 2024\n\n**Área analisada**\nCursos de Computação\n(graduação presencial e EaD)\n\n**Recorte racial**\nCor/raça *preta* (IBGE)",
+        "en": "**Data Source**\nHigher Education Census\nINEP / MEC\n\n**Period covered**\n2009 to 2024\n\n**Area analyzed**\nComputer Science Courses\n(in-person and distance learning)\n\n**Racial focus**\nRace/color *black* (IBGE)",
+        "es": "**Fuente de datos**\nCenso de Educación Superior\nINEP / MEC\n\n**Período cubierto**\n2009 a 2024\n\n**Área analizada**\nCursos de Computación\n(presencial y a distancia)\n\n**Recorte racial**\nColor/raza *negra* (IBGE)",
+        "fr": "**Source des données**\nRecensement de l'Enseignement Supérieur\nINEP / MEC\n\n**Période couverte**\n2009 à 2024\n\n**Domaine analysé**\nFormations en Informatique\n(présentiel et à distance)\n\n**Axe racial**\nCouleur/race *noire* (IBGE)",
+        "it": "**Fonte dei dati**\nCensimento dell'Istruzione Superiore\nINEP / MEC\n\n**Periodo coperto**\ndal 2009 al 2024\n\n**Area analizzata**\nCorsi di Informatica\n(presenza e a distanza)\n\n**Focus razziale**\nColore/razza *nera* (IBGE)",
     },
     "home_context_title": {
         "pt": "Contexto e Motivação",
@@ -998,11 +999,11 @@ _STRINGS: dict[str, dict[str, str]] = {
     },
     # ── Descrições das páginas (cards na home) ────────────────────────────────
     "home_card_overview_desc": {
-        "pt": "Evolução temporal da representatividade de estudantes pretos em todos os cursos de Computação, comparando ingressantes, matriculados e concluintes ao longo dos 15 anos de dados.",
-        "en": "Temporal evolution of Black students' representativeness across all Computer Science courses, comparing entrants, enrolled, and graduates over 15 years of data.",
-        "es": "Evolución temporal de la representatividad de estudiantes negros en todos los cursos de Computación, comparando ingresantes, matriculados y egresados a lo largo de 15 años de datos.",
-        "fr": "Évolution temporelle de la représentativité des étudiants noirs dans tous les cours d'informatique, comparant entrants, inscrits et diplômés sur 15 ans de données.",
-        "it": "Evoluzione temporale della rappresentatività degli studenti neri in tutti i corsi di Informatica, confrontando immatricolati, iscritti e laureati nel corso di 15 anni di dati.",
+        "pt": "Evolução temporal da representatividade de estudantes pretos em todos os cursos de Computação, comparando ingressantes, matriculados e concluintes ao longo dos 16 anos de dados.",
+        "en": "Temporal evolution of Black students' representativeness across all Computer Science courses, comparing entrants, enrolled, and graduates over 16 years of data.",
+        "es": "Evolución temporal de la representatividad de estudiantes negros en todos los cursos de Computación, comparando ingresantes, matriculados y egresados a lo largo de 16 años de datos.",
+        "fr": "Évolution temporelle de la représentativité des étudiants noirs dans tous les cours d'informatique, comparant entrants, inscrits et diplômés sur 16 ans de données.",
+        "it": "Evoluzione temporale della rappresentatività degli studenti neri in tutti i corsi di Informatica, confrontando immatricolati, iscritti e laureati nel corso di 16 anni di dati.",
     },
     "home_card_course_desc": {
         "pt": "Distribuição da representatividade por nome de curso (Ciência da Computação, Sistemas de Informação, Engenharia de Computação, etc.), revelando quais cursos concentram mais ou menos diversidade racial.",
@@ -1435,18 +1436,42 @@ def set_language(label: str) -> None:
     st.session_state["lang"] = LANGUAGES.get(label, "pt")
 
 
+def translate_dtype(pt_val: str) -> str:
+    """
+    Traduz um valor de tipo de dado em Português (chave interna) para o idioma ativo.
+    Ex.: 'Ingressantes' → 'Entrants' em inglês.
+    """
+    _PT_TO_KEY = {
+        'Ingressantes': 'dtype_entrants',
+        'Concluintes':  'dtype_graduates',
+        'Matriculados': 'dtype_enrolled',
+    }
+    key = _PT_TO_KEY.get(pt_val)
+    if key:
+        lang = get_language()
+        return _STRINGS[key].get(lang) or pt_val
+    return pt_val
+
+
 def t(key: str, **kwargs) -> str:
     """
     Retorna a string traduzida para o idioma ativo.
     Aceita kwargs para interpolação: t("overview_header", dtype="Ingressantes", year=2023)
+    O kwarg 'dtype' é automaticamente traduzido do Português para o idioma ativo.
     """
     lang = get_language()
     entry = _STRINGS.get(key, {})
     text = entry.get(lang) or entry.get("pt") or key
+    # Remove indentação Python de strings multilinha (fix para renderização Markdown)
+    text = inspect.cleandoc(text)
     if kwargs:
+        # Traduz automaticamente o dtype do Português para o idioma ativo
+        if 'dtype' in kwargs:
+            kwargs = dict(kwargs)
+            kwargs['dtype'] = translate_dtype(str(kwargs['dtype']))
         try:
             text = text.format(**kwargs)
-        except KeyError:
+        except (KeyError, ValueError):
             pass
     return text
 

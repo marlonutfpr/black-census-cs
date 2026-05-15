@@ -79,7 +79,7 @@ def home_page():
 
     # ── Cabeçalho ─────────────────────────────────────────────────────────────
     st.markdown(
-        """
+        f"""
         <h1 class='dash-title'>
             {t('home_main_title')}
         </h1>
