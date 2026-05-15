@@ -1,6 +1,7 @@
 [server]
 maxUploadSize = 500
+headless = true
+# port e address são definidos via flags no Render ($PORT / 0.0.0.0).
 
-# Opcional: porta padrão e modo de desenvolvimento
-# port = 8501
-# headless = true
+[browser]
+gatherUsageStats = false

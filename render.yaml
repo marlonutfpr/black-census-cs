@@ -1,0 +1,18 @@
+# Render Blueprint — deploy do dashboard Streamlit.
+# Em https://dashboard.render.com -> New -> Blueprint, aponte para este repo.
+# A connection string do Supabase NÃO fica aqui (sync: false): defina o valor
+# de SUPABASE_DB_URL no painel do Render (aba Environment do serviço).
+services:
+  - type: web
+    name: black-census-cs
+    runtime: python
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: SUPABASE_DB_URL
+        sync: false
