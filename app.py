@@ -47,12 +47,11 @@ chart_theme.apply()
 import i18n
 
 # ── Seletor de idioma (topo da sidebar, sempre visível) ───────────────────────
+_default_lang = next((k for k, v in i18n.LANGUAGES.items() if v == i18n.get_language()), "[PT] Português")
 lang_label = st.sidebar.selectbox(
     i18n.t("nav_language"),
     list(i18n.LANGUAGES.keys()),
-    index=list(i18n.LANGUAGES.keys()).index(
-        next((k for k, v in i18n.LANGUAGES.items() if v == i18n.get_language()), "🇧🇷 Português")
-    ),
+    index=list(i18n.LANGUAGES.keys()).index(_default_lang),
 )
 i18n.set_language(lang_label)
 

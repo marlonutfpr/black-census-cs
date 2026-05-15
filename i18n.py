@@ -11,11 +11,20 @@ import inspect
 import streamlit as st
 
 LANGUAGES = {
-    "🇧🇷 Português": "pt",
-    "🇺🇸 English": "en",
-    "🇪🇸 Español": "es",
-    "🇫🇷 Français": "fr",
-    "🇮🇹 Italiano": "it",
+    "[PT] Português": "pt",
+    "[EN] English":   "en",
+    "[ES] Español":   "es",
+    "[FR] Français":  "fr",
+    "[IT] Italiano":  "it",
+}
+
+# Código ISO do país para cada idioma (usado para exibir a bandeira via flagcdn.com)
+LANG_FLAG = {
+    "pt": "br",
+    "en": "us",
+    "es": "es",
+    "fr": "fr",
+    "it": "it",
 }
 
 _STRINGS: dict[str, dict[str, str]] = {
@@ -56,11 +65,11 @@ _STRINGS: dict[str, dict[str, str]] = {
         "it": "Filtri Globali",
     },
     "nav_language": {
-        "pt": "Idioma / Language",
-        "en": "Idioma / Language",
-        "es": "Idioma / Language",
-        "fr": "Idioma / Language",
-        "it": "Idioma / Language",
+        "pt": "Idioma",
+        "en": "Language",
+        "es": "Idioma",
+        "fr": "Langue",
+        "it": "Lingua",
     },
     # ── Nomes das páginas ─────────────────────────────────────────────────────
     "page_home": {

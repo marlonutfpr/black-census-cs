@@ -3,34 +3,11 @@ from i18n import t
 
 _CSS = """
 <style>
-/* ── variáveis de tema ────────────────────────────────────────────── */
-:root {
-    --dash-title-color:      #1a1a2e;
-    --dash-subtitle-color:   #444444;
-    --dash-card-bg:          #ffffff;
-    --dash-card-border:      #d0d0d0;
-    --dash-card-title-color: #1a1a2e;
-    --dash-card-text-color:  #333333;
-    --dash-footer-color:     #666666;
-    --dash-footer-link:      #1a73e8;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dash-title-color:      #e8e8f5;
-        --dash-subtitle-color:   #b0b8cc;
-        --dash-card-bg:          #1e2130;
-        --dash-card-border:      #3a4060;
-        --dash-card-title-color: #f0f0ff;
-        --dash-card-text-color:  #c8cce0;
-        --dash-footer-color:     #9099b0;
-        --dash-footer-link:      #7ab4f5;
-    }
-}
-
+/* Usa variáveis CSS nativas do Streamlit — atualizam automaticamente
+   quando o usuário troca o tema via ⚙️ no app.                      */
 .dash-title {
     text-align: center;
-    color: var(--dash-title-color);
+    color: var(--text-color);
     font-size: 2rem;
     line-height: 1.3;
     margin-bottom: 0.3rem;
@@ -38,36 +15,39 @@ _CSS = """
 .dash-subtitle {
     text-align: center;
     font-size: 1.1rem;
-    color: var(--dash-subtitle-color);
+    color: var(--text-color);
+    opacity: 0.7;
     margin-top: 0;
     margin-bottom: 1rem;
 }
 .dash-card {
-    border: 1px solid var(--dash-card-border);
+    border: 1px solid rgba(128, 128, 128, 0.25);
     border-radius: 10px;
     padding: 18px 20px;
     margin-bottom: 12px;
-    background: var(--dash-card-bg);
+    background: var(--secondary-background-color);
 }
 .dash-card h4 {
     margin: 0 0 6px 0;
-    color: var(--dash-card-title-color);
+    color: var(--text-color);
     font-size: 1rem;
 }
 .dash-card p {
     margin: 0;
-    color: var(--dash-card-text-color);
+    color: var(--text-color);
+    opacity: 0.8;
     font-size: 0.93rem;
     line-height: 1.5;
 }
 .dash-footer {
     text-align: center;
-    color: var(--dash-footer-color);
+    color: var(--text-color);
+    opacity: 0.6;
     font-size: 0.85rem;
     margin-top: 0.5rem;
 }
 .dash-footer a {
-    color: var(--dash-footer-link);
+    color: var(--primary-color);
     text-decoration: none;
 }
 </style>
