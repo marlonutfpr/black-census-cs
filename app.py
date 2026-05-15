@@ -41,7 +41,23 @@ st.set_page_config(
     layout="wide",
 )
 
-st.sidebar.title("Navegação")
+import chart_theme
+chart_theme.apply()
+
+import i18n
+
+# ── Seletor de idioma (topo da sidebar, sempre visível) ───────────────────────
+lang_label = st.sidebar.selectbox(
+    i18n.t("nav_language"),
+    list(i18n.LANGUAGES.keys()),
+    index=list(i18n.LANGUAGES.keys()).index(
+        next((k for k, v in i18n.LANGUAGES.items() if v == i18n.get_language()), "🇧🇷 Português")
+    ),
+)
+i18n.set_language(lang_label)
+
+st.sidebar.title(i18n.t("nav_title"))
+st.sidebar.markdown("---")
 
 
 
@@ -111,48 +127,54 @@ def load_data():
 df = load_data()
 
 if not df.empty:
-    st.sidebar.header("Filtros Globais")
+    st.sidebar.header(i18n.t("nav_global_filters"))
 
     # Menu de navegação de páginas
     paginas = {
-        "🏠 Página Inicial": "0_Home",
-        "📈 Visão Geral": "1_Visao_Geral",
-        "🎓 Comparativo por Curso": "2_Comparativo_por_Curso",
-        "🗺️ Análise Regional": "3_Analise_Regional",
-        "🏛️ Análise Institucional": "4_Analise_Institucional",
-        "🖥️ Comparativo por Formato": "6_Comparativo_Formato",
-        "🔮 Projeção e Tendências": "8_Projecao",
-        "⚖️ Comparativo Geral": "5_Comparativo_Geral"
+        i18n.t("page_home"):        "0_Home",
+        i18n.t("page_overview"):    "1_Visao_Geral",
+        i18n.t("page_by_course"):   "2_Comparativo_por_Curso",
+        i18n.t("page_regional"):    "3_Analise_Regional",
+        i18n.t("page_institutional"): "4_Analise_Institucional",
+        i18n.t("page_format"):      "6_Comparativo_Formato",
+        i18n.t("page_projection"):  "8_Projecao",
+        i18n.t("page_general"):     "5_Comparativo_Geral",
     }
     pagina_selecionada = st.sidebar.radio(
-        "Selecione a Página",
+        i18n.t("nav_select_page"),
         list(paginas.keys()),
         index=0
     )
 
     anos_disponiveis = sorted(df['nu_ano_censo'].unique())
     ano_selecionado = st.sidebar.slider(
-        "Selecione o Ano",
+        i18n.t("nav_select_year"),
         min_value=int(min(anos_disponiveis)),
         max_value=int(max(anos_disponiveis)),
         value=int(max(anos_disponiveis)),
         step=1
     )
 
+    # Tipos de dado localizados
+    dtype_labels = i18n.dtype_keys()
+    home_key = i18n.t("page_home")
+    general_key = i18n.t("page_general")
+
     # Mostrar o seletor de tipo de dado apenas se não estivermos na página Inicial ou Comparativo Geral
     tipo_dado_selecionado = None
-    if pagina_selecionada not in ('🏠 Página Inicial', '⚖️ Comparativo Geral'):
-        tipo_dado_selecionado = st.sidebar.radio(
-            "Tipo de Dado",
-            ('Ingressantes', 'Concluintes', 'Matriculados'),
+    if pagina_selecionada not in (home_key, general_key):
+        tipo_dado_selecionado_label = st.sidebar.radio(
+            i18n.t("nav_data_type"),
+            dtype_labels,
             index=0
         )
+        # Converter para o equivalente em PT (chave interna usada pelas páginas)
+        tipo_dado_selecionado = i18n.dtype_to_pt(tipo_dado_selecionado_label)
     else:
-        # Garantir que exista um valor em session_state (usar valor existente ou padrão)
         tipo_dado_selecionado = st.session_state.get('tipo_dado_selecionado', 'Ingressantes')
 
-    # Na Página Inicial, ocultar os filtros globais (slider de ano e tipo de dado)
-    if pagina_selecionada == '🏠 Página Inicial':
+    # Na Página Inicial, renderizar e parar
+    if pagina_selecionada == home_key:
         import importlib
         modulo = importlib.import_module("0_Home")
         modulo.home_page()
@@ -169,7 +191,7 @@ if not df.empty:
     func_name = [f for f in dir(modulo) if f.endswith('_page')][0]
     getattr(modulo, func_name)()
 
-    st.info("Navegue pelas páginas no menu lateral para ver as análises.")
+    st.info(i18n.t("nav_select_page"))
 else:
     # Mesmo sem dados, permite ver a Página Inicial
     import importlib as _il

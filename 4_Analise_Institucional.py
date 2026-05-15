@@ -2,19 +2,20 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from i18n import t
 
 def analise_institucional_page():
-    st.title("Análise por Tipo de Instituição")
+    st.title(t("inst_title"))
 
     if 'data' not in st.session_state or st.session_state['data'].empty:
-        st.warning("Dados não carregados. Por favor, retorne à página inicial.")
+        st.warning(t("data_not_loaded"))
         return
 
     df = st.session_state['data']
     ano_selecionado = st.session_state.get('ano_selecionado', df['nu_ano_censo'].max())
     tipo_dado_selecionado = st.session_state.get('tipo_dado_selecionado', 'Ingressantes')
 
-    st.header(f"Representatividade de {tipo_dado_selecionado} por Tipo de Instituição - Ano: {ano_selecionado}")
+    st.header(t("inst_header", dtype=tipo_dado_selecionado, year=ano_selecionado))
 
     # Mapeamento do tipo de dado para as colunas do DataFrame
     coluna_total = {
@@ -76,17 +77,17 @@ def analise_institucional_page():
         inst_pubpriv['grupo_admin'] = pd.Categorical(inst_pubpriv['grupo_admin'], categories=ordem, ordered=True)
         inst_pubpriv = inst_pubpriv.sort_values('grupo_admin')
 
-        st.subheader(f"Representatividade de Pretos ({tipo_dado_selecionado}) - Pública vs Privada")
+        st.subheader(t("inst_pubpriv_sub", dtype=tipo_dado_selecionado))
         fig_pubpriv = px.bar(
             inst_pubpriv,
             x='grupo_admin',
             y='percentual',
             color='percentual',
             color_continuous_scale='Plasma',
-            title=f'Representatividade de Pretos ({tipo_dado_selecionado}) - Pública vs Privada em {ano_selecionado}',
+            title=t("inst_pubpriv_title", dtype=tipo_dado_selecionado, year=ano_selecionado),
             labels={
-                'grupo_admin': 'Categoria Administrativa',
-                'percentual': 'Representatividade (%)'
+                'grupo_admin': t("inst_admin_category"),
+                'percentual': t("representativeness")
             }
         )
         st.plotly_chart(fig_pubpriv, use_container_width=True, key=f"institucional_pubpriv_{ano_selecionado}_{tipo_dado_selecionado}")
@@ -103,24 +104,24 @@ def analise_institucional_page():
 
         inst_agrupado = inst_agrupado.sort_values('percentual_negros_pardos', ascending=False)
 
-        st.subheader(f"Representatividade de Pretos ({tipo_dado_selecionado}) por Tipo de Instituição")
+        st.subheader(t("inst_by_type_sub", dtype=tipo_dado_selecionado))
         fig_inst = px.bar(
             inst_agrupado,
             x='tipo_instituicao_descricao',
             y='percentual_negros_pardos',
             color='percentual_negros_pardos',
             color_continuous_scale='Plasma',
-            title=f'Representatividade de Pretos ({tipo_dado_selecionado}) por Tipo de Instituição em {ano_selecionado}',
+            title=t("inst_by_type_title", dtype=tipo_dado_selecionado, year=ano_selecionado),
             labels={
-                'tipo_instituicao_descricao': 'Tipo de Instituição',
-                'percentual_negros_pardos': 'Representatividade (%)'
+                'tipo_instituicao_descricao': t("inst_type"),
+                'percentual_negros_pardos': t("representativeness")
             }
         )
         import uuid
         chart_key = f"institucional_bar_{ano_selecionado}_{tipo_dado_selecionado}_{uuid.uuid4()}"
         st.plotly_chart(fig_inst, use_container_width=True, key=chart_key)
 
-        st.subheader("Evolução da Representatividade por Tipo de Instituição ao Longo dos Anos")
+        st.subheader(t("inst_evol_sub"))
         # Dados para evolução temporal por tipo de instituição
         inst_evolution = df.groupby(['nu_ano_censo', 'tp_categoria_administrativa']).agg({
             coluna_total: 'sum',
@@ -153,17 +154,17 @@ def analise_institucional_page():
             x='nu_ano_censo',
             y='percentual',
             color='grupo_admin',
-            title=f'Evolução da Representatividade de Pretos ({tipo_dado_selecionado}) - Pública vs Privada',
+            title=t("inst_evol_title", dtype=tipo_dado_selecionado),
             labels={
-                'nu_ano_censo': 'Ano',
-                'percentual': 'Representatividade (%)',
-                'grupo_admin': 'Categoria'
+                'nu_ano_censo': t("year"),
+                'percentual': t("representativeness"),
+                'grupo_admin': t("category")
             },
             markers=True
         )
         st.plotly_chart(fig_inst_evol, use_container_width=True, key=f"institucional_evol_pubpriv_{tipo_dado_selecionado}")
     else:
-        st.info(f"Não há dados disponíveis para o ano {ano_selecionado} e tipo de dado {tipo_dado_selecionado}.")
+        st.info(t("no_data_year", year=ano_selecionado, dtype=tipo_dado_selecionado))
 
 # Nota: a função `analise_institucional_page` é chamada a partir de `app.py`.
 

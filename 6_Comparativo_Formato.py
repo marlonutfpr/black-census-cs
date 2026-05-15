@@ -1,13 +1,14 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from i18n import t
 
 
 def comparativo_formato_page():
-    st.title("Comparativo por Formato de Ensino (Presencial vs A Distância)")
+    st.title(t("format_title"))
 
     if 'data' not in st.session_state or st.session_state['data'].empty:
-        st.warning("Dados não carregados. Por favor, retorne à página inicial.")
+        st.warning(t("data_not_loaded"))
         return
 
     df = st.session_state['data']
@@ -50,7 +51,7 @@ def comparativo_formato_page():
             break
 
     if modal_col is None:
-        st.info("Nenhuma coluna de modalidade encontrada no conjunto de dados. Colunas procuradas: " + ", ".join(possible_modal_cols))
+        st.info(t("format_no_modal_col") + ": " + ", ".join(possible_modal_cols))
         return
 
     # Criar coluna padronizada 'formato_ensino' com valores 'Presencial' / 'A Distância' / 'Outro'
@@ -85,7 +86,7 @@ def comparativo_formato_page():
     # Filtrar ano
     df_ano = df[df['nu_ano_censo'] == ano_selecionado].copy()
     if df_ano.empty:
-        st.info(f"Não há dados para o ano {ano_selecionado}.")
+        st.info(t("no_data_year", year=ano_selecionado, dtype=tipo_dado_selecionado))
         return
 
     coluna_total = coluna_total_map.get(tipo_dado_selecionado, 'qt_ing')
@@ -98,30 +99,27 @@ def comparativo_formato_page():
     ).reset_index()
     resumo['percentual_pretos'] = (resumo['total_pretos'] / resumo['total_geral'] * 100).round(2)
 
-    st.subheader(f"Representatividade de Pretos por Formato de Ensino - {tipo_dado_selecionado} ({ano_selecionado})")
+    st.subheader(t("format_bar_sub", dtype=tipo_dado_selecionado, year=ano_selecionado))
     fig = px.bar(
         resumo,
         x='formato_ensino',
         y='percentual_pretos',
         color='percentual_pretos',
         color_continuous_scale='Turbo',
-        labels={'formato_ensino': 'Formato de Ensino', 'percentual_pretos': 'Representatividade (%)'},
-        title=f'Representatividade de Pretos ({tipo_dado_selecionado}) por Formato de Ensino em {ano_selecionado}'
+        labels={'formato_ensino': t("format_label"), 'percentual_pretos': t("representativeness")},
+        title=t("format_bar_title", dtype=tipo_dado_selecionado, year=ano_selecionado)
     )
     st.plotly_chart(fig, use_container_width=True, key=f'formato_bar_{ano_selecionado}_{tipo_dado_selecionado}')
 
-    st.subheader('Tabela Resumo')
+    st.subheader(t("format_table_sub"))
     resumo_display = resumo.sort_values('percentual_pretos', ascending=False).copy()
-    # Renomear colunas para exibição conforme solicitado
     resumo_display = resumo_display.rename(columns={
-        'formato_ensino': 'Formato de Ensino',
-        'total_geral': 'Total Geral',
-        'total_pretos': 'Total de Pretos',
-        'percentual_pretos': 'Percentual de Pretos'
+        'formato_ensino': t("format_label"),
+        'total_geral': t("total"),
+        'total_pretos': t("black_students"),
+        'percentual_pretos': t("representativeness")
     })
-    # Reordenar colunas para uma apresentação consistente
-    cols_order = ['Formato de Ensino', 'Total Geral', 'Total de Pretos', 'Percentual de Pretos']
-    # Alguns ambientes podem não conter todas as colunas; selecionar as existentes na ordem desejada
+    cols_order = [t("format_label"), t("total"), t("black_students"), t("representativeness")]
     cols_present = [c for c in cols_order if c in resumo_display.columns]
     st.dataframe(resumo_display[cols_present])
 
@@ -132,14 +130,14 @@ def comparativo_formato_page():
     ).reset_index()
     evo['percentual_pretos'] = (evo['total_pretos'] / evo['total_geral'] * 100).round(2)
 
-    st.subheader('Evolução Temporal por Formato de Ensino')
+    st.subheader(t("format_evol_sub"))
     fig_evo = px.line(
         evo,
         x='nu_ano_censo',
         y='percentual_pretos',
         color='formato_ensino',
-        labels={'nu_ano_censo': 'Ano', 'percentual_pretos': 'Representatividade (%)', 'formato_ensino': 'Formato'},
-        title=f'Evolução da Representatividade de Pretos por Formato de Ensino - {tipo_dado_selecionado}',
+        labels={'nu_ano_censo': t("year"), 'percentual_pretos': t("representativeness"), 'formato_ensino': t("format_label")},
+        title=t("format_evol_title", dtype=tipo_dado_selecionado),
         markers=True
     )
     st.plotly_chart(fig_evo, use_container_width=True, key=f'formato_evol_{tipo_dado_selecionado}')

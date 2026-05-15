@@ -4,18 +4,19 @@ import pandas as pd
 import plotly.express as px
 import hashlib
 import colorsys
+from i18n import t
 
 def comparativo_geral_page():
-    st.title("Comparativo Geral")
+    st.title(t("general_title"))
 
     if 'data' not in st.session_state or st.session_state['data'].empty:
-        st.warning("Dados não carregados. Por favor, retorne à página inicial.")
+        st.warning(t("data_not_loaded"))
         return
 
     df = st.session_state['data']
     ano_selecionado = st.session_state.get('ano_selecionado', df['nu_ano_censo'].max())
 
-    st.header(f"Comparação de Dados para o Ano: {ano_selecionado}")
+    st.header(t("general_header", year=ano_selecionado))
 
     # Opções de tipo de dado para comparação
     tipos_dados_opcoes = {
@@ -30,18 +31,18 @@ def comparativo_geral_page():
     }
 
     # Não precisamos mais selecionar apenas dois tipos; iremos mostrar os três
-    st.sidebar.subheader("Configurações de Comparação")
-    st.sidebar.markdown("Mostrando: Ingressantes, Concluintes e Matriculados")
+    st.sidebar.subheader(t("general_comparison_settings"))
+    st.sidebar.markdown(t("general_showing_all"))
 
     # Seleção do grupo para comparação
     grupo_comparacao_opcoes = {
-        'Região': 'no_regiao',
-        'Tipo de Instituição': 'tp_categoria_administrativa',
-        'Curso': 'no_curso_standardized',
-        'Formato': 'formato_ensino'
+        t("general_group_region"): 'no_regiao',
+        t("general_group_inst"): 'tp_categoria_administrativa',
+        t("general_group_course"): 'no_curso_standardized',
+        t("general_group_format"): 'formato_ensino'
     }
     grupo_selecionado_label = st.sidebar.selectbox(
-        "Comparar por Grupo",
+        t("general_compare_by"),
         list(grupo_comparacao_opcoes.keys()),
         index=0
     )
@@ -96,7 +97,7 @@ def comparativo_geral_page():
             except Exception:
                 top_courses_overall = []
             # Mostrar gráficos de pizza lado a lado para os três tipos: Ingressantes, Concluintes, Matriculados
-            top_n = st.slider('Top N cursos para os gráficos de pizza', 5, 30, 10, key='comparativo_geral_curso_top_n')
+            top_n = st.slider(t("general_top_n_slider"), 5, 30, 10, key='comparativo_geral_curso_top_n')
 
             pies = {}
             series = {}
@@ -115,7 +116,7 @@ def comparativo_geral_page():
                 others = df_temp.iloc[top_n:]
                 if not others.empty:
                     outros_row = pd.DataFrame([{
-                        'no_curso_standardized': 'Outros Cursos',
+                        'no_curso_standardized': t("other_courses"),
                         'total_geral': others['total_geral'].sum(),
                         'total_pretos': others['total_pretos'].sum()
                     }])
@@ -149,8 +150,8 @@ def comparativo_geral_page():
             combined['pct_pretos_conc'] = safe_pct(combined['pretos_conc'], combined['total_conc'])
             combined['pct_pretos_mat'] = safe_pct(combined['pretos_mat'], combined['total_mat'])
 
-            st.subheader('Tabela combinada por Curso (Ingressantes / Concluintes / Matriculados)')
-            st.dataframe(combined.sort_values('total_ing', ascending=False).rename(columns={'no_curso_standardized': 'Curso'}).head(200))
+            st.subheader(t("general_course_table_sub"))
+            st.dataframe(combined.sort_values('total_ing', ascending=False).rename(columns={'no_curso_standardized': t("course")}).head(200))
 
             # Evolução temporal: área mostrando participação de cada curso no total de pretos por ano
             df_time = df.copy()
@@ -218,21 +219,21 @@ def comparativo_geral_page():
 
             color_map = {}
             for cname in courses_for_colors:
-                if cname == 'Outros Cursos':
+                if cname == t("other_courses"):
                     color_map[cname] = '#BDBDBD'
                 else:
                     color_map[cname] = name_to_hex(cname)
 
             # garantir que 'Outros Cursos' tenha cor se ainda não estiver
-            if 'Outros Cursos' not in color_map:
-                color_map['Outros Cursos'] = '#BDBDBD'
+            if t("other_courses") not in color_map:
+                color_map[t("other_courses")] = '#BDBDBD'
 
             # desenhar as pizzas usando o mesmo mapa de cores
             cols = st.columns(3)
             tipos_ord = list(tipos_dados_opcoes.keys())
             for i, nome in enumerate(tipos_ord):
                 with cols[i]:
-                    title = f'Pretos ({nome}) por Curso - Top {top_n} + Outros ({ano_selecionado})'
+                    title = t("general_course_pie_title", dtype=nome, n=top_n, year=ano_selecionado)
                     fig = px.pie(pies[nome], names='no_curso_standardized', values='total_pretos', title=title, hole=0.3, color='no_curso_standardized', color_discrete_map=color_map)
                     st.plotly_chart(fig, use_container_width=True, key=f'comparativo_geral_curso_pie_{nome}')
 
@@ -260,9 +261,9 @@ def comparativo_geral_page():
             for idx, nome in enumerate(tipos_para_area):
                 stacked_tmp = stacked_dict.get(nome)
                 if stacked_tmp is None or stacked_tmp.empty:
-                    st.info(f"Sem dados para {nome} ao longo do tempo.")
+                    st.info(t("general_no_data_dtype", dtype=nome))
                     continue
-                fig_tmp = px.area(stacked_tmp.sort_values(['nu_ano_censo', 'course_group']), x='nu_ano_censo', y='percent', color='course_group', labels={'percent': 'Participação (%)', 'nu_ano_censo': 'Ano', 'course_group': 'Curso'}, title=f'Participação dos Cursos no Total de Pretos ({nome}) ao Longo do Tempo', color_discrete_map=color_map)
+                fig_tmp = px.area(stacked_tmp.sort_values(['nu_ano_censo', 'course_group']), x='nu_ano_censo', y='percent', color='course_group', labels={'percent': t("participation_pct"), 'nu_ano_censo': t("year"), 'course_group': t("course")}, title=t("general_course_area_title", dtype=nome), color_discrete_map=color_map)
                 st.plotly_chart(fig_tmp, use_container_width=True, key=f'comparativo_geral_curso_area_{idx}_{nome}')
 
             return
@@ -325,18 +326,18 @@ def comparativo_geral_page():
             comparativo_fmt = comparativo_fmt.merge(series['Matriculados'], on='formato_ensino', how='outer')
             comparativo_fmt = comparativo_fmt.fillna(0)
 
-            st.subheader(f'Representatividade por Formato (lado a lado) - {ano_selecionado}')
+            st.subheader(t("general_format_bar_sub", year=ano_selecionado))
             fig_bar = px.bar(
                 comparativo_fmt,
                 x='formato_ensino',
                 y=[f'Representatividade Ingressantes (%)', f'Representatividade Concluintes (%)', f'Representatividade Matriculados (%)'],
                 barmode='group',
-                labels={'value': 'Representatividade (%)', 'variable': 'Tipo de Dado', 'formato_ensino': 'Formato'},
-                title=f'Representatividade de Pretos por Formato em {ano_selecionado}'
+                labels={'value': t("representativeness"), 'variable': t("nav_data_type"), 'formato_ensino': t("format_label")},
+                title=t("general_format_bar_title", year=ano_selecionado)
             )
             st.plotly_chart(fig_bar, use_container_width=True, key='comparativo_geral_formato_bar')
 
-            st.subheader('Tabela por Formato')
+            st.subheader(t("general_format_table_sub"))
             st.dataframe(comparativo_fmt.sort_values(f'Representatividade Ingressantes (%)', ascending=False))
 
             # Evolução temporal por formato para cada tipo de dado (linhas facetas)
@@ -355,7 +356,7 @@ def comparativo_geral_page():
 
             if rows:
                 long_time = pd.concat(rows, ignore_index=True)
-                st.subheader('Evolução Temporal por Formato e Tipo de Dado')
+                st.subheader(t("general_format_evol_sub"))
                 fig_evo = px.line(
                     long_time,
                     x='nu_ano_censo',
@@ -363,11 +364,11 @@ def comparativo_geral_page():
                     color='formato_ensino',
                     facet_col='tipo',
                     facet_col_wrap=3,
-                    labels={'nu_ano_censo': 'Ano', 'percentual': 'Representatividade (%)', 'formato_ensino': 'Formato'},
-                    title='Evolução da Representatividade por Formato',
+                    labels={'nu_ano_censo': t("year"), 'percentual': t("representativeness"), 'formato_ensino': t("format_label")},
+                    title=t("general_format_evol_title"),
                     markers=True
                 )
-                fig_evo.update_layout(legend_title_text='Formato')
+                fig_evo.update_layout(legend_title_text=t("format_label"))
                 st.plotly_chart(fig_evo, use_container_width=True, key='comparativo_geral_formato_line')
 
             return
@@ -425,28 +426,28 @@ def comparativo_geral_page():
         comparativo = comparativo.merge(series['Matriculados'], on=coluna_agrupamento, how='outer')
         comparativo = comparativo.fillna(0)
 
-        st.subheader(f"Comparação de Representatividade de Pretos por {grupo_selecionado_label}")
+        st.subheader(t("general_comparison_sub", group=grupo_selecionado_label))
         fig_comparativo = px.bar(
             comparativo,
             x=coluna_agrupamento,
             y=[f'Representatividade Ingressantes (%)', f'Representatividade Concluintes (%)', f'Representatividade Matriculados (%)'],
             barmode='group',
-            title=f'Comparativo de Representatividade de Pretos por {grupo_selecionado_label} em {ano_selecionado}',
+            title=t("general_comparison_title", group=grupo_selecionado_label, year=ano_selecionado),
             labels={
                 coluna_agrupamento: grupo_selecionado_label,
-                'value': 'Representatividade (%)',
-                'variable': 'Tipo de Dado'
+                'value': t("representativeness"),
+                'variable': t("nav_data_type")
             }
         )
         st.plotly_chart(fig_comparativo, use_container_width=True)
 
-        st.subheader("Tabela Comparativa")
+        st.subheader(t("general_table_sub"))
         # Ordenar por Ingressantes por padrão
         sort_col = 'Representatividade Ingressantes (%)' if 'Representatividade Ingressantes (%)' in comparativo.columns else comparativo.columns[1]
         # Preparar cópia para exibição e renomear rótulo da coluna de região quando aplicável
         comparativo_display = comparativo.sort_values(sort_col, ascending=False).copy()
         if coluna_agrupamento == 'no_regiao' and 'no_regiao' in comparativo_display.columns:
-            comparativo_display = comparativo_display.rename(columns={'no_regiao': 'Nome da Região'})
+            comparativo_display = comparativo_display.rename(columns={'no_regiao': t("region")})
         st.dataframe(comparativo_display)
 
         # Comparativo temporal por Tipo de Instituição (Pública vs Privada)
@@ -499,7 +500,7 @@ def comparativo_geral_page():
                 # Garantir ordem das categorias
                 long_time['grupo_admin'] = pd.Categorical(long_time['grupo_admin'], categories=['Pública', 'Privada', 'Outro'], ordered=True)
 
-                st.subheader('Evolução Temporal - Pública vs Privada por Tipo de Dado')
+                st.subheader(t("general_inst_evol_sub"))
                 fig_time = px.line(
                     long_time,
                     x='nu_ano_censo',
@@ -507,15 +508,15 @@ def comparativo_geral_page():
                     color='grupo_admin',
                     facet_col='tipo',
                     facet_col_wrap=3,
-                    title=f'Evolução da Representatividade por Categoria Administrativa - Pública vs Privada',
+                    title=t("general_inst_evol_title"),
                     labels={
-                        'nu_ano_censo': 'Ano',
-                        'percentual': 'Representatividade (%)',
-                        'grupo_admin': 'Categoria'
+                        'nu_ano_censo': t("year"),
+                        'percentual': t("representativeness"),
+                        'grupo_admin': t("category")
                     },
                     markers=True
                 )
-                fig_time.update_layout(legend_title_text='Categoria')
+                fig_time.update_layout(legend_title_text=t("category"))
                 st.plotly_chart(fig_time, use_container_width=True, key='comparativo_geral_evol_pubpriv')
 
         # Comparativo temporal por Região
@@ -541,7 +542,7 @@ def comparativo_geral_page():
                 # Garantir ordem das regiões (alfabética)
                 long_time_reg['regiao'] = pd.Categorical(long_time_reg['regiao'], categories=sorted(long_time_reg['regiao'].unique()), ordered=True)
 
-                st.subheader('Evolução Temporal por Região e Tipo de Dado')
+                st.subheader(t("general_region_evol_sub"))
                 fig_reg_time = px.line(
                     long_time_reg,
                     x='nu_ano_censo',
@@ -549,19 +550,19 @@ def comparativo_geral_page():
                     color='regiao',
                     facet_col='tipo',
                     facet_col_wrap=3,
-                    title=f'Evolução da Representatividade por Região',
+                    title=t("general_region_evol_title"),
                     labels={
-                        'nu_ano_censo': 'Ano',
-                        'percentual': 'Representatividade (%)',
-                        'regiao': 'Região'
+                        'nu_ano_censo': t("year"),
+                        'percentual': t("representativeness"),
+                        'regiao': t("region")
                     },
                     markers=True
                 )
-                fig_reg_time.update_layout(legend_title_text='Região')
+                fig_reg_time.update_layout(legend_title_text=t("region"))
                 st.plotly_chart(fig_reg_time, use_container_width=True, key='comparativo_geral_evol_regiao')
 
     else:
-        st.info(f"Não há dados disponíveis para o ano {ano_selecionado}.")
+        st.info(t("no_data_year", year=ano_selecionado, dtype=""))
 
 # Nota: a função `comparativo_geral_page` é chamada a partir de `app.py`.
 

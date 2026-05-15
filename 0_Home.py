@@ -1,15 +1,90 @@
 import streamlit as st
+from i18n import t
+
+_CSS = """
+<style>
+/* ── variáveis de tema ────────────────────────────────────────────── */
+:root {
+    --dash-title-color:      #1a1a2e;
+    --dash-subtitle-color:   #444444;
+    --dash-card-bg:          #ffffff;
+    --dash-card-border:      #d0d0d0;
+    --dash-card-title-color: #1a1a2e;
+    --dash-card-text-color:  #333333;
+    --dash-footer-color:     #666666;
+    --dash-footer-link:      #1a73e8;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dash-title-color:      #e8e8f5;
+        --dash-subtitle-color:   #b0b8cc;
+        --dash-card-bg:          #1e2130;
+        --dash-card-border:      #3a4060;
+        --dash-card-title-color: #f0f0ff;
+        --dash-card-text-color:  #c8cce0;
+        --dash-footer-color:     #9099b0;
+        --dash-footer-link:      #7ab4f5;
+    }
+}
+
+.dash-title {
+    text-align: center;
+    color: var(--dash-title-color);
+    font-size: 2rem;
+    line-height: 1.3;
+    margin-bottom: 0.3rem;
+}
+.dash-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--dash-subtitle-color);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.dash-card {
+    border: 1px solid var(--dash-card-border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    background: var(--dash-card-bg);
+}
+.dash-card h4 {
+    margin: 0 0 6px 0;
+    color: var(--dash-card-title-color);
+    font-size: 1rem;
+}
+.dash-card p {
+    margin: 0;
+    color: var(--dash-card-text-color);
+    font-size: 0.93rem;
+    line-height: 1.5;
+}
+.dash-footer {
+    text-align: center;
+    color: var(--dash-footer-color);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+.dash-footer a {
+    color: var(--dash-footer-link);
+    text-decoration: none;
+}
+</style>
+"""
 
 
 def home_page():
+    st.markdown(_CSS, unsafe_allow_html=True)
+
     # ── Cabeçalho ─────────────────────────────────────────────────────────────
     st.markdown(
         """
-        <h1 style='text-align:center; color:#1a1a2e;'>
-            📊 Representatividade de Estudantes Negros<br>nos Cursos de Computação no Brasil
+        <h1 class='dash-title'>
+            {t('home_main_title')}
         </h1>
-        <p style='text-align:center; font-size:1.1rem; color:#555;'>
-            Análise do Censo da Educação Superior &nbsp;|&nbsp; 2009 – 2023
+        <p class='dash-subtitle'>
+            {t('home_subtitle')}
         </p>
         <hr>
         """,
@@ -17,134 +92,34 @@ def home_page():
     )
 
     # ── Sobre o dashboard ─────────────────────────────────────────────────────
-    st.markdown("## Sobre este Dashboard")
+    st.markdown(f"## {t('home_about_title')}")
     col_text, col_info = st.columns([2, 1])
 
     with col_text:
-        st.markdown(
-            """
-            Este dashboard foi desenvolvido para analisar de forma aprofundada a
-            **representatividade de estudantes autodeclarados pretos** nos cursos de
-            Computação das instituições de ensino superior brasileiras.
-
-            Os dados provêm do **Censo da Educação Superior** (INEP/MEC), cobrindo
-            **15 anos consecutivos** (2009 a 2023), e permitem acompanhar como essa
-            população se posiciona nas etapas de **ingresso**, **matrícula** e
-            **conclusão** dos cursos.
-
-            A análise é realizada em múltiplas dimensões: temporal, regional,
-            institucional e por tipo de curso, oferecendo uma visão abrangente
-            das desigualdades ainda existentes e das tendências ao longo do tempo.
-            """
-        )
+        st.markdown(t("home_about_body"))
 
     with col_info:
-        st.info(
-            """
-            **Fonte dos dados**
-            Censo da Educação Superior
-            INEP / MEC
-
-            **Período coberto**
-            2009 a 2023
-
-            **Área analisada**
-            Cursos de Computação
-            (graduação presencial e EaD)
-
-            **Recorte racial**
-            Cor/raça *preta* (IBGE)
-            """
-        )
+        st.info(t("home_source"))
 
     st.markdown("---")
 
     # ── Contexto e motivação ──────────────────────────────────────────────────
-    st.markdown("## Contexto e Motivação")
-    st.markdown(
-        """
-        Apesar de representarem mais de **10% da população brasileira** segundo o IBGE,
-        estudantes autodeclarados *pretos* historicamente ocupam uma parcela
-        desproporcional das vagas nos cursos de tecnologia. Compreender essa dinâmica
-        é o primeiro passo para promover políticas de inclusão efetivas.
-
-        O dashboard cruza dados de **ingresso**, **matrícula** e **conclusão** por
-        raça/cor ao longo dos anos, permitindo identificar:
-
-        - Se houve avanço na entrada de estudantes negros após marcos como a
-          **Lei de Cotas (Lei 12.711/2012)**;
-        - Quais regiões e estados apresentam maior ou menor representatividade;
-        - Como diferentes tipos de instituição (pública × privada) se comportam;
-        - Se a retenção e conclusão acompanham o crescimento no ingresso.
-        """
-    )
+    st.markdown(f"## {t('home_context_title')}")
+    st.markdown(t("home_context_body"))
 
     st.markdown("---")
 
     # ── Análises disponíveis ──────────────────────────────────────────────────
-    st.markdown("## Análises Disponíveis")
+    st.markdown(f"## {t('home_pages_title')}")
 
     pages_info = [
-        {
-            "icon": "📈",
-            "title": "Visão Geral",
-            "desc": (
-                "Evolução temporal da representatividade de estudantes pretos em todos "
-                "os cursos de Computação, comparando ingressantes, matriculados e concluintes "
-                "ao longo dos 15 anos de dados."
-            ),
-        },
-        {
-            "icon": "🎓",
-            "title": "Comparativo por Curso",
-            "desc": (
-                "Distribuição da representatividade por nome de curso (Ciência da Computação, "
-                "Sistemas de Informação, Engenharia de Computação, etc.), revelando quais "
-                "cursos concentram mais ou menos diversidade racial."
-            ),
-        },
-        {
-            "icon": "🗺️",
-            "title": "Análise Regional",
-            "desc": (
-                "Mapa e ranking das cinco regiões brasileiras, mostrando como a presença de "
-                "estudantes pretos varia entre Norte, Nordeste, Centro-Oeste, Sudeste e Sul."
-            ),
-        },
-        {
-            "icon": "🏛️",
-            "title": "Análise Institucional",
-            "desc": (
-                "Comparação entre categorias administrativas (federal, estadual, municipal e "
-                "privada), indicando qual tipo de instituição é mais inclusivo no recorte "
-                "racial analisado."
-            ),
-        },
-        {
-            "icon": "🖥️",
-            "title": "Comparativo por Formato",
-            "desc": (
-                "Análise da modalidade de ensino — presencial versus EaD — e como cada "
-                "formato se diferencia em termos de representatividade de estudantes pretos."
-            ),
-        },
-        {
-            "icon": "⚖️",
-            "title": "Comparativo Geral",
-            "desc": (
-                "Visão consolidada que reúne todas as dimensões, permitindo cruzar recortes "
-                "temporais, regionais e institucionais em um único painel comparativo."
-            ),
-        },
-        {
-            "icon": "🔮",
-            "title": "Projeção e Tendências",
-            "desc": (
-                "Modelagem estatística (regressão linear) das tendências históricas para "
-                "projetar o percentual esperado de estudantes pretos nos próximos anos, "
-                "com intervalo de confiança."
-            ),
-        },
+        {"icon": "📈", "title": t("page_overview").split(" ", 1)[1],  "desc": t("home_card_overview_desc")},
+        {"icon": "🎓", "title": t("page_by_course").split(" ", 1)[1], "desc": t("home_card_course_desc")},
+        {"icon": "🗺️", "title": t("page_regional").split(" ", 1)[1],  "desc": t("home_card_regional_desc")},
+        {"icon": "🏛️", "title": t("page_institutional").split(" ", 1)[1], "desc": t("home_card_inst_desc")},
+        {"icon": "🖥️", "title": t("page_format").split(" ", 1)[1],    "desc": t("home_card_format_desc")},
+        {"icon": "⚖️", "title": t("page_general").split(" ", 1)[1],   "desc": t("home_card_general_desc")},
+        {"icon": "🔮", "title": t("page_projection").split(" ", 1)[1],"desc": t("home_card_proj_desc")},
     ]
 
     # Grade 2 × N de cartões
@@ -155,15 +130,9 @@ def home_page():
                 p = pages_info[i + j]
                 col.markdown(
                     f"""
-                    <div style='
-                        border: 1px solid #e0e0e0;
-                        border-radius: 10px;
-                        padding: 18px 20px;
-                        margin-bottom: 12px;
-                        background: #fafafa;
-                    '>
-                        <h4 style='margin:0 0 6px 0'>{p['icon']} {p['title']}</h4>
-                        <p style='margin:0; color:#444; font-size:0.93rem'>{p['desc']}</p>
+                    <div class='dash-card'>
+                        <h4>{p['icon']} {p['title']}</h4>
+                        <p>{p['desc']}</p>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -172,28 +141,13 @@ def home_page():
     st.markdown("---")
 
     # ── Como usar ─────────────────────────────────────────────────────────────
-    st.markdown("## Como Usar")
-    st.markdown(
-        """
-        1. **Selecione a análise** desejada no menu lateral em *Selecione a Página*.
-        2. Use o **slider de ano** para filtrar um ano específico nas visualizações por corte temporal.
-        3. Escolha o **tipo de dado** — *Ingressantes*, *Concluintes* ou *Matriculados* — para
-           alternar entre as diferentes etapas da jornada acadêmica.
-        4. Todas as análises se atualizam automaticamente com os filtros selecionados.
-        5. Os gráficos são **interativos**: passe o mouse para ver detalhes, clique na legenda
-           para ocultar séries, e use o zoom para explorar intervalos específicos.
-        """
-    )
+    st.markdown(f"## {t('home_how_title')}")
+    st.markdown(t("home_how_body"))
 
     st.markdown("---")
 
     # ── Rodapé ────────────────────────────────────────────────────────────────
     st.markdown(
-        """
-        <p style='text-align:center; color:#888; font-size:0.85rem;'>
-            Dados: INEP — Censo da Educação Superior &nbsp;|&nbsp;
-            Desenvolvido com <a href='https://streamlit.io' target='_blank'>Streamlit</a>
-        </p>
-        """,
+        f"<p class='dash-footer'>{t('home_footer')}</p>",
         unsafe_allow_html=True,
     )

@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from i18n import t, dtype_to_pt
 
 def preparar_dados_temporais(df: pd.DataFrame, tipo: str = 'Ingressantes') -> pd.DataFrame:
     """
@@ -16,13 +17,14 @@ def preparar_dados_temporais(df: pd.DataFrame, tipo: str = 'Ingressantes') -> pd
     """
     df_local = df.copy()
 
-    # Mapear nomes de colunas para o tipo selecionado
+    # Mapear nomes de colunas para o tipo selecionado (sempre em PT internamente)
+    tipo_pt = dtype_to_pt(tipo)
     tipos_map = {
         'Ingressantes': ('qt_ing', 'qt_ing_preta'),
         'Concluintes': ('qt_conc', 'qt_conc_preta'),
         'Matriculados': ('qt_mat', 'qt_mat_preta')
     }
-    total_col, black_col = tipos_map.get(tipo, ('qt_ing', 'qt_ing_preta'))
+    total_col, black_col = tipos_map.get(tipo_pt, ('qt_ing', 'qt_ing_preta'))
 
     # Garantir colunas numéricas (se existirem)
     if total_col in df_local.columns:
@@ -55,10 +57,10 @@ def preparar_dados_temporais(df: pd.DataFrame, tipo: str = 'Ingressantes') -> pd
     return temporal_combined
 
 def visao_geral_page():
-    st.title("Visão Geral e Evolução Temporal")
+    st.title(t("overview_title"))
 
     if 'data' not in st.session_state or st.session_state['data'].empty:
-        st.warning("Dados não carregados. Por favor, retorne à página inicial.")
+        st.warning(t("data_not_loaded"))
         return
 
     df = st.session_state['data']
@@ -66,7 +68,7 @@ def visao_geral_page():
     ano_selecionado = st.session_state.get('ano_selecionado', df['nu_ano_censo'].max())
     tipo_dado_selecionado = st.session_state.get('tipo_dado_selecionado', 'Ingressantes')
 
-    st.header(f"Dados para {tipo_dado_selecionado} - Ano: {ano_selecionado}")
+    st.header(t("overview_header", dtype=tipo_dado_selecionado, year=ano_selecionado))
 
     # Mapeamento do tipo de dado para as colunas do DataFrame
     coluna_total = {
@@ -98,7 +100,7 @@ def visao_geral_page():
         except Exception:
             pass
 
-    st.subheader("Evolução da Representatividade de Pretos ao Longo dos Anos")
+    st.subheader(t("overview_evolution_sub"))
     try:
         if resumo_anual.empty:
             st.info('Resumo anual vazio: não há dados agregados por ano para esse tipo de dado.')
@@ -107,10 +109,10 @@ def visao_geral_page():
                 resumo_anual.sort_values('nu_ano_censo'),
                 x='nu_ano_censo',
                 y='percentual_negros_pardos',
-                title=f'Representatividade de Pretos ({tipo_dado_selecionado})',
+                title=t("overview_evolution_title", dtype=tipo_dado_selecionado),
                 labels={
-                    'nu_ano_censo': 'Ano',
-                    'percentual_negros_pardos': 'Representatividade (%)'
+                    'nu_ano_censo': t("year"),
+                    'percentual_negros_pardos': t("representativeness")
                 },
                 markers=True
             )
@@ -118,7 +120,7 @@ def visao_geral_page():
     except Exception as e:
         st.error(f"Erro ao renderizar figura de evolução: {e}")
 
-    st.subheader(f"Dados Detalhados para o Ano {ano_selecionado}")
+    st.subheader(t("overview_detail_sub", year=ano_selecionado))
     df_ano = df[df['nu_ano_censo'] == ano_selecionado].copy()
 
     if not df_ano.empty:
@@ -127,15 +129,15 @@ def visao_geral_page():
         percentual_ano = (total_negros_pardos_ano / total_geral_ano * 100).round(2) if total_geral_ano > 0 else 0
 
         st.metric(
-            label=f"Representatividade de Pretos ({tipo_dado_selecionado}) em {ano_selecionado}",
+            label=t("overview_metric_label", dtype=tipo_dado_selecionado, year=ano_selecionado),
             value=f"{percentual_ano:.2f}%",
-            delta=None # Poderia ser a diferença em relação ao ano anterior, se implementado
+            delta=None
         )
 
-        st.write(f"Total de {tipo_dado_selecionado} em {ano_selecionado}: {int(total_geral_ano):,}")
-        st.write(f"Total de Pretos ({tipo_dado_selecionado}) em {ano_selecionado}: {int(total_negros_pardos_ano):,}")
+        st.write(t("overview_total_label", dtype=tipo_dado_selecionado, year=ano_selecionado, val=f"{int(total_geral_ano):,}"))
+        st.write(t("overview_total_black_label", dtype=tipo_dado_selecionado, year=ano_selecionado, val=f"{int(total_negros_pardos_ano):,}"))
 
-        st.subheader("Comparativo de Representatividade por Raça/Cor")
+        st.subheader(t("overview_race_sub"))
         # Tentar agregar por colunas de cor específicas (ex.: qt_ing_preta, qt_ing_parda, ...)
         cor_suffixes = ['preta', 'parda', 'amarela', 'indigena', 'branca', 'cornd']
         # Construir nomes de colunas esperados para o tipo selecionado
@@ -165,7 +167,7 @@ def visao_geral_page():
                 df_raca_ano,
                 values='total',
                 names='tp_cor_raca',
-                title=f'Distribuição de {tipo_dado_selecionado} por Raça/Cor em {ano_selecionado}',
+                title=t("overview_race_pie_title", dtype=tipo_dado_selecionado, year=ano_selecionado),
                 hole=0.3
             )
             st.plotly_chart(fig_raca, use_container_width=True)
@@ -192,10 +194,10 @@ def visao_geral_page():
                     x='nu_ano_censo',
                     y='percentual',
                     color='cor',
-                    title=f'Participação percentual por Cor/Raça ao longo do tempo ({tipo_dado_selecionado})',
-                    labels={'nu_ano_censo': 'Ano', 'percentual': 'Participação (%)', 'cor': 'Cor/Raça'}
+                    title=t("overview_area_title", dtype=tipo_dado_selecionado),
+                    labels={'nu_ano_censo': t("year"), 'percentual': t("participation_pct"), 'cor': t("race_color")}
                 )
-                fig_area_pct.update_layout(legend_title_text='Cor/Raça', yaxis=dict(range=[0,100]))
+                fig_area_pct.update_layout(legend_title_text=t("race_color"), yaxis=dict(range=[0,100]))
                 st.plotly_chart(fig_area_pct, use_container_width=True)
             except Exception as e:
                 st.warning(f'Não foi possível gerar gráfico de área percentual por cor: {e}')
@@ -213,7 +215,7 @@ def visao_geral_page():
                     df_raca_ano,
                     values='total',
                     names='tp_cor_raca',
-                    title=f'Distribuição de {tipo_dado_selecionado} por Raça/Cor em {ano_selecionado}',
+                    title=t("overview_race_pie_title", dtype=tipo_dado_selecionado, year=ano_selecionado),
                     hole=0.3
                 )
                 st.plotly_chart(fig_raca, use_container_width=True)
@@ -239,10 +241,10 @@ def visao_geral_page():
                         x='nu_ano_censo',
                         y='percentual',
                         color='cor',
-                        title=f'Participação percentual por Cor/Raça ao longo do tempo ({tipo_dado_selecionado})',
-                        labels={'nu_ano_censo': 'Ano', 'percentual': 'Participação (%)', 'cor': 'Cor/Raça'}
+                        title=t("overview_area_title", dtype=tipo_dado_selecionado),
+                        labels={'nu_ano_censo': t("year"), 'percentual': t("participation_pct"), 'cor': t("race_color")}
                     )
-                    fig_area_pct2.update_layout(legend_title_text='Cor/Raça', yaxis=dict(range=[0,100]))
+                    fig_area_pct2.update_layout(legend_title_text=t("race_color"), yaxis=dict(range=[0,100]))
                     st.plotly_chart(fig_area_pct2, use_container_width=True)
                 except Exception as e:
                     st.warning(f'Não foi possível gerar gráfico de área percentual usando tp_cor_raca: {e}')
@@ -250,10 +252,10 @@ def visao_geral_page():
                 st.info("Não há colunas por cor (qt_*_preta, _parda, ...) nem a coluna 'tp_cor_raca' disponível nos dados para este ano. Não é possível exibir o comparativo por raça/cor.")
 
     else:
-        st.info(f"Não há dados disponíveis para o ano {ano_selecionado} e tipo de dado {tipo_dado_selecionado}.")
+        st.info(t("no_data_year", year=ano_selecionado, dtype=tipo_dado_selecionado))
 
     # Análises temporais detalhadas (Pretos vs Outros)
-    st.markdown(f"### Evolução Temporal Detalhada - {tipo_dado_selecionado} Pretos vs Outros")
+    st.markdown(f"### {t('overview_temporal_sub', dtype=tipo_dado_selecionado)}")
     evolucao = preparar_dados_temporais(df, tipo=tipo_dado_selecionado)
 
     if evolucao.empty:
@@ -264,17 +266,17 @@ def visao_geral_page():
 
         # Gráfico 1: Evolução percentual
         fig_percentual = go.Figure()
-        fig_percentual.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['percent_black'], mode='lines+markers', name='Pretos (%)', line=dict(color='#e74c3c', width=3), marker=dict(size=6)))
-        fig_percentual.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['percent_other'], mode='lines+markers', name='Outros (%)', line=dict(color='#3498db', width=3), marker=dict(size=6)))
-        fig_percentual.update_layout(title_text='Evolução da Representatividade (%)', xaxis_title='Ano', yaxis_title='Representatividade (%)')
+        fig_percentual.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['percent_black'], mode='lines+markers', name=t("legend_black_pct"), line=dict(color='#e74c3c', width=3), marker=dict(size=6)))
+        fig_percentual.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['percent_other'], mode='lines+markers', name=t("legend_other_pct"), line=dict(color='#3498db', width=3), marker=dict(size=6)))
+        fig_percentual.update_layout(title_text=t("overview_pct_title"), xaxis_title=t("year"), yaxis_title=t("representativeness"))
         with cols[0]:
             st.plotly_chart(fig_percentual, use_container_width=True)
 
         # Gráfico 2: Comparação absoluta
         fig_comparison = go.Figure()
-        fig_comparison.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['black_sel'], mode='lines+markers', name='Pretos (Abs)', line=dict(color='#e74c3c', width=2)))
-        fig_comparison.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['other_sel'], mode='lines+markers', name='Outros (Abs)', line=dict(color='#3498db', width=2)))
-        fig_comparison.update_layout(title_text=f'Comparação: Pretos vs Outros ({tipo_dado_selecionado})', xaxis_title='Ano', yaxis_title='Contagem')
+        fig_comparison.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['black_sel'], mode='lines+markers', name=t("legend_black_abs"), line=dict(color='#e74c3c', width=2)))
+        fig_comparison.add_trace(go.Scatter(x=evolucao['nu_ano_censo'], y=evolucao['other_sel'], mode='lines+markers', name=t("legend_other_abs"), line=dict(color='#3498db', width=2)))
+        fig_comparison.update_layout(title_text=t("overview_abs_title", dtype=tipo_dado_selecionado), xaxis_title=t("year"), yaxis_title=t("count"))
         with cols[1]:
             st.plotly_chart(fig_comparison, use_container_width=True)
 
@@ -284,15 +286,15 @@ def visao_geral_page():
             taxa_crescimento_outros = evolucao['other_sel'].pct_change() * 100
 
             fig_growth_rate = go.Figure()
-            fig_growth_rate.add_trace(go.Bar(x=evolucao['nu_ano_censo'][1:], y=taxa_crescimento_np[1:], name='Pretos (%)', marker_color='#e74c3c', opacity=0.8))
-            fig_growth_rate.add_trace(go.Bar(x=evolucao['nu_ano_censo'][1:], y=taxa_crescimento_outros[1:], name='Outros (%)', marker_color='#3498db', opacity=0.8))
-            fig_growth_rate.update_layout(title_text=f'Taxa de Crescimento Anual (%) - {tipo_dado_selecionado}', xaxis_title='Ano', yaxis_title='Taxa de Crescimento (%)', barmode='group')
+            fig_growth_rate.add_trace(go.Bar(x=evolucao['nu_ano_censo'][1:], y=taxa_crescimento_np[1:], name=t("legend_black_pct"), marker_color='#e74c3c', opacity=0.8))
+            fig_growth_rate.add_trace(go.Bar(x=evolucao['nu_ano_censo'][1:], y=taxa_crescimento_outros[1:], name=t("legend_other_pct"), marker_color='#3498db', opacity=0.8))
+            fig_growth_rate.update_layout(title_text=t("overview_growth_title", dtype=tipo_dado_selecionado), xaxis_title=t("year"), yaxis_title=t("annual_growth"), barmode='group')
             with cols[2]:
                 st.plotly_chart(fig_growth_rate, use_container_width=True)
 
-        st.markdown('### Dados da Evolução Temporal')
+        st.markdown(f'### {t("overview_table_sub")}')
         evolucao_display = evolucao[['nu_ano_censo', 'total_sel', 'black_sel', 'other_sel', 'percent_black', 'percent_other']].copy()
-        evolucao_display.columns = ['Ano', 'Total', 'Pretos', 'Outros', 'Representatividade (%) - Pretos', 'Representatividade (%) - Outros']
+        evolucao_display.columns = [t("year"), t("total"), t("black_students"), t("others"), t("overview_col_black_pct"), t("overview_col_other_pct")]
         evolucao_display = evolucao_display.round(1)
         st.dataframe(evolucao_display, use_container_width=True)
 

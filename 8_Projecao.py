@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from i18n import t
 
 # tentamos importar scipy, se não estiver disponível, avisamos e não rodamos a regressão
 try:
@@ -31,7 +32,7 @@ def preparar_temporal_para_projecao(df: pd.DataFrame, tipo: str = 'Ingressantes'
         df_local[black_col] = pd.to_numeric(df_local[black_col], errors='coerce').fillna(0)
     else:
         df_local[black_col] = 0
-        st.warning(f"Coluna '{black_col}' não encontrada. A projeção será baseada em zeros.")
+        st.warning(t("proj_col_missing", col=black_col))
 
     total = df_local.groupby('nu_ano_censo')[total_col].sum().reset_index().rename(columns={total_col: 'total'})
     black = df_local.groupby('nu_ano_censo')[black_col].sum().reset_index().rename(columns={black_col: 'black'})
@@ -44,27 +45,27 @@ def preparar_temporal_para_projecao(df: pd.DataFrame, tipo: str = 'Ingressantes'
 
 
 def projecao_page():
-    st.title('Projeção e Tendências')
+    st.title(t("proj_title"))
 
     if 'data' not in st.session_state or st.session_state['data'].empty:
-        st.warning('Dados não carregados. Por favor, retorne à página inicial.')
+        st.warning(t("data_not_loaded"))
         return
 
     df = st.session_state['data']
     tipo = st.session_state.get('tipo_dado_selecionado', 'Ingressantes')
 
-    st.markdown(f'## Projeção para: {tipo}')
+    st.markdown(f'## {t("proj_for", dtype=tipo)}')
 
     temporal = preparar_temporal_para_projecao(df, tipo=tipo)
     if temporal.empty:
-        st.info('Sem dados temporais disponíveis para projeção.')
+        st.info(t("proj_no_data"))
         return
 
     anos = temporal['nu_ano_censo'].astype(int).tolist()
     perc = temporal['percent'].astype(float).tolist()
 
     if not SCIPY_AVAILABLE:
-        st.error('O pacote scipy não está disponível. Instale via `pip install scipy` para habilitar regressão linear e projeções.')
+        st.error(t("proj_scipy_missing"))
         st.dataframe(temporal)
         return
 
@@ -72,7 +73,7 @@ def projecao_page():
     try:
         slope, intercept, r_value, p_value, std_err = stats.linregress(anos, perc)
     except Exception as e:
-        st.error(f'Erro ao calcular regressão: {e}')
+        st.error(t("proj_regression_error", error=e))
         return
 
     # projeções
@@ -113,20 +114,20 @@ def projecao_page():
 
     # gráfico de tendência
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=anos, y=perc, mode='markers+lines', name='Histórico', line=dict(color='#e74c3c', width=3), marker=dict(size=8)))
-    fig.add_trace(go.Scatter(x=anos_futuros, y=projecao, mode='lines', name=f'Tendência Linear (R²={r_value**2:.3f})', line=dict(color='#3498db', width=2, dash='dash')))
+    fig.add_trace(go.Scatter(x=anos, y=perc, mode='markers+lines', name=t("proj_history"), line=dict(color='#e74c3c', width=3), marker=dict(size=8)))
+    fig.add_trace(go.Scatter(x=anos_futuros, y=projecao, mode='lines', name=t("proj_trend", r2=f'{r_value**2:.3f}'), line=dict(color='#3498db', width=2, dash='dash')))
     if anos_projecao:
-        fig.add_trace(go.Scatter(x=anos_projecao, y=valores_projecao, mode='markers+lines', name='Projeção Futura', line=dict(color='#f39c12', width=2), marker=dict(size=8, symbol='diamond')))
+        fig.add_trace(go.Scatter(x=anos_projecao, y=valores_projecao, mode='markers+lines', name=t("proj_future"), line=dict(color='#f39c12', width=2), marker=dict(size=8, symbol='diamond')))
 
     # desenhar linha horizontal da meta
-    fig.add_trace(go.Scatter(x=anos_futuros, y=[meta_pop] * len(anos_futuros), mode='lines', name=f'Meta populacional ({meta_pop}%)', line=dict(color='#2ecc71', width=2, dash='dot')))
+    fig.add_trace(go.Scatter(x=anos_futuros, y=[meta_pop] * len(anos_futuros), mode='lines', name=t("proj_meta", meta=meta_pop), line=dict(color='#2ecc71', width=2, dash='dot')))
 
     # marcar o ponto de paridade, se foi estimado
     if year_paridade is not None:
         valor_paridade = slope * year_paridade + intercept
-        fig.add_trace(go.Scatter(x=[year_paridade], y=[valor_paridade], mode='markers+text', name='Estimativa de Paridade', marker=dict(color='#2ecc71', size=10, symbol='star'), text=[f'{year_paridade}'], textposition='top center'))
+        fig.add_trace(go.Scatter(x=[year_paridade], y=[valor_paridade], mode='markers+text', name=t("proj_parity_label"), marker=dict(color='#2ecc71', size=10, symbol='star'), text=[f'{year_paridade}'], textposition='top center'))
 
-    fig.update_layout(title=f'Tendência e Projeção de Representatividade ({tipo})', xaxis_title='Ano', yaxis_title='Representatividade (%)', height=500)
+    fig.update_layout(title=t("proj_chart_title", dtype=tipo), xaxis_title=t("year"), yaxis_title=t("representativeness"), height=500)
 
     # layout: gráfico em uma coluna (esquerda), estatísticas e comparação com a meta na outra (direita)
     left_col, right_col = st.columns([2, 1])
@@ -135,42 +136,40 @@ def projecao_page():
         st.plotly_chart(fig, use_container_width=True, key='projecao_trend')
 
     with right_col:
-        st.markdown('### Estatísticas da Tendência')
-        st.write(f'Coeficiente angular (slope): {slope:.4f} %/ano')
+        st.markdown(f'### {t("proj_stats_header")}')
+        st.write(f'{t("proj_slope")}: {slope:.4f} %/{t("year")}')
         st.write(f'R²: {r_value**2:.4f}')
-        st.write(f'P-valor: {p_value:.6f}')
-        st.write(f'Erro padrão: {std_err:.4f}')
+        st.write(f'{t("proj_pvalue")}: {p_value:.6f}')
+        st.write(f'{t("proj_std_err")}: {std_err:.4f}')
 
         if p_value < 0.05:
             if slope > 0:
-                st.success(f'Tendência estatisticamente significativa (p < 0.05). Crescimento estimado de +{slope:.3f}% ao ano.')
+                st.success(t("proj_significant_positive", slope=f'{slope:.3f}'))
             else:
-                st.warning(f'Tendência estatisticamente significativa (p < 0.05). Redução estimada de {slope:.3f}% ao ano.')
+                st.warning(t("proj_significant_negative", slope=f'{slope:.3f}'))
         else:
-            st.info('Tendência não estatisticamente significativa (p ≥ 0.05).')
+            st.info(t("proj_not_significant"))
 
         # comparação com meta
         atual = perc[-1]
         gap = meta_pop - atual
-        st.markdown('### Comparação com meta populacional')
-        st.write(f'Meta populacional (Pretos): {meta_pop}% (Censo 2022)')
-        st.write(f'Representatividade atual: {atual:.2f}%')
-        st.write(f'Gap: {gap:.2f} pontos percentuais')
+        st.markdown(f'### {t("proj_meta_header")}')
+        st.write(t("proj_meta_value", meta=meta_pop))
+        st.write(t("proj_current", val=f'{atual:.2f}'))
+        st.write(t("proj_gap", gap=f'{gap:.2f}'))
 
         if slope > 0 and gap > 0:
             anos_para_paridade = gap / slope
             ano_paridade = max(anos) + anos_para_paridade
-            st.write(f'Tempo estimado para paridade: {anos_para_paridade:.1f} anos (aproximadamente no ano {ano_paridade:.0f})')
+            st.write(t("proj_parity_estimate", years=f'{anos_para_paridade:.1f}', year=f'{ano_paridade:.0f}'))
 
     # mostrar tabela (largura total)
-    st.markdown('### Dados Utilizados')
-    # Renomear colunas para exibição amigável
+    st.markdown(f'### {t("proj_data_header")}')
     temporal_display = temporal.copy()
-    temporal_display = temporal_display.rename(columns={'nu_ano_censo': 'Ano', 'percent': 'Representatividade (%)'})
-    # Garantir formatação
-    if 'Representatividade (%)' in temporal_display.columns:
+    temporal_display = temporal_display.rename(columns={'nu_ano_censo': t("year"), 'percent': t("representativeness")})
+    if t("representativeness") in temporal_display.columns:
         try:
-            temporal_display['Representatividade (%)'] = temporal_display['Representatividade (%)'].astype(float).round(2)
+            temporal_display[t("representativeness")] = temporal_display[t("representativeness")].astype(float).round(2)
         except Exception:
             pass
 

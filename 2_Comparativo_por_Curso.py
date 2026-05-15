@@ -3,19 +3,20 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from i18n import t
 
 def comparativo_curso_page():
-    st.title("Comparativo por Curso")
+    st.title(t("course_title"))
 
     if 'data' not in st.session_state or st.session_state['data'].empty:
-        st.warning("Dados não carregados. Por favor, retorne à página inicial.")
+        st.warning(t("data_not_loaded"))
         return
 
     df = st.session_state['data']
     ano_selecionado = st.session_state.get('ano_selecionado', df['nu_ano_censo'].max())
     tipo_dado_selecionado = st.session_state.get('tipo_dado_selecionado', 'Ingressantes')
 
-    st.header(f"Comparativo de {tipo_dado_selecionado} por Curso - Ano: {ano_selecionado}")
+    st.header(t("course_header", dtype=tipo_dado_selecionado, year=ano_selecionado))
 
     # Mapeamento do tipo de dado para as colunas do DataFrame
     coluna_total = {
@@ -52,34 +53,34 @@ def comparativo_curso_page():
 
         # Renomear colunas para melhor legibilidade
         tabela_cursos = comparativo_curso.rename(columns={
-            'no_curso_standardized': 'Curso',
-            coluna_total: f'Total {tipo_dado_selecionado}',
-            coluna_negros_pardos: f'Pretos {tipo_dado_selecionado}',
-            'percentual_negros_pardos': 'Representatividade (%)'
+            'no_curso_standardized': t("course"),
+            coluna_total: f'{t("total")} {tipo_dado_selecionado}',
+            coluna_negros_pardos: f'{t("black_students")} {tipo_dado_selecionado}',
+            'percentual_negros_pardos': t("representativeness")
         })
 
-        tabela_cursos = tabela_cursos.sort_values(f'Total {tipo_dado_selecionado}', ascending=False)
+        tabela_cursos = tabela_cursos.sort_values(f'{t("total")} {tipo_dado_selecionado}', ascending=False)
 
-        st.subheader(f"Tabela de {tipo_dado_selecionado} por Curso")
+        st.subheader(t("course_table_sub", dtype=tipo_dado_selecionado))
         st.dataframe(tabela_cursos)
 
         # Gráfico de pizza para os top N cursos
-        top_n = st.slider("Número de Cursos para o Gráfico de Pizza", 5, 20, 10, key="comparativo_curso_page_top_n_slider")
+        top_n = st.slider(t("course_slider"), 5, 20, 10, key="comparativo_curso_page_top_n_slider")
 
         # Filtrar cursos com valores maiores que 0 para evitar erros no gráfico
-        tabela_cursos_filtrada = tabela_cursos[tabela_cursos[f'Pretos {tipo_dado_selecionado}'] > 0]
+        tabela_cursos_filtrada = tabela_cursos[tabela_cursos[f'{t("black_students")} {tipo_dado_selecionado}'] > 0]
 
         if not tabela_cursos_filtrada.empty:
             top_cursos_para_pizza = tabela_cursos_filtrada.head(top_n)
             outros_cursos = tabela_cursos_filtrada.iloc[top_n:]
 
             if not outros_cursos.empty:
-                total_outros = outros_cursos[f'Pretos {tipo_dado_selecionado}'].sum()
+                total_outros = outros_cursos[f'{t("black_students")} {tipo_dado_selecionado}'].sum()
                 outros_row = pd.DataFrame([{
-                    'Curso': 'Outros Cursos',
-                    f'Total {tipo_dado_selecionado}': outros_cursos[f'Total {tipo_dado_selecionado}'].sum(),
-                    f'Pretos {tipo_dado_selecionado}': total_outros,
-                    'Representatividade (%)': (total_outros / outros_cursos[f'Total {tipo_dado_selecionado}'].sum() * 100).round(1) if outros_cursos[f'Total {tipo_dado_selecionado}'].sum() > 0 else 0
+                    t("course"): t("other_courses"),
+                    f'{t("total")} {tipo_dado_selecionado}': outros_cursos[f'{t("total")} {tipo_dado_selecionado}'].sum(),
+                    f'{t("black_students")} {tipo_dado_selecionado}': total_outros,
+                    t("representativeness"): (total_outros / outros_cursos[f'{t("total")} {tipo_dado_selecionado}'].sum() * 100).round(1) if outros_cursos[f'{t("total")} {tipo_dado_selecionado}'].sum() > 0 else 0
                 }])
                 dados_pizza = pd.concat([top_cursos_para_pizza, outros_row], ignore_index=True)
             else:
@@ -87,9 +88,9 @@ def comparativo_curso_page():
 
             fig_pizza = px.pie(
                 dados_pizza,
-                values=f'Pretos {tipo_dado_selecionado}',
-                names='Curso',
-                title=f'Distribuição de Pretos ({tipo_dado_selecionado}) por Curso (Top {top_n} + Outros) em {ano_selecionado}',
+                values=f'{t("black_students")} {tipo_dado_selecionado}',
+                names=t("course"),
+                title=t("course_pie_title", dtype=tipo_dado_selecionado, n=top_n, year=ano_selecionado),
                 hole=0.3
             )
             st.plotly_chart(fig_pizza, use_container_width=True)
@@ -97,7 +98,7 @@ def comparativo_curso_page():
             st.info(f"Não há dados de Pretos para {tipo_dado_selecionado} para gerar o gráfico de pizza neste ano.")
 
     else:
-        st.info(f"Não há dados disponíveis para o ano {ano_selecionado} e tipo de dado {tipo_dado_selecionado}.")
+        st.info(t("no_data_year", year=ano_selecionado, dtype=tipo_dado_selecionado))
 
 
 # Nota: a função `comparativo_curso_page` é chamada a partir de `app.py`.
