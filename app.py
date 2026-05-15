@@ -41,20 +41,9 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("📊 Análise Temporal do Censo da Educação Superior")
 st.sidebar.title("Navegação")
 
-# Opção para carregar arquivo CSV pelo usuário (tem prioridade sobre o arquivo local)
-st.sidebar.subheader("Dados")
-uploaded_file = st.sidebar.file_uploader("Carregar arquivo CSV do censo (opcional)", type=['csv'], help="Escolha um arquivo CSV consolidado para carregar os dados localmente.")
 
-st.markdown(
-    """
-    Este dashboard interativo permite explorar a evolução da representatividade de estudantes 
-    em cursos de computação no Brasil, com foco em dados de ingressantes, concluintes e matriculados.
-    Utilize o menu lateral para navegar entre as diferentes análises.
-    """
-)
 
 @st.cache_resource
 def _engine():
@@ -119,42 +108,21 @@ def load_data():
         st.error(f"Não foi possível ler do Supabase: {e}")
         return pd.DataFrame()
 
-df = None
-if uploaded_file is not None:
-    try:
-        # tentar ler como UTF-8 primeiro
-        df = pd.read_csv(uploaded_file, encoding='utf-8', low_memory=False)
-    except Exception:
-        try:
-            # fallback comum para arquivos CSV em Windows/latin1
-            df = pd.read_csv(uploaded_file, encoding='latin-1', low_memory=False)
-        except Exception as e:
-            st.error(f"Não foi possível ler o arquivo enviado: {e}")
-            df = pd.DataFrame()
-    if not df.empty:
-        # garantir colunas numéricas
-        qty_cols = ['qt_ing', 'qt_conc', 'qt_mat']
-        for col in qty_cols:
-            if col in df.columns:
-                df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
-        st.success(f"Arquivo '{getattr(uploaded_file, 'name', 'upload')}' carregado com sucesso.")
-        # armazenar informação de upload na sessão para referência
-        st.session_state['uploaded_file_name'] = getattr(uploaded_file, 'name', None)
-else:
-    df = load_data()
+df = load_data()
 
 if not df.empty:
     st.sidebar.header("Filtros Globais")
 
     # Menu de navegação de páginas
     paginas = {
-        "Visão Geral": "1_Visao_Geral",
-        "Comparativo por Curso": "2_Comparativo_por_Curso",
-        "Análise Regional": "3_Analise_Regional",
-        "Análise Institucional": "4_Analise_Institucional",
-        "Comparativo por Formato": "6_Comparativo_Formato",
-        "Projeção e Tendências": "8_Projecao",
-        "Comparativo Geral": "5_Comparativo_Geral"
+        "🏠 Página Inicial": "0_Home",
+        "📈 Visão Geral": "1_Visao_Geral",
+        "🎓 Comparativo por Curso": "2_Comparativo_por_Curso",
+        "🗺️ Análise Regional": "3_Analise_Regional",
+        "🏛️ Análise Institucional": "4_Analise_Institucional",
+        "🖥️ Comparativo por Formato": "6_Comparativo_Formato",
+        "🔮 Projeção e Tendências": "8_Projecao",
+        "⚖️ Comparativo Geral": "5_Comparativo_Geral"
     }
     pagina_selecionada = st.sidebar.radio(
         "Selecione a Página",
@@ -171,9 +139,9 @@ if not df.empty:
         step=1
     )
 
-    # Mostrar o seletor de tipo de dado apenas se não estivermos na página 'Comparativo Geral'
+    # Mostrar o seletor de tipo de dado apenas se não estivermos na página Inicial ou Comparativo Geral
     tipo_dado_selecionado = None
-    if pagina_selecionada != 'Comparativo Geral':
+    if pagina_selecionada not in ('🏠 Página Inicial', '⚖️ Comparativo Geral'):
         tipo_dado_selecionado = st.sidebar.radio(
             "Tipo de Dado",
             ('Ingressantes', 'Concluintes', 'Matriculados'),
@@ -182,6 +150,13 @@ if not df.empty:
     else:
         # Garantir que exista um valor em session_state (usar valor existente ou padrão)
         tipo_dado_selecionado = st.session_state.get('tipo_dado_selecionado', 'Ingressantes')
+
+    # Na Página Inicial, ocultar os filtros globais (slider de ano e tipo de dado)
+    if pagina_selecionada == '🏠 Página Inicial':
+        import importlib
+        modulo = importlib.import_module("0_Home")
+        modulo.home_page()
+        st.stop()
 
     st.session_state['ano_selecionado'] = ano_selecionado
     st.session_state['tipo_dado_selecionado'] = tipo_dado_selecionado
@@ -196,6 +171,10 @@ if not df.empty:
 
     st.info("Navegue pelas páginas no menu lateral para ver as análises.")
 else:
-    st.warning("Não foi possível carregar os dados. Verifique o arquivo CSV.")
+    # Mesmo sem dados, permite ver a Página Inicial
+    import importlib as _il
+    _home = _il.import_module("0_Home")
+    _home.home_page()
+    st.warning("Não foi possível carregar os dados. Verifique a conexão com o Supabase ou carregue um arquivo CSV.")
 
 
