@@ -213,13 +213,13 @@ share = mod["share_negra"].unstack("tp_modalidade_ensino").loc[WIN]
 absol.to_csv(OUT / "sec10_modality_absolutos.csv")
 share.round(2).to_csv(OUT / "sec10_modality_share_negra.csv")
 
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.0, 3.3))
+fig, (a1, a2) = plt.subplots(2, 1, figsize=(6.8, 5.6), sharex=True)
 xt = list(range(2010, 2025, 2))
 a1.stackplot(absol.index, absol[1] / 1000, absol[2] / 1000,
              labels=[MOD_EN[1], MOD_EN[2]],
              colors=[C_MAIN, "#9ECAE1"])
 a1.set_title("(a) Entrants by modality", fontsize=9, loc="left")
-a1.set_xlabel("Census year"); a1.set_ylabel("Entrants (thousands)")
+a1.set_ylabel("Entrants (thousands)")
 a1.set_xlim(2010, 2024); a1.set_xticks(xt)
 a1.legend(fontsize=8, loc="upper left")
 a1.grid(alpha=0.3)
@@ -247,12 +247,9 @@ for y in (2010, 2015, 2020, 2024):
 # copia PDFs para o paper e grava arquivo de verificacao
 # ============================================================
 import shutil
-if PAPER_FIG.exists():
-    for nome in ("sec8_regional_trends.pdf", "sec6_share_by_course.pdf",
-                 "sec10_modality_evolution.pdf"):
-        shutil.copy2(FIG / nome, PAPER_FIG / nome)
-else:
-    print(f"(pasta {PAPER_FIG} nao existe neste repositorio; copia para o paper ignorada)")
+for nome in ("sec8_regional_trends.pdf", "sec6_share_by_course.pdf",
+             "sec10_modality_evolution.pdf"):
+    shutil.copy2(FIG / nome, PAPER_FIG / nome)
 
 (OUT / "figuras_extras_check.txt").write_text("\n".join(check_lines), encoding="utf-8")
 print(f"\nArquivos em: {FIG}, {PAPER_FIG} e {OUT / 'figuras_extras_check.txt'}")
