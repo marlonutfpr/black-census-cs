@@ -39,6 +39,15 @@ O dashboard lê de um PostgreSQL no **Supabase** (materialized view
 microdados → CSV consolidado → SQLite (`db/etl.py`) → Supabase
 (`db/load_supabase.py`). Detalhes em [db/ETL.md](db/ETL.md).
 
+Scripts de análise (versão estendida do artigo)
+
+A pasta [`analysis/`](analysis/) contém os scripts que geram as figuras e
+tabelas das Seções 6–10 da versão estendida do artigo (espectro racial,
+tendências e horizonte de paridade, conclusão por coorte e mecanismos de
+ação afirmativa). Eles leem os microdados brutos do INEP (não versionados)
+e gravam em `analysis/output/` e `analysis/figures/`. Instruções de uso em
+[analysis/README.md](analysis/README.md).
+
 Configuração local:
 
 ```bash

@@ -1,6 +1,12 @@
 # Dados brutos e consolidados (grandes, derivados — não versionar)
 dados/
 
+# Artefatos gerados pelos scripts de análise (dados, tabelas e figuras)
+analysis/data/*
+!analysis/data/mapa_curso_nome.csv
+analysis/output/
+analysis/figures/
+
 # Banco SQLite gerado pela ETL
 db/*.db
 db/*.sqlite
