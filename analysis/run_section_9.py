@@ -108,7 +108,7 @@ fig.savefig(FIG / "sec9_cohort_completion_brazil.png", dpi=200)
 plt.close(fig)
 
 # Fig 2: razao de disparidade negra/branca por recorte (k=3 e k=4 empilhados)
-fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.8), sharey=True)
+fig, axes = plt.subplots(2, 1, figsize=(6.8, 6.0), sharex=True, sharey=True)
 for ax, k, tit in zip(axes, (3, 4), ("Technologist (k=3)", "Bachelor/Licenciatura (k=4)")):
     for rec, cor in (("Publica", "#2E7D32"), ("Privada", "#C62828"),
                      ("Presencial", "#1565C0"), ("EaD", "#EF6C00")):
@@ -119,9 +119,10 @@ for ax, k, tit in zip(axes, (3, 4), ("Technologist (k=3)", "Bachelor/Licenciatur
                 lw=1.3, label=rot)
     ax.axhline(1.0, ls=":", color="gray", lw=1)
     ax.set_title(tit, fontsize=9)
-    ax.set_xlabel("Graduation year"); ax.grid(alpha=0.3)
-axes[0].set_ylabel("Disparity ratio (Black+Brown / White)")
-axes[1].legend(fontsize=8)
+    ax.set_ylabel("Disparity ratio\n(Black+Brown / White)", fontsize=8)
+    ax.grid(alpha=0.3)
+axes[1].set_xlabel("Graduation year")
+axes[0].legend(fontsize=8, ncol=4, loc="upper center")
 fig.tight_layout()
 fig.savefig(FIG / "sec9_disparity_ratio_by_strata.pdf")
 fig.savefig(FIG / "sec9_disparity_ratio_by_strata.png", dpi=200)
