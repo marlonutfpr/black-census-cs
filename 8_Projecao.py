@@ -11,37 +11,37 @@ except Exception:
     SCIPY_AVAILABLE = False
 
 
+# Mesma definicao do artigo (Secao 8): parcela preta sobre estudantes com cor declarada, janela 2010-2024.
+# A parcela sobre o total mistura a queda da cor nao declarada com mudanca de representacao.
+ANO_INICIAL = 2010
+
+
 def preparar_temporal_para_projecao(df: pd.DataFrame, tipo: str = 'Ingressantes') -> pd.DataFrame:
     """
-    Retorna DataFrame com colunas 'nu_ano_censo' e 'percentual_black' para o tipo selecionado.
+    Retorna DataFrame com colunas 'nu_ano_censo' e 'percent' (preta sobre declarados) para o tipo selecionado.
     """
     tipos_map = {
-        'Ingressantes': ('qt_ing', 'qt_ing_preta'),
-        'Concluintes': ('qt_conc', 'qt_conc_preta'),
-        'Matriculados': ('qt_mat', 'qt_mat_preta')
+        'Ingressantes': ('qt_ing', 'qt_ing_preta', 'qt_ing_cornd'),
+        'Concluintes': ('qt_conc', 'qt_conc_preta', 'qt_conc_cornd'),
+        'Matriculados': ('qt_mat', 'qt_mat_preta', 'qt_mat_cornd')
     }
-    total_col, black_col = tipos_map.get(tipo, ('qt_ing', 'qt_ing_preta'))
+    total_col, black_col, cornd_col = tipos_map.get(tipo, ('qt_ing', 'qt_ing_preta', 'qt_ing_cornd'))
 
     df_local = df.copy()
-    if total_col in df_local.columns:
-        df_local[total_col] = pd.to_numeric(df_local[total_col], errors='coerce').fillna(0)
-    else:
-        df_local[total_col] = 0
+    for col in (total_col, black_col, cornd_col):
+        if col in df_local.columns:
+            df_local[col] = pd.to_numeric(df_local[col], errors='coerce').fillna(0)
+        else:
+            df_local[col] = 0
+            st.warning(t("proj_col_missing", col=col))
 
-    if black_col in df_local.columns:
-        df_local[black_col] = pd.to_numeric(df_local[black_col], errors='coerce').fillna(0)
-    else:
-        df_local[black_col] = 0
-        st.warning(t("proj_col_missing", col=black_col))
-
-    total = df_local.groupby('nu_ano_censo')[total_col].sum().reset_index().rename(columns={total_col: 'total'})
-    black = df_local.groupby('nu_ano_censo')[black_col].sum().reset_index().rename(columns={black_col: 'black'})
-    combined = pd.merge(total, black, on='nu_ano_censo', how='left').fillna(0)
-    combined['percent'] = 0.0
-    nonzero = combined['total'] != 0
-    if nonzero.any():
-        combined.loc[nonzero, 'percent'] = (combined.loc[nonzero, 'black'] / combined.loc[nonzero, 'total'] * 100).round(2)
-    return combined[['nu_ano_censo', 'percent']]
+    g = df_local.groupby('nu_ano_censo')[[total_col, black_col, cornd_col]].sum().reset_index()
+    g = g[g['nu_ano_censo'].astype(int) >= ANO_INICIAL]
+    declarados = g[total_col] - g[cornd_col]
+    g['percent'] = 0.0
+    nonzero = declarados > 0
+    g.loc[nonzero, 'percent'] = (g.loc[nonzero, black_col] / declarados[nonzero] * 100).round(2)
+    return g[['nu_ano_censo', 'percent']]
 
 
 def projecao_page():
@@ -55,6 +55,7 @@ def projecao_page():
     tipo = st.session_state.get('tipo_dado_selecionado', 'Ingressantes')
 
     st.markdown(f'## {t("proj_for", dtype=tipo)}')
+    st.caption(t("proj_basis_note"))
 
     temporal = preparar_temporal_para_projecao(df, tipo=tipo)
     if temporal.empty:
@@ -96,8 +97,8 @@ def projecao_page():
                 # ano_paridade_float é o valor de 'ano' (não delta); se for > max_ano então haverá paridade no futuro
                 # recomputar somente se ano_paridade_float > max_ano
                 if ano_paridade_float > max_ano:
-                    # arredondar para cima ao ano inteiro
-                    ano_paridade_int = int(ano_paridade_float) if float(ano_paridade_float).is_integer() else int(ano_paridade_float) + 1
+                    # arredondar ao ano mais proximo, como na Tabela 7 do artigo
+                    ano_paridade_int = int(round(ano_paridade_float))
                     # limitar extensão para evitar horizontes absurdos (cap 100 anos a partir do último ano)
                     cap_ano = max_ano + 100
                     if ano_paridade_int > cap_ano:
@@ -159,8 +160,9 @@ def projecao_page():
         st.write(t("proj_gap", gap=f'{gap:.2f}'))
 
         if slope > 0 and gap > 0:
-            anos_para_paridade = gap / slope
-            ano_paridade = max(anos) + anos_para_paridade
+            # ano em que a reta ajustada alcanca a meta (mesmo criterio do grafico e do artigo)
+            ano_paridade = (meta_pop - intercept) / slope
+            anos_para_paridade = ano_paridade - max(anos)
             st.write(t("proj_parity_estimate", years=f'{anos_para_paridade:.1f}', year=f'{ano_paridade:.0f}'))
 
     # mostrar tabela (largura total)

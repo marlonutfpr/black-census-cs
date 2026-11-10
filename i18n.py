@@ -1050,11 +1050,11 @@ _STRINGS: dict[str, dict[str, str]] = {
         "it": "Vista consolidata che riunisce tutte le dimensioni, consentendo di incrociare tagli temporali, regionali e istituzionali in un unico pannello comparativo.",
     },
     "home_card_proj_desc": {
-        "pt": "Modelagem estatística (regressão linear) das tendências históricas para projetar o percentual esperado de estudantes pretos nos próximos anos, com intervalo de confiança.",
-        "en": "Statistical modeling (linear regression) of historical trends to project the expected percentage of Black students in the coming years, with confidence interval.",
-        "es": "Modelado estadístico (regresión lineal) de las tendencias históricas para proyectar el porcentaje esperado de estudiantes negros en los próximos años, con intervalo de confianza.",
-        "fr": "Modélisation statistique (régression linéaire) des tendances historiques pour projeter le pourcentage attendu d'étudiants noirs dans les prochaines années, avec intervalle de confiance.",
-        "it": "Modellazione statistica (regressione lineare) delle tendenze storiche per proiettare la percentuale attesa di studenti neri nei prossimi anni, con intervallo di confidenza.",
+        "pt": "Regressão linear da parcela de estudantes pretos entre os que declararam cor, 2010-2024, para estimar quando ela alcançaria a da população. Projeção ilustrativa, sem intervalo de confiança.",
+        "en": "Linear fit of the share of preta students among those with declared color, 2010-2024, to estimate when it would reach the population share. Illustrative projection, without a confidence interval.",
+        "es": "Regresión lineal de la proporción de estudiantes pretos entre quienes declararon color, 2010-2024, para estimar cuándo alcanzaría la de la población. Proyección ilustrativa, sin intervalo de confianza.",
+        "fr": "Régression linéaire de la part des étudiants pretos parmi ceux ayant déclaré leur couleur, 2010-2024, pour estimer quand elle atteindrait celle de la population. Projection indicative, sans intervalle de confiance.",
+        "it": "Regressione lineare della quota di studenti pretos tra quelli con colore dichiarato, 2010-2024, per stimare quando raggiungerebbe quella della popolazione. Proiezione indicativa, senza intervallo di confidenza.",
     },
     # ── Aliases and missing keys ───────────────────────────────────────────────
     "general_comparison_settings": {
@@ -1416,6 +1416,13 @@ _STRINGS: dict[str, dict[str, str]] = {
         "es": "Proyección para: {dtype}",
         "fr": "Projection pour : {dtype}",
         "it": "Proiezione per: {dtype}",
+    },
+    "proj_basis_note": {
+        "pt": "Parcela de estudantes autodeclarados pretos entre os que declararam cor, 2010-2024, contra 10,2% da população (Censo 2022). Sobre o total, a queda da cor não declarada inflaria a tendência. Regressão linear simples, sem intervalo de confiança: o ano de paridade é muito sensível à janela.",
+        "en": "Share of self-declared preta students among those with declared color, 2010-2024, against 10.2% of the population (2022 Census). Over all students, the fall in undeclared color would inflate the trend. Simple linear fit without a confidence interval: the parity year is very sensitive to the window.",
+        "es": "Proporción de estudiantes autodeclarados pretos entre quienes declararon color, 2010-2024, frente al 10,2% de la población (Censo 2022). Sobre el total, la caída del color no declarado inflaría la tendencia. Regresión lineal simple, sin intervalo de confianza: el año de paridad es muy sensible a la ventana.",
+        "fr": "Part des étudiants autodéclarés pretos parmi ceux ayant déclaré leur couleur, 2010-2024, comparée aux 10,2 % de la population (recensement 2022). Sur l'ensemble, la baisse de la couleur non déclarée gonflerait la tendance. Régression linéaire simple, sans intervalle de confiance : l'année de parité est très sensible à la fenêtre.",
+        "it": "Quota di studenti autodichiarati pretos tra quelli con colore dichiarato, 2010-2024, rispetto al 10,2% della popolazione (Censimento 2022). Sul totale, il calo del colore non dichiarato gonfierebbe la tendenza. Regressione lineare semplice, senza intervallo di confidenza: l'anno di parità è molto sensibile alla finestra.",
     },
     # ── Course page missing keys ──────────────────────────────────────────────
     "course_slider": {
