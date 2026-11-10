@@ -57,7 +57,7 @@ The dashboard has its own `requirements.txt` at the repository root.
 
 ## Running
 
-Run from the repository root, in this order. Steps 2 to 8 read the
+Run from the repository root, in this order. Steps 2 to 9 read the
 consolidated dataset through the `CENSO_PKL` environment variable (default
 `analysis/data/computacao_2009_2024.pkl`), except `run_robustez.py`, which
 reads the zips itself.
@@ -71,10 +71,11 @@ python analysis/run_figuras_extras.py                      # 5.
 python analysis/run_validacao_trajetoria.py <flow_dir>     # 6. folder with the flow-indicator zips
 python analysis/run_section_9.py                           # 7. needs output/val_teste_nulo.csv from step 6
 python analysis/run_recomposicao.py                        # 8. needs outputs of steps 2, 4 and 5
+python analysis/run_complementos.py                        # 9. needs only the dataset; any time after step 1
 ```
 
 If `build_dataset.py` writes the dataset elsewhere, set `CENSO_PKL` to that
-path before steps 3 to 8. On a desktop, steps 1, 2 and 6 take one to two
+path before steps 3 to 9. On a desktop, steps 1, 2 and 6 take one to two
 minutes each and the others a few seconds.
 
 ## What each script supports
@@ -89,6 +90,7 @@ minutes each and the others a few seconds.
 | `run_validacao_trajetoria.py` | Lag choice (Section 9), Section 9.1, Table 11 and the followed-cohort numbers of Section 11 | `val_*.csv`, `val_numeros_texto.txt` |
 | `run_section_9.py` | Fig. 9 and the lagged ratios of Section 9 | `sec9_cohort_completion.csv` |
 | `run_recomposicao.py` | Tables 4 and 5, Figs. 4, 5 and 11, numbers of Section 6 | `rec_*.csv`, `rec_numeros_texto.txt` |
+| `run_complementos.py` | Numbers the other scripts do not write: category 7 sensitivity and teaching degrees (Section 4.3), technologist shares by color and the yearly public–private comparison (Section 6), log decompositions and representation relative to the 2022 Census (Section 7), Kruskal–Wallis by year with tie sensitivity and 2024 entrants by administrative category (Section 10), bounds of the representation ratio (Section 11) | `comp_numeros_texto.txt`, `comp_series_anuais.csv` |
 
 Each script's header lists its inputs and outputs in detail. The
 `*_numeros_texto.txt` files hold the point numbers quoted in the text, as
