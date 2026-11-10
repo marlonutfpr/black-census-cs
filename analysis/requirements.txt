@@ -1,0 +1,8 @@
+# Versions used to produce the results reported in the paper (Python 3.13.2).
+# numpy 1.26.4 has no wheel for Python 3.13 and is compiled from source (needs a C/C++ compiler).
+# The dashboard has its own requirements.txt at the repository root.
+pandas==2.2.3
+numpy==1.26.4
+scipy==1.17.1
+matplotlib==3.10.1
+openpyxl==3.1.5

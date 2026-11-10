@@ -1,0 +1,45 @@
+RQ1, reconstrucao x valores lidos: diferenca media absoluta 2009-2023 0.043 p.p.; maximo 0.100; correlacao 0.9992
+fora dos grupos 2010-2023: 29.2-68.6
+ingressantes: 2010: 2.15/7.6/35.55; 2013: 3.13/8.04/38.39; 2014: 5.53/9.69/41.61; 2018: 6.68/8.29/41.85; 2020: 6.49/8.42/42.68; 2024: 7.28/9.05/42.25
+concluintes: 2010: 1.55/5.2/29.93; 2013: 2.32/5.79/30.6; 2014: 2.81/5.8/34.65; 2018: 6.05/7.66/37.41; 2020: 6.11/7.33/38.82; 2024: 6.82/8.15/39.82
+matriculados: 2010: 2.08/6.53/32.63; 2013: 3.18/7.55/35.43; 2014: 4.48/8.17/38.6; 2018: 6.84/8.38/40.88; 2020: 6.63/8.06/41.58; 2024: 7.07/8.47/41.06
+pretos: ingressantes 2010 2539, 2020 14751, 2024 35624; concluintes 2010 629, 2020 3150, 2024 6858; matriculados 2010 6130, 2024 56596
+crescimento ingressantes pretos 2019-2022: 2.20x; total 2.23x
+composicao (% do total):
+    etapa  ano  branca  preta  parda  amarela  indigena  cornd
+ Entrants 2010    17.0    2.2    7.9      1.1       0.1   71.7
+ Entrants 2014    31.5    5.5   18.2      1.5       0.3   43.0
+ Entrants 2019    44.8    6.5   27.8      1.5       0.4   19.0
+ Entrants 2024    45.1    7.3   26.7      1.2       0.3   19.5
+ Enrolled 2010    19.9    2.1    8.3      1.3       0.1   68.2
+ Enrolled 2014    32.0    4.5   16.7      1.5       0.2   45.2
+ Enrolled 2019    46.9    6.6   28.0      1.7       0.5   16.4
+ Enrolled 2024    47.6    7.1   27.2      1.3       0.3   16.5
+Graduates 2010    19.5    1.5    7.4      1.2       0.1   70.3
+Graduates 2014    30.2    2.8   14.0      1.4       0.1   51.5
+Graduates 2019    49.4    6.1   25.3      2.0       0.7   16.5
+Graduates 2024    48.7    6.8   26.5      1.5       0.2   16.2
+regioes:
+      regiao  preta_total_2010  preta_total_2016  preta_total_2024  preta_total_max  ano_max  preta_decl_2010  preta_decl_2024  negro_decl_2010  negro_decl_2024
+       North              2.94              6.09              5.55             6.09     2016             7.27             6.86            67.20            60.12
+   Northeast              4.21              8.36              7.93             9.40     2017            13.65             9.71            61.13            54.78
+   Southeast              1.61              6.30              8.17             8.43     2023             6.52            10.20            27.29            40.54
+       South              1.13              3.10              3.88             3.88     2024             3.23             4.81            10.86            23.74
+Central-West              3.03              7.17              8.00             8.00     2024            10.59             9.92            50.86            53.38
+modalidade 1=presencial 2=EaD, preta_total: 2010: 2.34/0.95; 2014: 5.61/5.24; 2018: 6.60/6.81; 2022: 5.99/6.54; 2024: 6.68/7.52
+modalidade preta_decl: 2010: 7.78/5.56; 2014: 9.24/11.84; 2018: 8.21/8.44; 2022: 7.43/9.31; 2024: 7.92/9.52
+EaD acima do presencial em preta_total: [2018, 2019, 2020, 2022, 2023, 2024]
+EaD acima do presencial em preta_decl: [2014, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+publico/privado preta_total: 2010: 4.08/1.67; 2014: 5.40/5.56; 2018: 8.09/6.29; 2024: 8.45/7.12
+publico acima em preta_total: [2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+nao declarado publico/privado 2010 e 2024: 59.2/74.8; 4.9/21.5
+reserva de vagas no setor publico em 2010: 2303 de 23406 (9.8%)
+negro/declarados publico x privado: 2010: 33.24/36.47; 2011: 34.29/36.20; 2012: 35.83/36.16; 2013: 39.97/37.82
+categoria 7 como publica, 2024 (pub/priv): preta_decl 8.79/9.09, negro_decl 42.32/42.24, preta_total 8.34/7.13
+categoria 7 em 2024: 1745 ingressantes (0.36%)
+paridade qt_ing preta: linear 2039.2; logit 2037.0
+paridade qt_ing negro: linear 2050.0; logit 2048.7
+paridade qt_mat preta: linear 2037.4; logit 2034.5
+paridade qt_mat negro: linear 2043.5; logit 2042.1
+paridade qt_conc preta: linear 2034.0; logit 2030.7
+paridade qt_conc negro: linear 2040.8; logit 2039.2

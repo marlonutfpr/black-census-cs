@@ -1,0 +1,297 @@
+coorte 2015: 281430 linhas no arquivo, 18590 de computacao, 1859 cursos; area 06 17970, no censo 18490; anos 2015-2024
+coorte 2016: 263178 linhas no arquivo, 16956 de computacao, 1884 cursos; area 06 16308, no censo 16848; anos 2016-2024
+coorte 2017: 247200 linhas no arquivo, 15568 de computacao, 1946 cursos; area 06 14976, no censo 15376; anos 2017-2024
+coortes presentes: [2015, 2016, 2017]
+
+== Nacional, razao x conclusao real ==
+        grau    c  k    t  razao  real_ate_k  real_final  erro_vs_final  parcela_turma_no_num  ing_traj_sobre_censo
+    Bachelor 2015  0 2015   29.6         0.5        27.4            2.2                   1.8                 103.1
+    Bachelor 2015  1 2016   31.0         1.3        27.4            3.5                   2.7                 103.1
+    Bachelor 2015  2 2017   29.3         2.2        27.4            1.9                   3.0                 103.1
+    Bachelor 2015  3 2018   29.6         9.7        27.4            2.1                  26.3                 103.1
+    Bachelor 2015  4 2019   28.7        17.9        27.4            1.3                  29.3                 103.1
+    Bachelor 2015  5 2020   29.3        22.5        27.4            1.9                  16.1                 103.1
+    Bachelor 2015  6 2021   28.0        24.7        27.4            0.6                   8.1                 103.1
+    Bachelor 2016  0 2016   32.0         0.7        27.5            4.5                   2.2                 101.9
+    Bachelor 2016  1 2017   30.3         1.4        27.5            2.9                   2.4                 101.9
+    Bachelor 2016  2 2018   30.6         2.4        27.5            3.1                   3.3                 101.9
+    Bachelor 2016  3 2019   29.7         9.7        27.5            2.2                  25.2                 101.9
+    Bachelor 2016  4 2020   30.3        18.1        27.5            2.8                  28.1                 101.9
+    Bachelor 2016  5 2021   29.0        22.2        27.5            1.5                  14.5                 101.9
+    Bachelor 2016  6 2022   30.9        24.9        27.5            3.5                   8.7                 101.9
+    Bachelor 2017  0 2017   29.9         0.5        27.0            2.9                   1.6                 102.0
+    Bachelor 2017  1 2018   30.2         1.1        27.0            3.2                   2.2                 102.0
+    Bachelor 2017  2 2019   29.3         2.0        27.0            2.3                   3.3                 102.0
+    Bachelor 2017  3 2020   29.9        10.0        27.0            2.9                  27.2                 102.0
+    Bachelor 2017  4 2021   28.6        18.0        27.0            1.6                  28.4                 102.0
+    Bachelor 2017  5 2022   30.5        22.4        27.0            3.5                  15.0                 102.0
+    Bachelor 2017  6 2023   38.6        25.2        27.0           11.6                   7.4                 102.0
+Technologist 2015  0 2015   32.4         0.8        29.1            3.3                   2.5                 102.8
+Technologist 2015  1 2016   31.4         3.6        29.1            2.3                   9.3                 102.8
+Technologist 2015  2 2017   29.9        16.9        29.1            0.8                  45.6                 102.8
+Technologist 2015  3 2018   31.7        23.9        29.1            2.6                  22.8                 102.8
+Technologist 2015  4 2019   33.9        26.8        29.1            4.8                   8.7                 102.8
+Technologist 2015  5 2020   41.4        28.1        29.1           12.3                   3.2                 102.8
+Technologist 2015  6 2021   45.9        28.6        29.1           16.8                   1.1                 102.8
+Technologist 2016  0 2016   31.0         1.0        28.5            2.5                   3.4                 102.2
+Technologist 2016  1 2017   29.5         3.7        28.5            1.0                   9.1                 102.2
+Technologist 2016  2 2018   31.3        16.9        28.5            2.8                  43.3                 102.2
+Technologist 2016  3 2019   33.4        23.8        28.5            4.9                  21.2                 102.2
+Technologist 2016  4 2020   40.9        26.5        28.5           12.4                   6.7                 102.2
+Technologist 2016  5 2021   45.3        27.6        28.5           16.8                   2.4                 102.2
+Technologist 2016  6 2022   52.5        28.1        28.5           23.9                   1.1                 102.2
+Technologist 2017  0 2017   26.5         0.6        28.5           -2.0                   2.3                 101.4
+Technologist 2017  1 2018   28.1         3.8        28.5           -0.4                  11.6                 101.4
+Technologist 2017  2 2019   30.1        17.4        28.5            1.6                  45.7                 101.4
+Technologist 2017  3 2020   36.7        24.3        28.5            8.3                  19.3                 101.4
+Technologist 2017  4 2021   40.7        26.6        28.5           12.2                   5.6                 101.4
+Technologist 2017  5 2022   47.2        27.8        28.5           18.7                   2.6                 101.4
+Technologist 2017  6 2023   62.0        28.2        28.5           33.5                   0.7                 101.4
+
+== Conclusao acumulada real por anos desde a entrada ==
+c                  2015  2016  2017
+grau         anos                  
+Bachelor     0      0.5   0.7   0.5
+             1      1.3   1.4   1.1
+             2      2.2   2.4   2.0
+             3      9.7   9.7  10.0
+             4     17.9  18.1  18.0
+             5     22.5  22.2  22.4
+             6     24.7  24.9  25.2
+             7     26.0  26.5  27.0
+             8     26.9  27.5   NaN
+             9     27.4   NaN   NaN
+Technologist 0      0.8   1.0   0.6
+             1      3.6   3.7   3.8
+             2     16.9  16.9  17.4
+             3     23.9  23.8  24.3
+             4     26.8  26.5  26.6
+             5     28.1  27.6  27.8
+             6     28.6  28.1  28.2
+             7     28.9  28.4  28.5
+             8     29.0  28.5   NaN
+             9     29.1   NaN   NaN
+
+== Conclusao anual real ==
+c                  2015  2016  2017
+grau         anos                  
+Bachelor     0      0.5   0.7   0.5
+             1      0.8   0.7   0.6
+             2      0.9   1.0   0.9
+             3      7.5   7.4   8.0
+             4      8.2   8.4   8.0
+             5      4.6   4.1   4.5
+             6      2.2   2.6   2.8
+             7      1.3   1.6   1.8
+             8      0.9   1.0   NaN
+             9      0.5   NaN   NaN
+Technologist 0      0.8   1.0   0.6
+             1      2.8   2.6   3.2
+             2     13.3  13.3  13.5
+             3      7.0   6.9   7.0
+             4      2.9   2.7   2.3
+             5      1.3   1.1   1.2
+             6      0.5   0.6   0.4
+             7      0.3   0.2   0.2
+             8      0.1   0.1   NaN
+             9      0.1   NaN   NaN
+
+== Prazo de integralizacao (prazo minimo mais bonus, nota do INEP de 2017), % dos ingressantes ==
+        grau  NU_PRAZO_INTEGRALIZACAO  QT_INGRESSANTE  pct
+    Bachelor                        4            2005  1.2
+    Bachelor                        5          149924 86.8
+    Bachelor                        6           19947 11.5
+Technologist                        1            1594  0.6
+Technologist                        2            2105  0.8
+Technologist                        3          200830 74.6
+Technologist                        4           61384 22.8
+Technologist                        5            3106  1.2
+NU_ANO_INTEGRALIZACAO = ingresso + prazo - 1 em 50714 de 50714 linhas
+
+== Prazo de integralizacao x prazo de acompanhamento, % dos ingressantes ==
+        grau  NU_PRAZO_INTEGRALIZACAO  NU_PRAZO_ACOMPANHAMENTO  QT_INGRESSANTE  pct
+    Bachelor                        4                        6            1548  0.9
+    Bachelor                        5                        8          140836 81.5
+    Bachelor                        5                        9            9088  5.3
+    Bachelor                        6                       10           19947 11.5
+Technologist                        1                        2            1594  0.6
+Technologist                        2                        3            2105  0.8
+Technologist                        3                        4           54667 20.3
+Technologist                        3                        5          146163 54.3
+Technologist                        4                        6           59459 22.1
+Technologist                        4                        7            1925  0.7
+Technologist                        5                        8            3106  1.2
+identidade ingressantes = permanencia + conclusao + desistencia + falecimento: 0 falhas em 5643 paineis curso-coorte
+
+== Situacao em 2024 ==
+                     ing  conc_pct  des_pct  perm_pct  fal_pct
+grau         c                                                
+Bachelor     2015  59091      27.4     70.4       2.1      0.0
+             2016  56408      27.5     68.9       3.6      0.1
+             2017  57252      27.0     66.3       6.6      0.0
+Technologist 2015  86314      29.1     70.5       0.4      0.0
+             2016  86913      28.5     70.8       0.7      0.0
+             2017  95936      28.5     70.4       1.1      0.0
+
+== Contrastes entre estratos, k nominal ==
+       contraste         grau    c  razao_a  razao_b  final_a  final_b  contraste_razao  contraste_final  contraste_ate_k
+  Public/Private     Bachelor 2015    31.44    27.68    29.53    26.62             1.14             1.11             0.65
+  Public/Private     Bachelor 2016    27.05    31.66    29.12    26.82             0.85             1.09             0.59
+  Public/Private     Bachelor 2017    23.47    30.96    28.12    26.55             0.76             1.06             0.59
+  Public/Private Technologist 2015    30.13    29.86    29.40    29.01             1.01             1.01             0.35
+  Public/Private Technologist 2016    31.47    31.26    29.04    28.40             1.01             1.02             0.38
+  Public/Private Technologist 2017    29.56    30.17    28.35    28.51             0.98             0.99             0.41
+Distance/On-site     Bachelor 2015    23.35    29.13    19.65    28.03             0.80             0.70             0.70
+Distance/On-site     Bachelor 2016    41.91    29.50    20.68    28.00             1.42             0.74             0.83
+Distance/On-site     Bachelor 2017    26.31    28.88    26.22    27.12             0.91             0.97             1.18
+Distance/On-site Technologist 2015    21.14    35.47    25.01    31.58             0.60             0.79             0.82
+Distance/On-site Technologist 2016    26.25    34.57    24.43    31.16             0.76             0.78             0.81
+Distance/On-site Technologist 2017    25.65    33.69    25.49    30.93             0.76             0.82             0.85
+
+erro relativo mediano do nivel (razao x final): 7.3%; do contraste: 6.7%
+sinal do contraste preservado em 9 de 12
+Bachelor: 30 estratos-coorte com >=300 ingressantes; Pearson 0.53, Spearman 0.50; erro mediano +0.8 p.p.; erro absoluto mediano 3.1 p.p.; acima de 100%: 0
+Technologist: 30 estratos-coorte com >=300 ingressantes; Pearson 0.79, Spearman 0.71; erro mediano +3.1 p.p.; erro absoluto mediano 3.5 p.p.; acima de 100%: 0
+
+== Razao negro/branco esperada so pelo curso de entrada x razao defasada observada ==
+recorte         grau    c  razao_esperada  razao_defasada  parte_explicada_pct  razao_esperada_preta  razao_defasada_preta  cobertura_ing
+ Brazil     Bachelor 2015           0.900           0.805               51.353                 0.951                 0.757         99.864
+ Brazil     Bachelor 2016           0.912           0.856               61.075                 0.945                 0.787         99.839
+ Brazil     Bachelor 2017           0.913           0.794               42.087                 0.917                 0.712         99.834
+ Brazil Technologist 2015           0.945           0.855               37.904                 0.991                 0.938         99.856
+ Brazil Technologist 2016           0.952           0.853               32.393                 0.996                 0.867         99.877
+ Brazil Technologist 2017           0.968           0.870               24.379                 0.983                 0.866         99.755
+Private     Bachelor 2015           0.920           0.846               51.649                 0.968                 0.876         99.813
+Private     Bachelor 2016           0.945           0.918               67.161                 0.991                 0.897         99.782
+Private     Bachelor 2017           0.946           0.874               42.737                 0.949                 0.848         99.772
+Private Technologist 2015           0.954           0.899               45.159                 1.011                 1.007         99.834
+Private Technologist 2016           0.971           0.883               24.359                 1.026                 0.891         99.847
+Private Technologist 2017           0.996           0.893                3.691                 1.021                 0.884         99.739
+ Public     Bachelor 2015           0.855           0.716               51.041                 0.915                 0.554        100.000
+ Public     Bachelor 2016           0.852           0.762               62.341                 0.867                 0.613         99.981
+ Public     Bachelor 2017           0.856           0.698               47.594                 0.865                 0.554         99.971
+ Public Technologist 2015           0.915           0.701               28.336                 0.920                 0.711         99.955
+ Public Technologist 2016           0.891           0.740               41.898                 0.899                 0.784        100.000
+ Public Technologist 2017           0.861           0.774               61.220                 0.846                 0.797         99.824
+
+== Erro da razao contra a conclusao final, por k (media das coortes) ==
+                erro_medio  erro_abs  parcela_turma
+grau         k                                     
+Bachelor     0         3.2       3.2            1.9
+             1         3.2       3.2            2.4
+             2         2.4       2.4            3.2
+             3         2.4       2.4           26.2
+             4         1.9       1.9           28.6
+             5         2.3       2.3           15.2
+             6         5.2       5.2            8.1
+Technologist 0         1.3       2.6            2.7
+             1         1.0       1.2           10.0
+             2         1.7       1.7           44.9
+             3         5.3       5.3           21.1
+             4         9.8       9.8            7.0
+             5        15.9      15.9            2.7
+             6        24.7      24.7            1.0
+
+== Contrastes com k=3 (tecnologo) e k=4 (bacharelado), sensibilidade ==
+       contraste         grau    c  contraste_razao  contraste_final
+  Public/Private     Bachelor 2015             1.14             1.11
+  Public/Private     Bachelor 2016             0.85             1.09
+  Public/Private     Bachelor 2017             0.76             1.06
+  Public/Private Technologist 2015             1.07             1.01
+  Public/Private Technologist 2016             0.93             1.02
+  Public/Private Technologist 2017             0.71             0.99
+Distance/On-site     Bachelor 2015             0.80             0.70
+Distance/On-site     Bachelor 2016             1.42             0.74
+Distance/On-site     Bachelor 2017             0.91             0.97
+Distance/On-site Technologist 2015             0.78             0.79
+Distance/On-site Technologist 2016             0.97             0.78
+Distance/On-site Technologist 2017             1.11             0.82
+
+== Contrastes agregados nas tres coortes (k=2 tecnologo, k=4 bacharelado) ==
+       contraste         grau  k  razao_a  razao_b  real_h7_a  real_h7_b  real_2024_a  real_2024_b  contraste_razao  contraste_h7  contraste_2024
+  Public/Private     Bachelor  4   27.177   30.049     26.992     26.331       28.901       26.662            0.904         1.025           1.084
+  Public/Private Technologist  2   30.373   30.420     28.626     28.565       28.909       28.635            0.998         1.002           1.010
+Distance/On-site     Bachelor  4   29.737   29.170     22.252     26.890       22.561       27.724            1.019         0.828           0.814
+Distance/On-site Technologist  2   24.481   34.574     24.928     31.100       25.017       31.225            0.708         0.802           0.801
+
+== Estratos do bacharelado ==
+   c  estrato     ing  cursos  maior_ies_pct
+2015 Distance  4235.0      13           48.4
+2015   Public 15634.0     264            4.4
+2016 Distance  3732.0      11           43.7
+2016   Public 15951.0     275            4.5
+2017 Distance  5363.0      15           35.4
+2017   Public 17453.0     284            5.6
+
+== Conclusao real por segmento ==
+        grau            segmento    c   ing  cursos  real_h7  real_2024  perm_2024
+    Bachelor For-profit distance 2015  3651       7     18.9       19.5        1.0
+    Bachelor For-profit distance 2016  3524       6     20.1       20.5        1.7
+    Bachelor For-profit distance 2017  3902       8     25.4       25.4        3.5
+    Bachelor       Other private 2015 39205     615     26.7       27.3        1.0
+    Bachelor       Other private 2016 36362     614     27.0       27.4        1.6
+    Bachelor       Other private 2017 35607     619     26.7       26.7        2.6
+    Bachelor              Public 2015 16235     270     25.9       29.5        5.0
+    Bachelor              Public 2016 16522     278     26.8       29.1        8.3
+    Bachelor              Public 2017 17743     283     28.1       28.1       15.4
+Technologist For-profit distance 2015 27692      34     25.1       25.3        0.3
+Technologist For-profit distance 2016 29963      39     23.9       24.0        0.6
+Technologist For-profit distance 2017 37713      55     25.3       25.3        0.8
+Technologist       Other private 2015 42729     718     31.3       31.4        0.3
+Technologist       Other private 2016 40078     721     31.6       31.7        0.4
+Technologist       Other private 2017 40499     738     31.5       31.5        0.6
+Technologist              Public 2015 15893     205     28.9       29.4        0.9
+Technologist              Public 2016 16872     214     28.7       29.0        1.3
+Technologist              Public 2017 17724     219     28.4       28.4        2.8
+
+== Conclusao real por modalidade ==
+        grau    modal    c   ing  real_h7  real_2024  perm_2024
+    Bachelor Distance 2015  4305     19.0       19.7        0.8
+    Bachelor Distance 2016  3897     20.3       20.7        1.8
+    Bachelor Distance 2017  5428     26.2       26.2       12.1
+    Bachelor  On-site 2015 54786     26.6       28.0        2.2
+    Bachelor  On-site 2016 52511     27.0       28.0        3.7
+    Bachelor  On-site 2017 51824     27.1       27.1        6.1
+Technologist Distance 2015 32864     24.8       25.0        0.5
+Technologist Distance 2016 34080     24.3       24.4        0.8
+Technologist Distance 2017 43107     25.5       25.5        1.1
+Technologist  On-site 2015 53450     31.4       31.6        0.3
+Technologist  On-site 2016 52833     31.0       31.2        0.6
+Technologist  On-site 2017 52829     30.9       30.9        1.0
+
+== Teste nulo: razao de disparidade com a mesma curva de conclusao para os grupos, contra a observada ==
+                        nulo_min  nulo_max  obs_min  obs_max  decl_min  decl_max  preta_nulo_min  preta_nulo_max  preta_obs_min  preta_obs_max
+recorte grau         k                                                                                                                        
+Brazil  Bachelor     4     0.962     1.041    0.794    0.897     0.938     1.021           0.930           1.051          0.712          0.908
+        Technologist 2     0.972     1.018    0.853    0.922     0.965     1.018           0.972           1.043          0.807          0.938
+                     3     0.956     1.033    0.839    0.937     0.956     1.033           0.834           1.060          0.749          0.927
+Private Bachelor     4     0.963     1.056    0.828    0.953     0.944     1.028           0.856           1.111          0.800          1.068
+        Technologist 2     0.974     1.021    0.883    0.940     0.963     1.020           0.972           1.059          0.832          1.007
+                     3     0.954     1.035    0.872    0.967     0.953     1.035           0.805           1.065          0.765          0.948
+Public  Bachelor     4     0.937     1.062    0.644    0.918     0.916     1.065           0.900           1.111          0.554          0.814
+        Technologist 2     0.968     1.007    0.701    0.821     0.967     1.006           0.961           1.020          0.664          0.797
+                     3     0.962     1.048    0.702    0.816     0.962     1.046           0.970           1.066          0.652          0.815
+
+Serie nacional, k adotado:
+        grau  k  ano  nulo_negro_bruto  obs_negro  folga  nulo_preta_bruto  obs_preta  folga_preta  atraso_10  atraso_20  atraso_30
+    Bachelor  4 2017             1.041      0.887  0.154             1.051      0.908        0.143      1.015      0.988      0.962
+    Bachelor  4 2018             0.962      0.822  0.141             0.930      0.808        0.122      0.943      0.924      0.905
+    Bachelor  4 2019             0.987      0.805  0.183             1.007      0.757        0.250      0.975      0.963      0.951
+    Bachelor  4 2020             0.990      0.856  0.133             0.980      0.787        0.192      0.980      0.971      0.962
+    Bachelor  4 2021             0.966      0.794  0.172             0.950      0.712        0.238      0.960      0.953      0.947
+    Bachelor  4 2022             0.984      0.836  0.148             0.995      0.803        0.192      0.978      0.972      0.965
+    Bachelor  4 2023             0.978      0.837  0.141             1.029      0.819        0.209      0.970      0.962      0.954
+    Bachelor  4 2024             1.021      0.897  0.124             1.043      0.862        0.181      1.012      1.002      0.993
+Technologist  2 2017             0.977      0.855  0.122             1.043      0.938        0.106      0.955      0.933      0.911
+Technologist  2 2018             0.997      0.853  0.144             1.015      0.867        0.148      0.983      0.968      0.953
+Technologist  2 2019             1.000      0.870  0.130             1.012      0.866        0.146      0.986      0.972      0.958
+Technologist  2 2020             1.011      0.897  0.114             0.997      0.836        0.161      0.995      0.979      0.962
+Technologist  2 2021             0.992      0.900  0.092             1.016      0.859        0.157      0.976      0.960      0.944
+Technologist  2 2022             0.972      0.870  0.103             0.972      0.807        0.165      0.955      0.938      0.921
+Technologist  2 2023             1.018      0.922  0.096             1.008      0.851        0.158      1.001      0.983      0.965
+Technologist  2 2024             0.995      0.903  0.092             0.993      0.888        0.105      0.971      0.946      0.922
+menor folga negro (nulo - observado): 0.092; preta: 0.105
+atraso_10: queda em relacao ao nulo, min 0.006, media 0.015, max 0.027
+atraso_20: queda em relacao ao nulo, min 0.013, media 0.030, max 0.053
+atraso_30: queda em relacao ao nulo, min 0.019, media 0.045, max 0.080
+correlacao das diferencas anuais, observado x nulo: {'Bachelor': 0.77, 'Technologist': 0.83}

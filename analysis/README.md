@@ -1,64 +1,134 @@
-# Extended-version analysis scripts (Sections 6–10)
+# Analysis scripts of the extended version
 
-Scripts that generate the tables and figures of the extended version of the
-paper (racial composition, trend/parity analysis, cohort completion, and
-affirmative-action mechanisms) from the INEP Higher Education Census
-microdata (2009–2024), restricted to computing programmes (CINE broad area
-6).
+These scripts produce the census-based tables and figures of the extended
+version of the DATA 2026 paper, *From Microdata to Evidence: An Analytical
+Data Platform for Auditing Racial Equity in Brazilian Computing Higher
+Education*, and most of the numbers quoted in its text: the lessons
+from sixteen census editions (Section 5.2), the answers to RQ1–RQ4 under the
+declared basis (Section 6), the official definition and undeclared color
+(Section 7), trends and parity horizons (Section 8), lagged completion ratios
+and their test against INEP's followed cohorts (Section 9) and
+affirmative-action uptake (Section 10), plus point numbers quoted in the
+Discussion and Threats to Validity.
 
-## Scripts
+The scripts read the raw INEP files directly, aligned by column name. The
+database and the dashboard use an earlier consolidation (319,196 course
+offerings); the paper's results come from these scripts (331,023 offerings,
+2009–2024).
 
-| Script | Paper section | Outputs (under `analysis/`) |
+## Data
+
+The INEP files are public but are not redistributed here. Download them and
+check them against [`data/checksums_sha256.txt`](data/checksums_sha256.txt).
+
+| Source | Files | Accessed |
 |---|---|---|
-| `build_dataset.py` | — | Builds `data/computacao_2009_2024.pkl` from the raw INEP zips |
-| `run_sections_7_8.py` | 7–8 | Racial spectrum + undeclared-rate tables/figures; trend regression and parity-horizon table/figure |
-| `run_section_9.py` | 9 | Synthetic-cohort completion rates and disparity ratios (by funding sector and modality) |
-| `run_section_10.py` | 10 | Policy-uptake series, quota-intensity groups vs. representation, breakdown by administrative category |
-| `run_figuras_extras.py` | 6, 8, Discussion | Regional trends, per-programme shares (2024), modality evolution + cross-check file |
-
-All scripts resolve paths relative to the repository root
-(`ROOT = Path(__file__).resolve().parent.parent`) and write only to
-`analysis/output/` (CSV/TXT tables) and `analysis/figures/` (PDF/PNG).
-These directories, plus `analysis/data/*.pkl`, are git-ignored.
-
-## Regenerating the dataset
-
-1. Download the INEP Higher Education Census microdata zips (2009–2024) and
-   place them as `dados/microdados/micro_<year>.zip` at the repository root
-   (the `dados/` directory is git-ignored; see `db/ETL.md` for the
-   consolidation conventions).
-2. Run:
-
-   ```bash
-   python analysis/build_dataset.py
-   ```
-
-   This filters computing programmes and writes
-   `analysis/data/computacao_2009_2024.pkl`, consumed by the other scripts.
-
-`run_figuras_extras.py` additionally needs `analysis/data/mapa_curso_nome.csv`
-(versioned here), a `co_curso → no_curso` map extracted from the 2024
-microdata.
-
-## Dependencies
-
-Python 3.9+, with `pandas`, `numpy`, `scipy` and `matplotlib`:
+| [Microdados do Censo da Educação Superior](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-da-educacao-superior), editions 2009–2024 | rename each zip to `micro_<year>.zip` | 12 October 2026 |
+| [Indicadores de Fluxo da Educação Superior](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/indicadores-educacionais/indicadores-de-fluxo-da-educacao-superior), trajectory indicators for the 2015, 2016 and 2017 cohorts followed up to 2024 | keep the names `indicadores_trajetoria_es_<cohort>_2024.zip` | 4 November 2026 |
 
 ```bash
-pip install pandas numpy scipy matplotlib
+cd <folder with the zips>
+sha256sum -c --ignore-missing <repo>/analysis/data/checksums_sha256.txt
 ```
 
-## Usage
+Run it in each folder that holds some of the files; all nineteen should end
+up reported as `OK`.
 
-Run each script from the repository root, in any order after
-`build_dataset.py`:
+The base is frozen at the 2024 edition. INEP occasionally re-releases files;
+a re-released file will fail the checksum and may change the numbers.
+
+By default the census zips are read from `dados/microdados/` at the
+repository root (git-ignored); any other folder can be passed as an argument.
+
+## Requirements
+
+Python 3.13.2 with the versions pinned in
+[`requirements.txt`](requirements.txt):
 
 ```bash
-python analysis/run_sections_7_8.py
-python analysis/run_section_9.py
-python analysis/run_section_10.py
-python analysis/run_figuras_extras.py
+pip install -r analysis/requirements.txt
 ```
 
-Each script prints its computed tables to stdout as a sanity check against
-the numbers reported in the paper.
+numpy 1.26.4 has no binary wheel for Python 3.13, so pip compiles it from
+source, which needs a C/C++ compiler. Other recent versions should give the
+same numbers, possibly with differences in the last digits; byte-for-byte
+equality with the versioned outputs was checked only with the versions above.
+The dashboard has its own `requirements.txt` at the repository root.
+
+## Running
+
+Run from the repository root, in this order. Steps 2 to 8 read the
+consolidated dataset through the `CENSO_PKL` environment variable (default
+`analysis/data/computacao_2009_2024.pkl`), except `run_robustez.py`, which
+reads the zips itself.
+
+```bash
+python analysis/build_dataset.py [zip_dir] [out_pkl]       # 1. consolidated dataset
+python analysis/run_robustez.py [zip_dir]                  # 2. reads the zips directly
+python analysis/run_sections_7_8.py                        # 3.
+python analysis/run_section_10.py                          # 4.
+python analysis/run_figuras_extras.py                      # 5.
+python analysis/run_validacao_trajetoria.py <flow_dir>     # 6. folder with the flow-indicator zips
+python analysis/run_section_9.py                           # 7. needs output/val_teste_nulo.csv from step 6
+python analysis/run_recomposicao.py                        # 8. needs outputs of steps 2, 4 and 5
+```
+
+If `build_dataset.py` writes the dataset elsewhere, set `CENSO_PKL` to that
+path before steps 3 to 8. On a desktop, steps 1, 2 and 6 take one to two
+minutes each and the others a few seconds.
+
+## What each script supports
+
+| Script | Paper | Main outputs (`analysis/output/`) |
+|---|---|---|
+| `build_dataset.py` | Base of 331,023 offerings (Sections 4–5) | `data/computacao_2009_2024.pkl` (not versioned) |
+| `run_robustez.py` | Section 5.2 counts; Table 5 (declared-basis sector cells); Tables 7 (except Gap 2040), 8, 9, 10 and 12 (net columns); point numbers in Sections 4.4, 6, 7, 9–12 | `rob_*.csv`, `rob_numeros_texto.txt` |
+| `run_sections_7_8.py` | Fig. 6, Table 6, Table 7 (Gap 2040), Fig. 7 | `sec7_*.csv`, `sec8_trend_parity.csv` |
+| `run_section_10.py` | Fig. 10, Table 12 (gross columns), uptake numbers in Section 10 | `sec10_policy_uptake.csv`, `sec10_tercis_quota.csv`, `sec10_share_negra_*.csv` |
+| `run_figuras_extras.py` | Fig. 8, modality rows of Table 5, cross-checks | `sec10_modality_*.csv`, `sec6_share_by_course.csv`, `figuras_extras_check.txt` |
+| `run_validacao_trajetoria.py` | Lag choice (Section 9), Section 9.1, Table 11 and the followed-cohort numbers of Section 11 | `val_*.csv`, `val_numeros_texto.txt` |
+| `run_section_9.py` | Fig. 9 and the lagged ratios of Section 9 | `sec9_cohort_completion.csv` |
+| `run_recomposicao.py` | Tables 4 and 5, Figs. 4, 5 and 11, numbers of Section 6 | `rec_*.csv`, `rec_numeros_texto.txt` |
+
+Each script's header lists its inputs and outputs in detail. The
+`*_numeros_texto.txt` files hold the point numbers quoted in the text, as
+printed on screen. Table 5 combines `rec_regioes.csv` and
+`rec_numeros_texto.txt` (`run_recomposicao.py`), `rob_numeros_texto.txt`
+(`run_robustez.py`) and `sec10_modality_share_negra.csv`
+(`run_figuras_extras.py`); Table 7 combines `rob_parity_windows.csv` with the
+Gap 2040 column of `sec8_trend_parity.csv`.
+
+Some outputs are auxiliary and do not appear in the paper:
+`sec10_share_negra_organizacao.csv`, `val_estratos.csv`, `val_contrastes.csv`
+and the figures `sec7_three_indicators_entrants`,
+`sec9_cohort_completion_brazil`, `sec9_disparity_ratio_by_strata`,
+`sec10_share_negra_categoria_adm`, `sec6_share_by_course` and
+`sec10_modality_evolution`.
+
+## Versioned files
+
+- `output/*.csv`, `output/*.txt`: the tables behind the numbers in the paper.
+  They hold aggregates (by year, region, sector, modality, program or cohort),
+  never individual records. With the pinned versions, re-running the scripts
+  reproduces them byte for byte, apart from line endings on Windows. Figures (`analysis/figures/`) are not
+  versioned; the PDFs embed a creation date, so they differ between runs even
+  when the content is identical.
+- `data/checksums_sha256.txt`: SHA-256 of the nineteen INEP files above.
+- `data/mapa_curso_nome.csv`: map from `co_curso` to the most frequent program
+  name in the 2024 microdata, used by `run_figuras_extras.py` to name programs.
+- `data/rq1_valores_lidos_fig4.csv`: approximate values read from Fig. 4 of
+  the conference paper, used by `run_recomposicao.py` to compare its
+  reconstruction with the published series (Section 6).
+
+## Notes
+
+- Shares are computed on two bases: over all students (total basis) and over
+  students with declared color (declared basis). Section 7 of the paper (see
+  also Section 2.3) explains why the declared basis is the main one.
+- The lag `k` of the completion ratios is 2 years for technologist programs
+  and 4 for bachelor programs, set from the completion term recorded in the
+  flow-indicator files (`val_prazo_integralizacao.csv`); `k = 3` for
+  technologist programs is kept as a sensitivity check
+  (`val_contrastes_k_antigo.csv`, `rob_k_sensitivity.csv`).
+- The national and regional benchmarks (2022 Demographic Census, IBGE) are
+  fixed in the code.

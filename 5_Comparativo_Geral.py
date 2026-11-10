@@ -165,7 +165,7 @@ def comparativo_geral_page():
                 total_pretos=(tipos_dados_negros_pardos_opcoes[tipo_dado], 'sum')
             ).reset_index()
 
-            # remover o ano de 2009 da série temporal conforme solicitado
+            # a série temporal começa em 2010, sem a edição de 2009
             temp = temp[temp['nu_ano_censo'] != 2009]
 
             # escolher top courses com base no último ano disponível (mais relevante para participação atual)

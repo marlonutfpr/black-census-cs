@@ -6,7 +6,8 @@ Conteúdo principal
 
 - app.py - ponto de entrada do Streamlit 
 - Páginas: `1_Visao_Geral.py`, `2_Comparativo_por_Curso.py`, `3_Analise_Regional.py`, `4_Analise_Institucional.py`, `5_Comparativo_Geral.py`, `6_Comparativo_Formato.py`, `7_Analise_Geral.py`, `8_Projecao.py`
-- `dados_censo_computacao_consolidado.csv` 
+- `db/` - carga do banco (SQLite e Supabase) e esquema
+- `analysis/` - scripts de análise da versão estendida do artigo
 
 Requisitos
 
@@ -41,11 +42,16 @@ microdados → CSV consolidado → SQLite (`db/etl.py`) → Supabase
 
 Scripts de análise (versão estendida do artigo)
 
-A pasta [`analysis/`](analysis/) contém os scripts que geram as figuras e
-tabelas das Seções 6–10 da versão estendida do artigo (espectro racial,
-tendências e horizonte de paridade, conclusão por coorte e mecanismos de
-ação afirmativa). Eles leem os microdados brutos do INEP (não versionados)
-e gravam em `analysis/output/` e `analysis/figures/`. Instruções de uso em
+A pasta [`analysis/`](analysis/) contém os scripts que geram os resultados
+da versão estendida do artigo: as lições das dezesseis edições do Censo
+(Seção 5.2), as RQ1–RQ4 na base declarada (Seção 6), a definição oficial e a
+cor não declarada (Seção 7), tendências e horizonte de paridade (Seção 8),
+razões de conclusão defasadas e seu teste contra as coortes acompanhadas
+pelo INEP (Seção 9) e ação afirmativa (Seção 10). Eles leem os arquivos
+brutos do INEP (não versionados; os SHA-256 estão em
+`analysis/data/checksums_sha256.txt`) e gravam em `analysis/output/` as
+tabelas por trás dos números do artigo, que ficam versionadas. Instruções,
+ordem de execução e versões das bibliotecas em
 [analysis/README.md](analysis/README.md).
 
 Configuração local:
@@ -56,9 +62,6 @@ cp .streamlit/secrets.toml.example .streamlit/secrets.toml
 # edite secrets.toml com a connection string do Supabase (Session pooler)
 python db/load_supabase.py   # recria schema + carrega dados + materialized view
 ```
-
-Ainda é possível, opcionalmente, subir um CSV consolidado pela barra
-lateral (tem prioridade sobre o banco na sessão).
 
 Executando o dashboard localmente
 
@@ -93,8 +96,26 @@ Observações:
 Observações e convenções
 
 - Seletores de `Ano` e `Tipo de Dado` (Ingressantes / Concluintes / Matriculados) estão na barra lateral.
-- As páginas são importadas dinamicamente; se mover ou renomear arquivos de página, atualize o mapeamento `paginas` em `app.py` ou `code/app.py`.
+- As páginas são importadas dinamicamente; se mover ou renomear arquivos de página, atualize o mapeamento `paginas` em `app.py`.
 - Colunas esperadas no CSV: `nu_ano_censo`, `qt_ing`, `qt_ing_preta`, `qt_conc`, `qt_conc_preta`, `qt_mat`, `qt_mat_preta`, `tp_cor_raca`, entre outras (vários scripts fazem heurísticas para detectar campos similares).
+
+Licença
+
+Código e tabelas derivadas sob a licença MIT (ver [LICENSE](LICENSE)). Os
+microdados e indicadores do INEP não são redistribuídos aqui; a fonte é o
+INEP.
+
+Como citar
+
+A versão estendida que acompanha a pasta `analysis/` ainda não foi
+publicada. Até lá, cite o artigo da conferência:
+
+> F. C. M. Souza, M. Marcon, A. R. Ortoncelli, R. A. Silva e A. C. C. Souza.
+> Racial Inequality in Brazilian Computing Education: An Analysis of Black
+> Students Using Census Data. In: *Proceedings of the 15th International
+> Conference on Data Science, Technology and Applications (DATA 2026)*,
+> SCITEPRESS, pp. 835–846, 2026. DOI
+> [10.5220/0015234500004091](https://doi.org/10.5220/0015234500004091).
 
 Contribuição
 

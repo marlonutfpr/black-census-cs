@@ -1,10 +1,16 @@
 # Dados brutos e consolidados (grandes, derivados — não versionar)
 dados/
 
-# Artefatos gerados pelos scripts de análise (dados, tabelas e figuras)
+# Artefatos gerados pelos scripts de análise. Versionados: o mapa de cursos,
+# os checksums dos arquivos do INEP, os valores lidos da Fig. 4 da versão da
+# conferência e as tabelas de saída (CSV/TXT) que sustentam os números do artigo.
 analysis/data/*
 !analysis/data/mapa_curso_nome.csv
-analysis/output/
+!analysis/data/checksums_sha256.txt
+!analysis/data/rq1_valores_lidos_fig4.csv
+analysis/output/*
+!analysis/output/*.csv
+!analysis/output/*.txt
 analysis/figures/
 
 # Banco SQLite gerado pela ETL

@@ -1,0 +1,29 @@
+======================================================================
+VERIFICACAO CRUZADA - figuras extras
+======================================================================
+
+[3] Regiao Sudeste 2024 (texto: 10,2%) e slope Nordeste (texto: beta=-0,34, p<0,001)
+[4] Slopes por regiao (share preta/declarados entre ingressantes, 2010-2024)
+  North       : share_2024 =  6.86% | slope = -0.019 pp/yr (n.s., p=6.54e-01, R2=0.02)
+  Northeast   : share_2024 =  9.71% | slope = -0.339 pp/yr (significant, p=3.21e-05, R2=0.75)
+  Southeast   : share_2024 = 10.20% | slope = +0.229 pp/yr (significant, p=8.93e-05, R2=0.71)
+  South       : share_2024 =  4.81% | slope = +0.107 pp/yr (significant, p=8.68e-06, R2=0.79)
+  Central-West: share_2024 =  9.92% | slope = +0.003 pp/yr (n.s., p=9.32e-01, R2=0.00)
+
+[1] Share dos ingressantes pretos (2024) em Analysis and Systems Development
+    (versao da conferencia: ~42%)  ->  2024: 44.9% (variantes de nome unificadas)
+    2022: 47.4%
+    2023: 48.3%
+    2024: 44.9%
+    diferenca de 2024 para a referencia da versao da conferencia (~42%): +2.9 p.p.
+
+[2] 2024: privadas com fins lucrativos (texto: 70% de 489 mil) e EaD
+    total ingressantes 2024 = 489,067 (texto: 489 mil)
+    privadas c/ fins lucrativos = 70.3% (texto: 70%)
+    EaD (distance) = 71.7% dos ingressantes 2024
+
+[extra] Modalidade (ingressantes computacao):
+    2010: EaD = 13.6% (16,080 de 118,081) | share negro EaD = 33.0% | On-site = 35.8%
+    2015: EaD = 26.0% (36,782 de 141,260) | share negro EaD = 44.5% | On-site = 41.1%
+    2020: EaD = 56.3% (127,848 de 227,281) | share negro EaD = 44.0% | On-site = 41.0%
+    2024: EaD = 71.7% (350,538 de 489,067) | share negro EaD = 43.5% | On-site = 39.4%

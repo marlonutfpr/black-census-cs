@@ -34,7 +34,7 @@ def comparativo_curso_page():
     df_ano = df[df['nu_ano_censo'] == ano_selecionado].copy()
 
     if not df_ano.empty:
-        # Padronizar nomes de cursos (função do notebook)
+        # Padronizar nomes de cursos
         def standardize_course_name(course_name):
             return str(course_name).upper().strip()
 

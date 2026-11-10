@@ -27,7 +27,7 @@ def comparativo_formato_page():
         'Matriculados': 'qt_mat_preta'
     }
 
-    # Aplicar a classificação de instituição fornecida no exemplo
+    # Categoria administrativa agrupada: pública (1-3) x privada (4-9)
     if 'tp_categoria_administrativa' in df.columns:
         def categorizar_instituicao(codigo):
             if codigo in [1, 2, 3]:

@@ -1,0 +1,13 @@
+contraste,grau,c,razao_a,razao_b,final_a,final_b,ate_k_a,ate_k_b,contraste_razao,contraste_final,contraste_ate_k
+Public/Private,Bachelor,2015,31.444,27.677,29.529,26.617,12.861,19.79,1.136,1.109,0.65
+Public/Private,Bachelor,2016,27.052,31.663,29.119,26.824,12.105,20.601,0.854,1.086,0.588
+Public/Private,Bachelor,2017,23.469,30.962,28.124,26.546,12.084,20.608,0.758,1.059,0.586
+Public/Private,Technologist,2015,30.133,29.862,29.397,29.007,6.644,19.204,1.009,1.013,0.346
+Public/Private,Technologist,2016,31.47,31.261,29.036,28.396,7.326,19.22,1.007,1.023,0.381
+Public/Private,Technologist,2017,29.555,30.168,28.351,28.515,7.967,19.484,0.98,0.994,0.409
+Distance/On-site,Bachelor,2015,23.353,29.132,19.652,28.027,12.846,18.282,0.802,0.701,0.703
+Distance/On-site,Bachelor,2016,41.908,29.498,20.683,28.002,15.14,18.333,1.421,0.739,0.826
+Distance/On-site,Bachelor,2017,26.31,28.877,26.216,27.121,20.781,17.671,0.911,0.967,1.176
+Distance/On-site,Technologist,2015,21.136,35.47,25.006,31.583,14.892,18.122,0.596,0.792,0.822
+Distance/On-site,Technologist,2016,26.246,34.574,24.431,31.159,14.836,18.25,0.759,0.784,0.813
+Distance/On-site,Technologist,2017,25.649,33.685,25.49,30.928,15.867,18.571,0.761,0.824,0.854

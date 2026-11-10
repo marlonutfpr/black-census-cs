@@ -12,8 +12,8 @@ Documentação do pipeline de dados do projeto. As três etapas:
   db/censo.db   (SQLite — modelo relacional normalizado)
 ```
 
-> A análise abaixo da Etapa A foi feita **somente sobre os cabeçalhos** dos
-> microdados (não sobre o conteúdo), conforme solicitado.
+> A análise da Etapa A abaixo foi feita **somente sobre os cabeçalhos** dos
+> microdados (não sobre o conteúdo).
 
 ---
 
@@ -146,8 +146,8 @@ Cada dimensão é derivada por `drop_duplicates()` sobre sua chave:
 - Contagem total e por ano (16 censos, 2009–2024).
 - `PRAGMA foreign_key_check`.
 
-Validação manual feita e aprovada: soma de `qt_ing` por ano via SQL é
-**idêntica** à soma via pandas no CSV original (todos os 16 anos).
+Conferência manual: a soma de `qt_ing` por ano via SQL é **idêntica** à
+soma via pandas no CSV original (todos os 16 anos).
 
 ---
 
@@ -222,10 +222,11 @@ FROM v_censo_consolidado
 GROUP BY nu_ano_censo, no_regiao, no_cine_rotulo;
 ```
 
-### Migração futura do dashboard (fora do escopo desta entrega)
+### Leitura local pelo SQLite
 
-Hoje o dashboard faz `pd.read_csv('dados_censo_computacao_consolidado.csv')`.
-Para usar o banco sem reescrever as análises, basta trocar a leitura por:
+O dashboard publicado lê do PostgreSQL no Supabase (materialized view
+`mv_censo_rollup`, criada por `db/load_supabase.py`; ver o README da raiz).
+Para ler o banco SQLite localmente:
 
 ```python
 import sqlite3, pandas as pd

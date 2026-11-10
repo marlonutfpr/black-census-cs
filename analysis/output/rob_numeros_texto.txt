@@ -1,0 +1,194 @@
+== Esquema dos arquivos ==
+colunas por ano: {2009: 200, 2010: 200, 2011: 200, 2012: 200, 2013: 200, 2014: 200, 2015: 200, 2016: 200, 2017: 200, 2018: 200, 2019: 200, 2020: 200, 2021: 200, 2022: 200, 2023: 202, 2024: 223}
+uniao de colunas: 227
+2019->2020: +1 -1 ordem_mudou=False add=['co_cine_rotulo2'] rem=['co_cine_rotulo']
+2020->2021: +1 -1 ordem_mudou=False add=['co_cine_rotulo'] rem=['co_cine_rotulo2']
+2022->2023: +2 -0 ordem_mudou=True add=['in_comunitaria', 'in_confessional'] rem=[]
+2023->2024: +24 -3 ordem_mudou=False add=['qt_conc_rvidoso', 'qt_conc_rvintern', 'qt_conc_rvmedal', 'qt_conc_rvpovt', 'qt_conc_rvppi', 'qt_conc_rvquilo', 'qt_conc_rvrefu', 'qt_conc_rvtrans', 'qt_ing_rvidoso', 'qt_ing_rvintern', 'qt_ing_rvmedal', 'qt_ing_rvpovt', 'qt_ing_rvppi', 'qt_ing_rvquilo', 'qt_ing_rvrefu', 'qt_ing_rvtrans', 'qt_mat_rvidoso', 'qt_mat_rvintern', 'qt_mat_rvmedal', 'qt_mat_rvpovt', 'qt_mat_rvppi', 'qt_mat_rvquilo', 'qt_mat_rvrefu', 'qt_mat_rvtrans'] rem=['qt_conc_rvetnico', 'qt_ing_rvetnico', 'qt_mat_rvetnico']
+linhas por ano: {2009: 3015, 2010: 3006, 2011: 3458, 2012: 4125, 2013: 4164, 2014: 4606, 2015: 5346, 2016: 5903, 2017: 7597, 2018: 11447, 2019: 17274, 2020: 26529, 2021: 39087, 2022: 55007, 2023: 67325, 2024: 73134} total=331023
+co_municipio nulo: 4947; zero: {2022: 1003}
+duplicatas da chave natural: 0
+maximo de municipios por curso EaD no ano: 1116; por ano: {2009: 328, 2010: 293, 2011: 405, 2012: 373, 2013: 396, 2014: 389, 2015: 387, 2016: 403, 2017: 443, 2018: 604, 2019: 672, 2020: 827, 2021: 857, 2022: 1112, 2023: 1116, 2024: 1109}
+cursos: 5295; em 2+ edicoes: 4828
+nome muda (2+ edicoes): 72.5%; ignorando caixa: 37.8%
+rotulo CINE muda (2+ edicoes): 50.8%
+cursos que mudam de IES: 121
+recodificacao CINE 2009->2010: 0.0% de 1768
+recodificacao CINE 2010->2011: 0.0% de 1924
+recodificacao CINE 2011->2012: 0.0% de 2047
+recodificacao CINE 2012->2013: 0.0% de 2121
+recodificacao CINE 2013->2014: 0.0% de 2168
+recodificacao CINE 2014->2015: 0.0% de 2183
+recodificacao CINE 2015->2016: 0.0% de 2216
+recodificacao CINE 2016->2017: 0.0% de 2193
+recodificacao CINE 2017->2018: 0.0% de 2225
+recodificacao CINE 2018->2019: 0.0% de 2354
+recodificacao CINE 2019->2020: 1.4% de 2491
+recodificacao CINE 2020->2021: 0.0% de 2701
+recodificacao CINE 2021->2022: 0.0% de 2886
+recodificacao CINE 2022->2023: 0.1% de 3183
+recodificacao CINE 2023->2024: 74.9% de 3266
+cursos em 2023 ausentes da area 6 em 2024: 306; ingressantes em 2023: 7415
+dos quais em outra area geral em 2024 (recodificados): 121; ingressantes em 2023: 7323 (1.5% dos ingressantes de 2023)
+nome muda (todos os 5295 cursos): 66.1%; ignorando caixa: 34.5%
+
+== Numeros do texto ==
+qt_ing: 2010=118081 2013=138170 2023=472830 2024=489067
+qt_ing_preta: 2010=2539 2013=4328 2023=34655 2024=35624
+qt_conc_preta: 2010=629 2013=941 2023=4978 2024=6858
+qt_mat_preta: 2010=6130 2013=10151 2023=50760 2024=56596
+qt_ing_cornd: 2010=84657 2013=84342 2023=95174 2024=95338
+qt_ing: branca/declarados 54.9-60.8 (2024 56.0); branca/total max 45.2; nao declarado 2010 71.69 2014 42.95 2024 19.49
+qt_mat: branca/declarados 56.1-62.7 (2024 57.0); branca/total max 47.6; nao declarado 2010 68.20 2014 45.18 2024 16.50
+qt_conc: branca/declarados 58.1-65.9 (2024 58.1); branca/total max 49.4; nao declarado 2010 70.25 2014 51.53 2024 16.22
+preta/total ingressantes: {2010: 2.15, 2011: 2.3, 2012: 2.83, 2013: 3.13, 2014: 5.53, 2015: 5.63, 2016: 6.2, 2017: 6.4, 2018: 6.68, 2019: 6.48, 2020: 6.49, 2021: 6.29, 2022: 6.38, 2023: 7.33, 2024: 7.28}
+preta/declarados ingressantes: {2010: 7.6, 2011: 7.37, 2012: 7.82, 2013: 8.04, 2014: 9.69, 2015: 8.25, 2016: 8.36, 2017: 8.3, 2018: 8.29, 2019: 8.01, 2020: 8.42, 2021: 8.55, 2022: 8.7, 2023: 9.18, 2024: 9.05}
+negra/declarados ingressantes: {2010: 35.55, 2011: 35.68, 2012: 36.08, 2013: 38.39, 2014: 41.61, 2015: 41.89, 2016: 41.86, 2017: 41.99, 2018: 41.85, 2019: 42.37, 2020: 42.68, 2021: 41.72, 2022: 41.71, 2023: 41.53, 2024: 42.25}
+total declarado ingressantes 2010 33424 2024 393729
+2024 lucrativas 70.27; EaD 71.67; lucrativa EaD 58.58; matriculas 49.08
+EaD 2010 13.62
+parcela lucrativa EaD no crescimento 2010-2024: 75.1
+ADS todos: 2024 44.50; acumulado 2010-24 39.52
+ADS preta: 2024 44.95; acumulado 2010-24 41.33
+ADS parda: 2024 44.85; acumulado 2010-24 40.05
+ADS branca: 2024 43.01; acumulado 2010-24 39.80
+tecnologos todos 2024: 68.97
+tecnologos preta 2024: 71.34
+tecnologos parda 2024: 69.98
+tecnologos branca 2024: 66.67
+cursos, % do acumulado 2010-2024 pelo nome registrado:
+                        qt_ing_preta  qt_conc_preta  qt_ing_branca  qt_conc_branca  qt_ing  qt_conc
+curso                                                                                              
+ADS                            41.33          39.91          39.80           37.69   39.52    36.61
+Sistemas de Informacao         11.94          16.81          11.74           16.74   12.87    18.36
+Ciencia da Computacao          11.27          10.13          14.03           13.93   13.31    13.50
+Gestao de TI                   10.39          11.16           9.46           10.58   10.41    10.38
+Redes                           5.97           9.38           3.87            5.59    5.28     7.96
+Eng. Software                   4.33           1.32           5.18            1.58    4.51     1.16
+Eng. Computacao                 0.14           0.15           0.22            0.32    0.22     0.31
+Jogos                           1.10           1.16           1.91            2.15    1.52     1.57
+Seguranca                       1.40           1.43           1.32            1.30    1.21     1.21
+Internet                        2.23           2.43           2.36            2.80    2.35     2.69
+tres maiores (ADS, SI, CC): ingressantes pretos 64.5; concluintes pretos 66.8
+preta/declarados publico x privado: {2010: (10.0, 6.64), 2014: (8.46, 10.06), 2020: (8.45, 8.42), 2021: (8.49, 8.56), 2022: (8.67, 8.7), 2023: (8.23, 9.3), 2024: (8.88, 9.08)}
+negra/declarados publico x privado: {2010: (33.24, 36.47), 2014: (42.64, 41.3), 2020: (42.41, 42.75), 2021: (41.97, 41.67), 2022: (41.03, 41.82), 2023: (41.37, 41.55), 2024: (42.73, 42.17)}
+federal x lucrativa (negra/decl): {2010: (40.54, 41.65), 2011: (41.72, 39.1), 2014: (50.43, 44.43), 2024: (48.91, 44.38)}
+federal lider desde 2011 entre cat 1,2,4,5: True; faixa federal 2014-24 45.8-50.8; lucrativa 2014-24 43.1-45.6
+tp_grau_academico: {1.0: {'linhas': 80048, 'ing': 1178226.0}, 2.0: {'linhas': 2, 'ing': 2.0}, 3.0: {'linhas': 250813, 'ing': 2254539.0}, nan: {'linhas': 160, 'ing': 3382.0}}
+sem grau por ano: {2009: 27, 2010: 26, 2011: 20, 2012: 22, 2013: 20, 2014: 18, 2015: 12, 2016: 7, 2017: 4, 2018: 1, 2019: 1, 2020: 1, 2021: 1}
+
+benchmarks nacionais calculados: preta 10.17 negra 55.51 branca 43.46
+North: lider? preta 2024 6.86, negra 2024 60.12; benchmark regional preta 8.8 negra 76.0
+Northeast: lider? preta 2024 9.71, negra 2024 54.78; benchmark regional preta 13.0 negra 72.6
+Southeast: lider? preta 2024 10.20, negra 2024 40.54; benchmark regional preta 10.6 negra 49.3
+South: lider? preta 2024 4.81, negra 2024 23.74; benchmark regional preta 5.0 negra 26.7
+Central-West: lider? preta 2024 9.92, negra 2024 53.38; benchmark regional preta 9.1 negra 61.6
+lider por ano (preta): {2010: 'Northeast', 2011: 'Northeast', 2012: 'Northeast', 2013: 'Northeast', 2014: 'Northeast', 2015: 'Northeast', 2016: 'Northeast', 2017: 'Northeast', 2018: 'Northeast', 2019: 'Northeast', 2020: 'Northeast', 2021: 'Northeast', 2022: 'Northeast', 2023: 'Southeast', 2024: 'Southeast'}
+ultimo por ano (preta): {'South': 15}
+lider por ano (negra): {2010: 'North', 2011: 'North', 2012: 'North', 2013: 'North', 2014: 'North', 2015: 'North', 2016: 'North', 2017: 'North', 2018: 'North', 2019: 'North', 2020: 'North', 2021: 'North', 2022: 'North', 2023: 'North', 2024: 'North'}
+ultimo por ano (negra): {'South': 15}
+
+== Gradiente de cotas ==
+       bruto                      liquido                     
+grupo      0     T1     T2     T3       0     T1     T2     T3
+ano                                                           
+2010   33.25  38.11  32.84  47.56   33.25  30.38  26.94  38.82
+2011   33.58  35.48  32.81  39.23   33.58  30.12  29.60  29.39
+2012   33.03  36.08  46.03  35.94   33.03  30.89  38.96  29.28
+2013   35.42  40.98  40.54  44.18   35.42  33.48  30.25  30.94
+2014   37.95  42.75  51.57  45.64   37.95  37.26  39.28  29.53
+2015   37.86  44.89  49.11  44.98   37.86  36.93  34.05  27.66
+2016   38.59  45.84  48.94  50.93   38.59  39.41  36.95  33.33
+2017   38.22  41.73  50.13  58.88   38.22  35.66  38.12  44.27
+2018   40.23  47.98  50.31  52.47   40.23  41.62  39.48  38.59
+2019   42.34  42.63  49.27  54.02   42.34  36.33  37.54  38.92
+2020   43.77  43.84  44.72  53.83   43.77  38.05  32.78  37.64
+2021   41.77  44.41  44.90  51.35   41.77  38.00  31.11  34.14
+2022   43.16  41.67  47.10  48.90   43.16  37.19  35.45  31.88
+2023   41.21  42.81  45.68  49.10   41.21  38.71  32.98  33.09
+2024   42.08  41.41  49.14  53.18   42.08  37.67  35.09  35.88
+ordem completa bruta em 7 de 11: [2016, 2017, 2018, 2019, 2020, 2021, 2023]
+T3 liquido acima de sem cota em: [2017] de 11
+testes (spearman bruto, spearman liquido, KW todos, KW tercis):
+      bruto  liquido  ponderado  pct_publica
+ano                                         
+2010  0.143    0.068      0.074        0.392
+2011 -0.024   -0.136      0.520        0.778
+2012  0.032   -0.009      0.001        0.104
+2013  0.039   -0.126      0.000        0.515
+2014  0.013   -0.174      0.000        0.061
+2015  0.003   -0.180      0.000        0.182
+2016  0.074   -0.134      0.000        0.175
+2017  0.278    0.104      0.000        0.000
+2018  0.085   -0.064      0.000        0.248
+2019  0.226    0.058      0.000        0.000
+2020  0.187   -0.013      0.000        0.000
+2021  0.153   -0.071      0.000        0.013
+2022  0.149   -0.109      0.001        0.002
+2023  0.141   -0.093      0.000        0.017
+2024  0.251   -0.026      0.000        0.000
+ofertas 2024: 43961; com cota 532
+
+== Coortes, Brasil 2024 ==
+        grau  k  taxa_todos  taxa_branca  taxa_negra  aj_branca  aj_negra  razao_negra  razao_preta
+Technologist  2       26.57        32.23       29.11      27.82     25.12         0.90         0.89
+Technologist  3       39.42        47.18       43.64      40.79     37.72         0.92         0.93
+Technologist  4       48.37        56.58       49.16      51.48     44.73         0.87         0.91
+    Bachelor  4       34.29        38.40       34.46      35.72     32.06         0.90         0.86
+    Bachelor  5       39.56        44.79       37.59      42.43     35.61         0.84         0.84
+razao negra/branca 2017-2024 (k nominal): 0.794-0.922; por ano {('Bachelor', 2017): 0.887, ('Bachelor', 2018): 0.822, ('Bachelor', 2019): 0.805, ('Bachelor', 2020): 0.856, ('Bachelor', 2021): 0.794, ('Bachelor', 2022): 0.836, ('Bachelor', 2023): 0.837, ('Bachelor', 2024): 0.897, ('Technologist', 2017): 0.855, ('Technologist', 2018): 0.853, ('Technologist', 2019): 0.87, ('Technologist', 2020): 0.897, ('Technologist', 2021): 0.9, ('Technologist', 2022): 0.87, ('Technologist', 2023): 0.922, ('Technologist', 2024): 0.903}
+razao preta/branca 2017-2024 (k nominal): 0.712-0.938
+Public razao negra: {('Bachelor', 2017): 0.75, ('Bachelor', 2018): 0.644, ('Bachelor', 2019): 0.716, ('Bachelor', 2020): 0.762, ('Bachelor', 2021): 0.698, ('Bachelor', 2022): 0.766, ('Bachelor', 2023): 0.855, ('Bachelor', 2024): 0.918, ('Technologist', 2017): 0.701, ('Technologist', 2018): 0.74, ('Technologist', 2019): 0.774, ('Technologist', 2020): 0.75, ('Technologist', 2021): 0.727, ('Technologist', 2022): 0.761, ('Technologist', 2023): 0.795, ('Technologist', 2024): 0.821}
+Public razao preta: {('Bachelor', 2017): 0.638, ('Bachelor', 2018): 0.814, ('Bachelor', 2019): 0.554, ('Bachelor', 2020): 0.613, ('Bachelor', 2021): 0.554, ('Bachelor', 2022): 0.648, ('Bachelor', 2023): 0.752, ('Bachelor', 2024): 0.777, ('Technologist', 2017): 0.711, ('Technologist', 2018): 0.784, ('Technologist', 2019): 0.797, ('Technologist', 2020): 0.664, ('Technologist', 2021): 0.723, ('Technologist', 2022): 0.665, ('Technologist', 2023): 0.675, ('Technologist', 2024): 0.721}
+Private razao negra: {('Bachelor', 2017): 0.953, ('Bachelor', 2018): 0.906, ('Bachelor', 2019): 0.846, ('Bachelor', 2020): 0.918, ('Bachelor', 2021): 0.874, ('Bachelor', 2022): 0.878, ('Bachelor', 2023): 0.828, ('Bachelor', 2024): 0.882, ('Technologist', 2017): 0.899, ('Technologist', 2018): 0.883, ('Technologist', 2019): 0.893, ('Technologist', 2020): 0.922, ('Technologist', 2021): 0.93, ('Technologist', 2022): 0.888, ('Technologist', 2023): 0.94, ('Technologist', 2024): 0.912}
+Private razao preta: {('Bachelor', 2017): 1.068, ('Bachelor', 2018): 0.8, ('Bachelor', 2019): 0.876, ('Bachelor', 2020): 0.897, ('Bachelor', 2021): 0.848, ('Bachelor', 2022): 0.911, ('Bachelor', 2023): 0.862, ('Bachelor', 2024): 0.908, ('Technologist', 2017): 1.007, ('Technologist', 2018): 0.891, ('Technologist', 2019): 0.884, ('Technologist', 2020): 0.872, ('Technologist', 2021): 0.885, ('Technologist', 2022): 0.832, ('Technologist', 2023): 0.876, ('Technologist', 2024): 0.907}
+For-profit razao negra: {('Bachelor', 2017): 0.988, ('Bachelor', 2018): 0.971, ('Bachelor', 2019): 0.847, ('Bachelor', 2020): 0.897, ('Bachelor', 2021): 0.851, ('Bachelor', 2022): 0.885, ('Bachelor', 2023): 0.825, ('Bachelor', 2024): 0.876, ('Technologist', 2017): 0.972, ('Technologist', 2018): 0.909, ('Technologist', 2019): 0.936, ('Technologist', 2020): 0.892, ('Technologist', 2021): 0.922, ('Technologist', 2022): 0.855, ('Technologist', 2023): 0.907, ('Technologist', 2024): 0.89}
+For-profit razao preta: {('Bachelor', 2017): 1.107, ('Bachelor', 2018): 0.845, ('Bachelor', 2019): 0.872, ('Bachelor', 2020): 0.859, ('Bachelor', 2021): 0.88, ('Bachelor', 2022): 0.928, ('Bachelor', 2023): 0.834, ('Bachelor', 2024): 0.929, ('Technologist', 2017): 1.054, ('Technologist', 2018): 0.842, ('Technologist', 2019): 0.845, ('Technologist', 2020): 0.837, ('Technologist', 2021): 0.894, ('Technologist', 2022): 0.803, ('Technologist', 2023): 0.844, ('Technologist', 2024): 0.877}
+For-profit distance razao negra: {('Bachelor', 2017): 0.862, ('Bachelor', 2018): 0.731, ('Bachelor', 2019): 0.851, ('Bachelor', 2020): 0.826, ('Bachelor', 2021): 0.75, ('Bachelor', 2022): 0.864, ('Bachelor', 2023): 0.825, ('Bachelor', 2024): 0.852, ('Technologist', 2017): 0.889, ('Technologist', 2018): 0.897, ('Technologist', 2019): 0.93, ('Technologist', 2020): 0.857, ('Technologist', 2021): 0.921, ('Technologist', 2022): 0.847, ('Technologist', 2023): 0.922, ('Technologist', 2024): 0.908}
+For-profit distance razao preta: {('Bachelor', 2017): 1.943, ('Bachelor', 2018): 0.452, ('Bachelor', 2019): 1.055, ('Bachelor', 2020): 0.884, ('Bachelor', 2021): 0.785, ('Bachelor', 2022): 0.822, ('Bachelor', 2023): 0.865, ('Bachelor', 2024): 0.919, ('Technologist', 2017): 1.095, ('Technologist', 2018): 0.791, ('Technologist', 2019): 0.828, ('Technologist', 2020): 0.787, ('Technologist', 2021): 0.891, ('Technologist', 2022): 0.796, ('Technologist', 2023): 0.859, ('Technologist', 2024): 0.908}
+
+== Acesso com comparador comum ==
+ ano  negra_decl  branca_decl  negra_sobre_populacao  negra_rel_branca
+2014      41.607       55.260                  0.749             0.589
+2017      41.992       54.941                  0.756             0.598
+2020      42.680       55.199                  0.769             0.605
+2024      42.249       55.962                  0.761             0.591
+
+== Robustez a nao declaracao ==
+ ano  pct_ing_na_amostra  preta_le10  negra_le10  preta_lim_inf  preta_lim_sup  negra_lim_inf  negra_lim_sup
+2010                8.12        7.67       31.84           2.15          73.84          10.06          81.76
+2014               24.98        6.75       40.85           5.53          48.48          23.74          66.69
+2019               52.54        7.41       41.33           6.48          25.51          34.31          53.34
+2024               49.37        8.05       39.20           7.28          26.78          34.01          53.51
+modalidade 1 2018, nao declaracao <=10%: negro 39.84
+modalidade 2 2018, nao declaracao <=10%: negro 39.92
+modalidade 1 2019, nao declaracao <=10%: negro 41.24
+modalidade 2 2019, nao declaracao <=10%: negro 41.48
+modalidade 1 2021, nao declaracao <=10%: negro 39.86
+modalidade 2 2021, nao declaracao <=10%: negro 37.78
+modalidade 1 2024, nao declaracao <=10%: negro 37.57
+modalidade 2 2024, nao declaracao <=10%: negro 40.11
+lucrativa 2024, nao declaracao <=10%: negro 40.70
+
+== Publico x privado, nao declaracao <=10% ==
+ ano   setor  negra_le10  preta_le10
+2019 privado       40.12        7.07
+2019 publico       44.62        8.32
+2020 privado       39.98        7.68
+2020 publico       42.45        8.21
+2021 privado       37.46        7.53
+2021 publico       41.89        8.45
+2022 privado       39.29        8.23
+2022 publico       41.06        8.61
+2023 privado       38.32        8.18
+2023 publico       41.32        8.08
+2024 privado       38.42        7.84
+2024 publico       41.97        8.79
+lucrativa EaD 2022: 60.0% ing, 46.5% mat; prouni 1.43% do segmento
+lucrativa EaD 2023: 60.4% ing, 48.9% mat; prouni 2.22% do segmento
+lucrativa EaD 2024: 58.6% ing, 49.1% mat; prouni 2.17% do segmento
+nao declarado ingressantes: {2010: 71.7, 2011: 68.8, 2012: 63.8, 2013: 61.0, 2014: 43.0, 2015: 31.8, 2016: 25.9, 2017: 23.0, 2018: 19.4, 2019: 19.0, 2020: 23.0, 2021: 26.4, 2022: 26.7, 2023: 20.1, 2024: 19.5}
+decomposicao log da alta preta/total 2010-2024: cobertura 85.7%
+crescimento ingressantes 2015-2024: 3.46x (141260 a 489067)
+
+apoio social/ingressantes 2024 por categoria: {1: 14.4, 2: 2.97, 3: 0.0, 4: 1.55, 5: 5.14, 7: 0.69}

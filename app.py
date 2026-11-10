@@ -1,5 +1,6 @@
 
 import os
+import sys
 
 import streamlit as st
 import pandas as pd
@@ -120,10 +121,16 @@ def load_data():
                 df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
         return df
     except Exception as e:
-        st.error(f"Não foi possível ler do Supabase: {e}")
-        return pd.DataFrame()
+        # O texto da exceção do driver pode trazer host e usuário do banco: vai só para o log do servidor.
+        print(f"Falha ao ler do Supabase: {type(e).__name__}: {e}", file=sys.stderr, flush=True)
+        raise RuntimeError("falha ao ler do Supabase") from None
 
-df = load_data()
+try:
+    df = load_data()
+except RuntimeError:
+    # Fora do cache: o Streamlit não guarda chamadas que levantam exceção, então a próxima sessão tenta de novo.
+    st.error("Não foi possível ler os dados do banco no momento. Tente novamente mais tarde.")
+    df = pd.DataFrame()
 
 if not df.empty:
     st.sidebar.header(i18n.t("nav_global_filters"))
@@ -196,6 +203,6 @@ else:
     import importlib as _il
     _home = _il.import_module("0_Home")
     _home.home_page()
-    st.warning("Não foi possível carregar os dados. Verifique a conexão com o Supabase ou carregue um arquivo CSV.")
+    st.warning("Não foi possível carregar os dados. Verifique a conexão com o Supabase.")
 
 
