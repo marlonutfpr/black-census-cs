@@ -1,8 +1,8 @@
 # Robustez e numeros pontuais do artigo estendido: contagens das licoes de ETL (Secao 5.2), numeros do texto
-# das Secoes 4.4, 6 (RQ1-RQ4), 7, 10, 11 e 12, robustez das tendencias e IC de Fieller do ano de paridade
+# das Secoes 4.4, 6.1 (RQ1-RQ4), 6.2, 6.4, 6.5, 7 e 8, robustez das tendencias e IC de Fieller do ano de paridade
 # (Tabelas 7 e 8), tabela regional com benchmarks do Censo 2022 (Tabela 9), sensibilidade a k e a cobertura de
 # cor (Tabela 10), gradiente de cotas bruto e liquido (Tabela 12), comparacao acesso x conclusao e limites da
-# nao declaracao (Secoes 7 e 11). rob_cursos_acumulado.csv alimenta a Figura 5, desenhada por
+# nao declaracao (Secoes 6.2 e 7). rob_cursos_acumulado.csv alimenta a Figura 5, desenhada por
 # run_recomposicao.py, que deve rodar depois deste script.
 # Le os zips brutos do INEP, com alinhamento por nome de coluna, sem depender do pkl de build_dataset.py
 # (nao usa CENSO_PKL). Os benchmarks do IBGE (Censo 2022) estao fixos no codigo.
@@ -184,7 +184,7 @@ c23 = set(cur[cur.ano == 2023].co_curso)
 c24 = set(cur[cur.ano == 2024].co_curso)
 sai = c23 - c24
 nota(f"cursos em 2023 ausentes da area 6 em 2024: {len(sai)}; ingressantes em 2023: {int(df[(df.ano == 2023) & df.co_curso.isin(sai)].qt_ing.sum())}")
-# Dos que saem, os que continuam no arquivo de 2024 em outra area geral: recodificados, nao encerrados (Secoes 5.2 e 12)
+# Dos que saem, os que continuam no arquivo de 2024 em outra area geral: recodificados, nao encerrados (Secoes 5.2 e 8)
 with zipfile.ZipFile(ZIP_DIR / "micro_2024.zip") as zf:
     nome24 = [n for n in zf.namelist() if n.upper().endswith("MICRODADOS_CADASTRO_CURSOS_2024.CSV")][0]
     with zf.open(nome24) as f:
@@ -199,7 +199,7 @@ nota(f"dos quais em outra area geral em 2024 (recodificados): {len(recod)}; ingr
 nota(f"nome muda (todos os {n_cursos} cursos): {100 * (nomes > 1).mean():.1f}%; ignorando caixa: {100 * (nomes_ci > 1).mean():.1f}%")
 
 # ------------------------------------------------------------------
-# Numeros pontuais do texto (Secoes 6, 10, 11 e 12; distribuicao por curso tambem na Figura 5)
+# Numeros pontuais do texto (Secoes 6.1, 6.5, 7 e 8; distribuicao por curso tambem na Figura 5)
 # ------------------------------------------------------------------
 nac = df.groupby("ano")[med].sum(min_count=1)
 nota("\n== Numeros do texto ==")
@@ -284,7 +284,7 @@ for base, nome in (("qt_ing", "Entrants"), ("qt_mat", "Enrolled"), ("qt_conc", "
 pd.DataFrame(linhas_t).round(4).to_csv(OUT / "rob_parity_windows.csv", index=False)
 
 # ------------------------------------------------------------------
-# Tabela regional nas duas definicoes, com benchmark da propria regiao (Tabela 9; lider por ano na Secao 6, RQ3)
+# Tabela regional nas duas definicoes, com benchmark da propria regiao (Tabela 9; lider por ano na Secao 6.1, RQ3)
 # ------------------------------------------------------------------
 reg = df.groupby(["ano", "co_regiao"])[med].sum(min_count=1)
 linhas_r = []
@@ -307,7 +307,7 @@ for grupo in ("preta", "negra"):
     nota(f"ultimo por ano ({grupo}): {m.idxmin(axis=1).value_counts().to_dict()}")
 
 # ------------------------------------------------------------------
-# Gradiente de cotas bruto e liquido (Tabela 12 e Secao 10)
+# Gradiente de cotas bruto e liquido (Tabela 12 e Secao 6.5)
 # ------------------------------------------------------------------
 d = df[df.ano.isin(WIN) & (df.qt_ing > 0)].copy()
 d["decl"] = d.qt_ing - d.qt_ing_cornd
@@ -353,7 +353,7 @@ c24 = d[(d.ano == 2024)]
 nota(f"ofertas 2024: {len(c24)}; com cota {int((c24.iq > 0).sum())}")
 
 # ------------------------------------------------------------------
-# Coortes, sensibilidade a k e vies de cobertura (Tabela 10 e Secao 9)
+# Coortes, sensibilidade a k e vies de cobertura (Tabela 10 e Secao 6.4)
 # ------------------------------------------------------------------
 linhas_k = []
 for rotulo, sub in (("Brazil", df), ("Public", df[df.tp_categoria_administrativa.isin([1, 2, 3])]),
@@ -390,7 +390,7 @@ for rec in ("Public", "Private", "For-profit", "For-profit distance"):
     nota(f"{rec} razao preta: {z.groupby(['grau', 'ano']).razao_preta.first().round(3).to_dict()}")
 
 # ------------------------------------------------------------------
-# Acesso x conclusao com o mesmo comparador, negros relativos a brancos (Secoes 7 e 11)
+# Acesso x conclusao com o mesmo comparador, negros relativos a brancos (Secoes 6.2 e 7)
 # ------------------------------------------------------------------
 tot, bra, pre, par = IBGE["Brazil"]
 linhas_a = []
@@ -405,7 +405,7 @@ aa.round(3).to_csv(OUT / "rob_access_vs_completion.csv", index=False)
 nota("\n== Acesso com comparador comum ==\n" + aa[aa.ano.isin([2014, 2017, 2020, 2024])].round(3).to_string(index=False))
 
 # ------------------------------------------------------------------
-# Robustez a nao declaracao (Secao 7)
+# Robustez a nao declaracao (Secao 6.2)
 # ------------------------------------------------------------------
 linhas_u = []
 b2 = df[(df.qt_ing > 0)].copy()
@@ -423,7 +423,7 @@ uu = pd.DataFrame(linhas_u)
 uu.round(2).to_csv(OUT / "rob_undeclared.csv", index=False)
 nota("\n== Robustez a nao declaracao ==\n" + uu.round(2).to_string(index=False))
 
-# Publico x privado nas ofertas de alta cobertura de cor (Secao 6, RQ4); modalidade e lucrativa (Secao 10)
+# Publico x privado nas ofertas de alta cobertura de cor (Secao 6.1, RQ4); modalidade e lucrativa (Secao 6.5)
 b2["pub"] = b2.tp_categoria_administrativa.isin([1, 2, 3])
 linhas_c = []
 for ano in range(2019, 2025):
@@ -441,7 +441,7 @@ cc = pd.DataFrame(linhas_c).round(2)
 cc.to_csv(OUT / "rob_public_private_le10.csv", index=False)
 nota("\n== Publico x privado, nao declaracao <=10% ==\n" + cc.to_string(index=False))
 
-# Segmento lucrativo EaD (Secoes 10 e 11); serie de nao declaracao e decomposicao log (Secao 7); crescimento (Secao 10)
+# Segmento lucrativo EaD (Secoes 6.5 e 7); serie de nao declaracao e decomposicao log (Secao 6.2); crescimento (Secao 6.5)
 for ano in (2022, 2023, 2024):
     a = df[df.ano == ano]
     s = a[(a.tp_categoria_administrativa == 4) & (a.tp_modalidade_ensino == 2)]
@@ -455,7 +455,7 @@ tq = nac.qt_ing
 nota(f"crescimento ingressantes 2015-2024: {tq.loc[2024] / tq.loc[2015]:.2f}x ({int(tq.loc[2015])} a {int(tq.loc[2024])})")
 
 # ------------------------------------------------------------------
-# Apoio social como proxy declarada (Secao 11)
+# Apoio social como proxy declarada (Secao 7)
 # ------------------------------------------------------------------
 ap = d24.groupby("tp_categoria_administrativa")[["qt_ing_apoio_social", "qt_ing"]].sum()
 nota(f"\napoio social/ingressantes 2024 por categoria: {(100 * ap.qt_ing_apoio_social / ap.qt_ing).round(2).to_dict()}")

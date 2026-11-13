@@ -1,12 +1,13 @@
-# Secao 10 do artigo estendido (RQ8): mecanismos de acao afirmativa (analise ecologica) +
-# desagregacao institucional.
+# Secao 6.5 do artigo estendido (RQ8): mecanismos de acao afirmativa (analise ecologica) +
+# desagregacao institucional. O nome do arquivo, o prefixo sec10_ das saidas e os rotulos 10.1-10.3 das etapas
+# abaixo seguem uma numeracao anterior das secoes (as etapas nao sao subsecoes do artigo).
 #  10.1 uptake das politicas entre ingressantes (serie nacional: reserva de vagas, cota etnico-racial, PROUNI,
 #       FIES, escola publica); a cota etnico-racial soma RVETNICO (ate 2023) e RVPPI + RVQUILO (2024).
 #  10.2 intensidade de reserva de vagas x share negra (preta+parda, declarados) no nivel oferta-ano: ofertas
 #       sem ingressantes via cota + tercis de intensidade entre as demais; Kruskal-Wallis por ano.
 #  10.3 share negra (declarados) por categoria administrativa (codigos 1-9 do INEP) e por organizacao academica.
 # No artigo: Fig. 10 (fig:uptake), paineis (a) sec10_policy_uptake e (b) sec10_quota_terciles; colunas brutas
-# ("Gross") da Tabela 12 (tab:quota) e numeros do texto da Secao 10. As colunas liquidas ("Net") da Tabela 12
+# ("Gross") da Tabela 12 (tab:quota) e numeros do texto da Secao 6.5. As colunas liquidas ("Net") da Tabela 12
 # vem de run_robustez.py. O painel (b) da Fig. 11 (fig:modality) e desenhado por run_recomposicao.py a partir
 # de sec10_share_negra_categoria_adm.csv; por isso este script deve rodar antes de run_recomposicao.py.
 # Uso: python analysis/run_section_10.py   (sem argumentos)

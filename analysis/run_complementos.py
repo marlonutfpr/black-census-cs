@@ -6,15 +6,15 @@
 # Sustenta no manuscrito:
 #  - Secao 4.3: categoria 7 (peso em 2012-2014, rede marcada no arquivo, variacao das parcelas ao move-la para o
 #    publico em 2012-2014 e desde 2015) e ausencia de licenciaturas na area geral CINE 6 em 2010-2024;
-#  - Secao 6, RQ2: parcela dos ingressantes pretos e brancos em cursos tecnologos e diferenca por ano;
-#  - Secao 6, RQ4: lider publico x privado por ano nas bases total e declarada, com a categoria 7 dos dois lados,
+#  - Secao 6.1, RQ2: parcela dos ingressantes pretos e brancos em cursos tecnologos e diferenca por ano;
+#  - Secao 6.1, RQ4: lider publico x privado por ano nas bases total e declarada, com a categoria 7 dos dois lados,
 #    e decomposicao da vantagem publica de 2010 (base total) em nao declaracao e composicao, em log (como na
 #    Secao 4.4) e nas formas aditivas;
-#  - Secao 7: decomposicao log 2010-2024 e 2010-2014, representacao de negros e brancos relativa ao Censo 2022
+#  - Secao 6.2: decomposicao log 2010-2024 e 2010-2014, representacao de negros e brancos relativa ao Censo 2022
 #    e limites das parcelas de 2024 sob a nao declaracao;
-#  - Secao 10: p-valores de Kruskal-Wallis (todos os grupos, so tercis, sem cota x com cota), empates de
+#  - Secao 6.5: p-valores de Kruskal-Wallis (todos os grupos, so tercis, sem cota x com cota), empates de
 #    intensidade nos cortes dos tercis e ingressantes de 2024 por categoria administrativa;
-#  - Secao 11: limites da razao de representacao negro/branco de 2024 sob a nao declaracao.
+#  - Secao 7: limites da razao de representacao negro/branco de 2024 sob a nao declaracao.
 # Mesmas definicoes de run_robustez.py e run_recomposicao.py: publico = categorias 1-3 e privado = as demais
 # (inclusive a 7 e as ofertas sem categoria); base total divide por qt_ing, base declarada por qt_ing - qt_ing_cornd;
 # negro = preta + parda; benchmarks exatos do Censo 2022 (IBGE) fixos no codigo; grupos de cota como na Tabela 12
@@ -261,9 +261,9 @@ for c in ("linhas_licenciatura", "ing_licenciatura", "linhas_sem_grau", "ing_sem
 S["pct_ing_sem_grau"] = pct_sg
 
 # ======================================================================================================
-# Secao 6, RQ2: tecnologos por cor
+# Secao 6.1, RQ2: tecnologos por cor
 # ======================================================================================================
-nota("\n== Secao 6, RQ2: ingressantes de cada grupo em cursos tecnologos (% do grupo no ano) ==")
+nota("\n== Secao 6.1, RQ2: ingressantes de cada grupo em cursos tecnologos (% do grupo no ano) ==")
 BG = {"todos": "qt_ing", "preta": "qt_ing_preta", "parda": "qt_ing_parda", "branca": "qt_ing_branca"}
 tot_g = df.groupby("ano")[list(BG.values())].sum()
 tec_g = df[df.tp_grau_academico == 3].groupby("ano")[list(BG.values())].sum()
@@ -292,9 +292,9 @@ S["tec_dif_preta_branca"] = tt.dif_preta_branca
 S["tec_dif_preta_branca_grau_informado"] = tt.dif_preta_branca_grau_informado
 
 # ======================================================================================================
-# Secao 6, RQ4: publico x privado por ano
+# Secao 6.1, RQ4: publico x privado por ano
 # ======================================================================================================
-nota("\n== Secao 6, RQ4: publico x privado por ano (oficial: categoria 7 privada; c7pub: categoria 7 publica) ==")
+nota("\n== Secao 6.1, RQ4: publico x privado por ano (oficial: categoria 7 privada; c7pub: categoria 7 publica) ==")
 gs = w.assign(pub=w.tp_categoria_administrativa.isin([1, 2, 3])).groupby(["ano", "pub"])[CI].sum()
 und = (100 * gs.qt_ing_cornd / gs.qt_ing).unstack("pub")
 S["nao_declarado_pub"] = und[True]
@@ -340,9 +340,9 @@ for rot, s, col in (("oficial", of, "negro_decl_vantagem_privada"), ("c7pub", al
          f"por 1 p.p. ou mais: {[a for a in WIN if v_[a] >= 1]}")
 
 # ======================================================================================================
-# Secao 7: decomposicao log e representacao relativa a populacao
+# Secao 6.2: decomposicao log e representacao relativa a populacao
 # ======================================================================================================
-nota("\n== Secao 7: decomposicao log da alta preta/total ==")
+nota("\n== Secao 6.2: decomposicao log da alta preta/total ==")
 CN = [f"qt_ing{s}" for s in ("", "_preta", "_parda", "_branca", "_cornd")]
 nac = df.groupby("ano")[CN].sum()
 pt = 100 * nac.qt_ing_preta / nac.qt_ing
@@ -359,7 +359,7 @@ S["nac_preta_decl"] = pdcl
 S["nac_nao_declarado"] = 100 * nac.qt_ing_cornd / nac.qt_ing
 S["decomp_log_nao_declaracao_desde_2010"] = pd.Series({b: 100 * (1 - np.log(pdcl[b] / pdcl[2010]) / np.log(pt[b] / pt[2010])) for b in WIN if b != 2010})
 
-nota("\n== Secao 7: representacao relativa ao Censo 2022 e limites sob a nao declaracao ==")
+nota("\n== Secao 6.2: representacao relativa ao Censo 2022 e limites sob a nao declaracao ==")
 neg, bran = share(nac, "qt_ing", "negra"), share(nac, "qt_ing", "branca")
 nota(f"benchmarks: negra {POP_NEGRA:.2f}% branca {POP_BRANCA:.2f}%")
 nota(f"2024: negra/declarados {neg[2024]:.2f}%, sobre a populacao {neg[2024] / POP_NEGRA:.3f}; branca/declarados {bran[2024]:.2f}%, "
@@ -383,9 +383,9 @@ for c_ in lim.columns:
     S[c_] = lim[c_]
 
 # ======================================================================================================
-# Secao 10: Kruskal-Wallis entre grupos de intensidade de cota e empates nos cortes dos tercis
+# Secao 6.5: Kruskal-Wallis entre grupos de intensidade de cota e empates nos cortes dos tercis
 # ======================================================================================================
-nota("\n== Secao 10: Kruskal-Wallis por grupos de intensidade de cota e empates nos cortes dos tercis ==")
+nota("\n== Secao 6.5: Kruskal-Wallis por grupos de intensidade de cota e empates nos cortes dos tercis ==")
 # Mesma selecao e mesmas variaveis do bloco de cotas de run_robustez.py
 d = w[w.qt_ing > 0].copy()
 for c_ in ("qt_ing", "qt_ing_cornd", "qt_ing_preta", "qt_ing_parda", "qt_ing_reserva_vaga"):
@@ -522,9 +522,9 @@ for c_, nome in COLS_KW.items():
     S[nome] = t[c_]
 
 # ======================================================================================================
-# Secao 10: ingressantes de 2024 por categoria administrativa
+# Secao 6.5: ingressantes de 2024 por categoria administrativa
 # ======================================================================================================
-nota("\n== Secao 10: ingressantes de 2024 por categoria administrativa ==")
+nota("\n== Secao 6.5: ingressantes de 2024 por categoria administrativa ==")
 d24 = df[df.ano == 2024]
 t24 = d24.qt_ing.sum()
 cat = d24.groupby("tp_categoria_administrativa", dropna=False).agg(linhas=("qt_ing", "size"), ing=("qt_ing", "sum"))
@@ -544,9 +544,9 @@ for c_ in cy.columns:
 S["pct_ing_publica_1a3"] = 100 * w[w.tp_categoria_administrativa.isin([1, 2, 3])].groupby("ano").qt_ing.sum() / tot
 
 # ======================================================================================================
-# Secao 11: limites da razao negro/branco sob a nao declaracao
+# Secao 7: limites da razao negro/branco sob a nao declaracao
 # ======================================================================================================
-nota("\n== Secao 11: limites da razao de representacao negro/branco, 2024 ==")
+nota("\n== Secao 7: limites da razao de representacao negro/branco, 2024 ==")
 casos = {
     "negra sem nao declarados, branca com todos (minimo)": (l24.negro_lim_inf, l24.branca_lim_sup),
     "negra com todos, branca sem nao declarados (maximo)": (l24.negro_lim_sup, l24.branca_lim_inf),

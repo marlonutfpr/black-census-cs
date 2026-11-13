@@ -1,12 +1,13 @@
-# Secoes 7 (RQ5) e 8 (RQ6) do manuscrito estendido:
-#  - Secao 7: espectro racial completo + efeito da nao-declaracao de cor
-#  - Secao 8: regressao de tendencia (MQO) + horizonte de paridade
+# Secoes 6.2 (RQ5) e 6.3 (RQ6) do manuscrito estendido (o nome do arquivo e os prefixos sec7_/sec8_ das saidas
+# seguem uma numeracao anterior das secoes):
+#  - Secao 6.2: espectro racial completo + efeito da nao-declaracao de cor
+#  - Secao 6.3: regressao de tendencia (MQO) + horizonte de paridade
 # Janela de analise principal: 2010-2024 (compativel com a versao da conferencia, DATA 2026);
-# 2009 aparece nas tabelas da Secao 7 para referencia.
+# 2009 aparece nas tabelas da Secao 6.2 para referencia.
 #
 # Sustenta no manuscrito:
 #  - Figura 6: (a) composicao racial dos matriculados e (b) cor nao declarada por etapa;
-#  - Tabela 6 (tres indicadores entre ingressantes) e os numeros de nao-declaracao do texto da Secao 7;
+#  - Tabela 6 (tres indicadores entre ingressantes) e os numeros de nao-declaracao do texto da Secao 6.2;
 #  - Tabela 7: beta, R2, p, participacao em 2024 e gap em 2040 (linhas "Brasil" de sec8_trend_parity.csv).
 #    O ano de paridade com IC de Fieller e o DW da Tabela 7, e as janelas da Tabela 8, vem de rob_parity_windows.csv
 #    (run_robustez.py); a coluna parity_year daqui arredonda para cima e pode ficar um ano acima do texto;
@@ -53,7 +54,7 @@ def agrega(d, base):
 
 # ============================================================
 # COMPARACAO com os numeros citados na versao da conferencia (RQ1 e RQ2), apenas no terminal.
-# A reconstrucao da serie publicada da RQ1 (Secao 6) fica em run_recomposicao.py.
+# A reconstrucao da serie publicada da RQ1 (Secao 6.1) fica em run_recomposicao.py.
 # ============================================================
 mat = agrega(df, "mat")
 ing = agrega(df, "ing")
@@ -72,7 +73,7 @@ print(f"RQ2 absolutos concluintes pretos: versao da conferencia cita <500 (2010)
 print(f"  2010: {int(conc.loc[2010,'preta']):,} | 2023: {int(conc.loc[2023,'preta']):,}")
 
 # ============================================================
-# SECAO 7 - espectro racial completo + nao-declaracao
+# SECAO 6.2 - espectro racial completo + nao-declaracao
 # ============================================================
 def indicadores(g):
     out = pd.DataFrame(index=g.index)
@@ -91,7 +92,7 @@ inds = {b: indicadores(agrega(df, b)) for b in SERIES}
 tab = inds["ing"][["share_preta_bruto", "share_preta_declarado",
                    "share_negra_declarado", "taxa_nao_declarada"]].round(2)
 tab.to_csv(OUT / "sec7_indicadores_ingressantes.csv")
-print("\n== SECAO 7: indicadores (ingressantes) ==")
+print("\n== SECAO 6.2: indicadores (ingressantes) ==")
 print(tab.to_string())
 
 # composicao racial (matriculados) para area empilhada
@@ -103,7 +104,7 @@ print("\nTaxa de nao-declaracao (matriculados), min/max:")
 tnd = inds["mat"]["taxa_nao_declarada"]
 print(f"  min {tnd.min():.2f}% ({tnd.idxmin()}) | max {tnd.max():.2f}% ({tnd.idxmax()})")
 
-# ---- figuras Secao 7 ----
+# ---- figuras Secao 6.2 ----
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -156,7 +157,7 @@ fig.savefig(FIG / "sec7_three_indicators_entrants.png", dpi=200)
 plt.close(fig)
 
 # ============================================================
-# SECAO 8 - tendencia + horizonte de paridade
+# SECAO 6.3 - tendencia + horizonte de paridade
 # ============================================================
 def serie_regiao(d, base, definicao, regiao=None):
     dd = d if regiao is None else d[d["co_regiao"] == regiao]
@@ -194,7 +195,7 @@ for b, nome in SERIES.items():
             })
 trend = pd.DataFrame(rows)
 trend.to_csv(OUT / "sec8_trend_parity.csv", index=False)
-print("\n== SECAO 8: tendencia e paridade (Brasil) ==")
+print("\n== SECAO 6.3: tendencia e paridade (Brasil) ==")
 print(trend[trend["region"] == "Brasil"].to_string(index=False))
 
 # figura: Brasil, entrants, duas definicoes, com projecao ate 2040

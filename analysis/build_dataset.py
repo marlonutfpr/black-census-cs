@@ -4,7 +4,8 @@
 # edicao fica NA nas medidas de politica e nos codigos; nas contagens por etapa e cor, NA vira zero.
 # A base resultante (331.023 ofertas de curso, 2009-2024; Secao 5.1 do artigo estendido) e lida por
 # run_sections_7_8.py, run_section_9.py, run_section_10.py, run_figuras_extras.py, run_recomposicao.py e
-# run_validacao_trajetoria.py (Secoes 6 a 11). run_robustez.py le os zips diretamente.
+# run_validacao_trajetoria.py (Secoes 6.1 a 7; os nomes run_section(s)_* seguem uma numeracao anterior das
+# secoes). run_robustez.py le os zips diretamente.
 # Uso: python analysis/build_dataset.py [pasta dos zips] [arquivo pkl de saida]
 # Entradas: micro_2009.zip ... micro_2024.zip (nomes locais) na pasta dos zips, por padrao dados/microdados
 #   na raiz do repositorio; conferir com analysis/data/checksums_sha256.txt. Nao usa variaveis de ambiente.

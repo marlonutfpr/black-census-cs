@@ -1,13 +1,13 @@
 # Figuras extras do artigo estendido (rotulos em ingles):
 #  1. sec8_regional_trends     - share preta entre ingressantes declarados por regiao, com tendencia OLS,
-#                                2010-2024: Fig. 8 (fig:regional), Secao 8 (RQ6).
+#                                2010-2024: Fig. 8 (fig:regional), Secao 6.3 (RQ6).
 #  2. sec6_share_by_course     - share por curso, 2024 (top-10 em ingressantes pretos). Nao entra no artigo;
-#                                a Secao 6 usa sec6_concentracao_cursos, de run_recomposicao.py.
+#                                a Secao 6.1 usa sec6_concentracao_cursos, de run_recomposicao.py.
 #  3. sec10_modality_evolution - ingressantes e share negra por modalidade, 2010-2024. Nao entra no artigo;
 #                                sec10_modality_share_negra.csv alimenta o painel (a) da Fig. 11 (fig:modality),
 #                                desenhado por run_recomposicao.py, que deve rodar depois deste script.
 # Tambem gera analysis/output/figuras_extras_check.txt com a verificacao cruzada
-# dos numeros citados no texto do artigo (Secoes 6, 8 e 10: share e inclinacao por regiao, peso de Analise e
+# dos numeros citados no texto do artigo (Secoes 6.1, 6.3 e 6.5: share e inclinacao por regiao, peso de Analise e
 # Desenvolvimento de Sistemas entre os pretos, privadas com fins lucrativos e EaD). NAO ajusta dados em caso
 # de divergencia.
 # Uso: python analysis/run_figuras_extras.py   (sem argumentos)

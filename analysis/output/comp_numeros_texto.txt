@@ -42,7 +42,7 @@ sem grau informado: 2009 27 linhas / 1062 ingressantes; 2010-2024 133 linhas / 2
 sem grau, linhas por edicao 2010-2024: {2010: 26, 2011: 20, 2012: 22, 2013: 20, 2014: 18, 2015: 12, 2016: 7, 2017: 4, 2018: 1, 2019: 1, 2020: 1, 2021: 1, 2022: 0, 2023: 0, 2024: 0}
 sem grau, % dos ingressantes: max 2010-2024 0.58 (2010); max 2016-2024 0.0067
 
-== Secao 6, RQ2: ingressantes de cada grupo em cursos tecnologos (% do grupo no ano) ==
+== Secao 6.1, RQ2: ingressantes de cada grupo em cursos tecnologos (% do grupo no ano) ==
 denominador: todas as ofertas do ano (como run_robustez.py); ultima coluna: so ofertas com grau informado
       todos  preta  parda  branca  dif_preta_branca  dif_preta_branca_grau_informado
 ano                                                                                 
@@ -68,7 +68,7 @@ diferenca 2010-2017: 2010: -1.89; 2011: 1.66; 2012: -1.21; 2013: 0.02; 2014: 4.2
 maior |diferenca| 2010-2017 sem 2014: 1.89 (2010); 2014: 4.21; 2018: 1.83; 2019: 3.21
 denominador so com grau informado: maior mudanca da diferenca 2010-2024 0.04 p.p. (2013); 2020-2024 0.00; 2013 0.06, 2014 4.22
 
-== Secao 6, RQ4: publico x privado por ano (oficial: categoria 7 privada; c7pub: categoria 7 publica) ==
+== Secao 6.1, RQ4: publico x privado por ano (oficial: categoria 7 privada; c7pub: categoria 7 publica) ==
 preta_total oficial (pub/priv): 2010: 4.08/1.67; 2011: 3.88/1.91; 2012: 4.63/2.39; 2013: 4.68/2.73; 2014: 5.40/5.56; 2015: 7.02/5.23; 2016: 7.60/5.78; 2017: 8.17/5.86; 2018: 8.09/6.29; 2019: 7.50/6.22; 2020: 7.55/6.27; 2021: 7.74/6.05; 2022: 8.00/6.17; 2023: 7.61/7.30; 2024: 8.45/7.12
   publico acima: [2010, 2011, 2012, 2013, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]; privado acima: [2014]
 preta_total c7pub (pub/priv): 2010: 4.08/1.67; 2011: 3.88/1.91; 2012: 4.42/2.41; 2013: 4.51/2.74; 2014: 5.28/5.60; 2015: 6.95/5.24; 2016: 7.54/5.78; 2017: 8.16/5.86; 2018: 8.04/6.30; 2019: 7.47/6.23; 2020: 7.52/6.28; 2021: 7.71/6.06; 2022: 7.95/6.17; 2023: 7.51/7.31; 2024: 8.34/7.13
@@ -102,16 +102,16 @@ negro_decl, vantagem privada oficial (priv - pub, p.p.): 2010: +3.23; 2011: +1.9
 negro_decl, vantagem privada c7pub (priv - pub, p.p.): 2010: +3.23; 2011: +1.90; 2012: +2.89; 2013: +0.55; 2014: +0.21; 2015: +0.62; 2016: -0.96; 2017: -2.50; 2018: -2.58; 2019: -1.81; 2020: +0.50; 2021: -0.23; 2022: +0.95; 2023: +0.60; 2024: -0.08
   privado acima: [2010, 2011, 2012, 2013, 2014, 2015, 2020, 2022, 2023]; por menos de 1 p.p.: [2013, 2014, 2015, 2020, 2022, 2023]; por 1 p.p. ou mais: [2010, 2011, 2012]
 
-== Secao 7: decomposicao log da alta preta/total ==
+== Secao 6.2: decomposicao log da alta preta/total ==
 2010-2024: preta/total 2.150 -> 7.284 (3.388x); preta/declarados 7.596 -> 9.048; parte da nao declaracao 85.7% (log cobertura 1.0453 / log total 1.2201)
 2010-2014: preta/total 2.150 -> 5.526 (2.570x); preta/declarados 7.596 -> 9.687; parte da nao declaracao 74.2% (log cobertura 0.7008 / log total 0.9440)
 
-== Secao 7: representacao relativa ao Censo 2022 e limites sob a nao declaracao ==
+== Secao 6.2: representacao relativa ao Censo 2022 e limites sob a nao declaracao ==
 benchmarks: negra 55.51% branca 43.46%
 2024: negra/declarados 42.25%, sobre a populacao 0.761; branca/declarados 55.96%, sobre a populacao 1.288; razao negra/branca 0.591
 2024: nao declarados 19.49% do total; preta 7.28-26.78%; negra 34.01-53.51%; branca 45.05-64.55%
 
-== Secao 10: Kruskal-Wallis por grupos de intensidade de cota e empates nos cortes dos tercis ==
+== Secao 6.5: Kruskal-Wallis por grupos de intensidade de cota e empates nos cortes dos tercis ==
 p-valores: KW todos os grupos com mais de 5 ofertas, KW so tercis, KW sem cota x com cota; tamanhos T1/T2/T3 publicados
       n_cota      tam_pub kw_todos kw_tercis kw_0_x_cota
 ano                                                     
@@ -194,7 +194,7 @@ anos em que pd.qcut e os cortes exatos separam ofertas de forma diferente: {2017
   2023: media negra bruta T1/T2/T3 pd.qcut 42.81/45.68/49.10; cortes exatos 42.77/45.74/49.12
   2024: media negra bruta T1/T2/T3 pd.qcut 41.41/49.14/53.18; cortes exatos 41.69/49.03/53.18
 
-== Secao 10: ingressantes de 2024 por categoria administrativa ==
+== Secao 6.5: ingressantes de 2024 por categoria administrativa ==
                       linhas     ing    pct
 1 Public-Federal         569   25409   5.20
 2 Public-State          1023   33648   6.88
@@ -207,7 +207,7 @@ privada lucrativa (4): 343679 (343.7 mil), 70.27%
 federal (1): 25409 (25.4 mil), 5.20%
 publicas (1-3): 59945, 12.26%
 
-== Secao 11: limites da razao de representacao negro/branco, 2024 ==
+== Secao 7: limites da razao de representacao negro/branco, 2024 ==
 negra sem nao declarados, branca com todos (minimo): negra 34.01% branca 64.55% -> razao 0.413
 negra com todos, branca sem nao declarados (maximo): negra 53.51% branca 45.05% -> razao 0.930
 nenhum grupo recebe nao declarados (base total): negra 34.01% branca 45.05% -> razao 0.591

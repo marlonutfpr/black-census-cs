@@ -4,12 +4,13 @@ These scripts produce the census-based tables and figures of the extended
 version of the DATA 2026 paper, *From Microdata to Evidence: An Analytical
 Data Platform for Auditing Racial Equity in Brazilian Computing Higher
 Education*, and most of the numbers quoted in its text: the lessons
-from sixteen census editions (Section 5.2), the answers to RQ1–RQ4 under the
-declared basis (Section 6), the official definition and undeclared color
-(Section 7), trends and parity horizons (Section 8), lagged completion ratios
-and their test against INEP's followed cohorts (Section 9) and
-affirmative-action uptake (Section 10), plus point numbers quoted in the
-Discussion and Threats to Validity.
+from sixteen census editions (Section 5.2) and the results of Section 6: the
+answers to RQ1–RQ4 under the declared basis (Section 6.1), the official
+definition and undeclared color (Section 6.2), trends and parity horizons
+(Section 6.3), lagged completion ratios and their test against INEP's
+followed cohorts (Section 6.4) and affirmative-action uptake (Section 6.5),
+plus point numbers quoted in the Discussion (Section 7) and Threats to
+Validity (Section 8).
 
 The scripts read the raw INEP files directly, aligned by column name. The
 database and the dashboard use an earlier consolidation (319,196 course
@@ -83,14 +84,18 @@ minutes each and the others a few seconds.
 | Script | Paper | Main outputs (`analysis/output/`) |
 |---|---|---|
 | `build_dataset.py` | Base of 331,023 offerings (Sections 4–5) | `data/computacao_2009_2024.pkl` (not versioned) |
-| `run_robustez.py` | Section 5.2 counts; Table 5 (declared-basis sector cells); Tables 7 (except Gap 2040), 8, 9, 10 and 12 (net columns); point numbers in Sections 4.4, 6, 7, 9–12 | `rob_*.csv`, `rob_numeros_texto.txt` |
+| `run_robustez.py` | Section 5.2 counts; Table 5 (declared-basis sector cells); Tables 7 (except Gap 2040), 8, 9, 10 and 12 (net columns); point numbers in Sections 4.4, 6.1, 6.2, 6.4, 6.5, 7 and 8 | `rob_*.csv`, `rob_numeros_texto.txt` |
 | `run_sections_7_8.py` | Fig. 6, Table 6, Table 7 (Gap 2040), Fig. 7 | `sec7_*.csv`, `sec8_trend_parity.csv` |
-| `run_section_10.py` | Fig. 10, Table 12 (gross columns), uptake numbers in Section 10 | `sec10_policy_uptake.csv`, `sec10_tercis_quota.csv`, `sec10_share_negra_*.csv` |
+| `run_section_10.py` | Fig. 10, Table 12 (gross columns), uptake numbers in Section 6.5 | `sec10_policy_uptake.csv`, `sec10_tercis_quota.csv`, `sec10_share_negra_*.csv` |
 | `run_figuras_extras.py` | Fig. 8, modality rows of Table 5, cross-checks | `sec10_modality_*.csv`, `sec6_share_by_course.csv`, `figuras_extras_check.txt` |
-| `run_validacao_trajetoria.py` | Lag choice (Section 9), Section 9.1, Table 11 and the followed-cohort numbers of Section 11 | `val_*.csv`, `val_numeros_texto.txt` |
-| `run_section_9.py` | Fig. 9 and the lagged ratios of Section 9 | `sec9_cohort_completion.csv` |
-| `run_recomposicao.py` | Tables 4 and 5, Figs. 4, 5 and 11, numbers of Section 6 | `rec_*.csv`, `rec_numeros_texto.txt` |
-| `run_complementos.py` | Numbers the other scripts do not write: category 7 sensitivity and teaching degrees (Section 4.3), technologist shares by color and the yearly public–private comparison (Section 6), log decompositions and representation relative to the 2022 Census (Section 7), Kruskal–Wallis by year with tie sensitivity and 2024 entrants by administrative category (Section 10), bounds of the representation ratio (Section 11) | `comp_numeros_texto.txt`, `comp_series_anuais.csv` |
+| `run_validacao_trajetoria.py` | Lag choice and the test against followed cohorts (Section 6.4), Table 11 and the followed-cohort numbers of Section 7 | `val_*.csv`, `val_numeros_texto.txt` |
+| `run_section_9.py` | Fig. 9 and the lagged ratios of Section 6.4 | `sec9_cohort_completion.csv` |
+| `run_recomposicao.py` | Tables 4 and 5, Figs. 4, 5 and 11, numbers of Section 6.1 | `rec_*.csv`, `rec_numeros_texto.txt` |
+| `run_complementos.py` | Numbers the other scripts do not write: category 7 sensitivity and teaching degrees (Section 4.3), technologist shares by color and the yearly public–private comparison (Section 6.1), log decompositions and representation relative to the 2022 Census (Section 6.2), Kruskal–Wallis by year with tie sensitivity and 2024 entrants by administrative category (Section 6.5), bounds of the representation ratio (Section 7) | `comp_numeros_texto.txt`, `comp_series_anuais.csv` |
+
+The section numbers in script and output names (`run_sections_7_8.py`,
+`run_section_9.py`, `run_section_10.py`, `sec6_*` to `sec10_*`) follow an
+earlier numbering of the paper; the Paper column gives the current sections.
 
 Each script's header lists its inputs and outputs in detail. The
 `*_numeros_texto.txt` files hold the point numbers quoted in the text, as
@@ -120,12 +125,12 @@ and the figures `sec7_three_indicators_entrants`,
   name in the 2024 microdata, used by `run_figuras_extras.py` to name programs.
 - `data/rq1_valores_lidos_fig4.csv`: approximate values read from Fig. 4 of
   the conference paper, used by `run_recomposicao.py` to compare its
-  reconstruction with the published series (Section 6).
+  reconstruction with the published series (Section 6.1).
 
 ## Notes
 
 - Shares are computed on two bases: over all students (total basis) and over
-  students with declared color (declared basis). Section 7 of the paper (see
+  students with declared color (declared basis). Section 6.2 of the paper (see
   also Section 2.3) explains why the declared basis is the main one.
 - The lag `k` of the completion ratios is 2 years for technologist programs
   and 4 for bachelor programs, set from the completion term recorded in the

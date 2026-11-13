@@ -1,11 +1,11 @@
-# Numeros, tabelas e figuras para a recomposicao da Secao 6 (RQ1-RQ4) com a base atual, mais duas sensibilidades
-# citadas nas Secoes 8 e 10 do manuscrito.
-#  - Secao 6: Tabela 4 (composicao por cor em cada etapa); Tabela 5 (linhas das regioes e parte das linhas de setor e
+# Numeros, tabelas e figuras para a recomposicao da Secao 6.1 (RQ1-RQ4) com a base atual, mais duas sensibilidades
+# citadas nas Secoes 6.3 e 6.5 do manuscrito.
+#  - Secao 6.1: Tabela 4 (composicao por cor em cada etapa); Tabela 5 (linhas das regioes e parte das linhas de setor e
 #    modalidade); Fig. 4 ((a) serie da RQ1 lida da Fig. 4 da versao da conferencia x reconstrucao com a contagem tratada
 #    como indicador 0/1 x parcela preta nas bases declarada e total; (b) absolutos de ingressantes e concluintes pretos);
 #    Fig. 5 (concentracao por curso, 2010-2024 acumulado); numeros do texto de RQ1-RQ4.
-#  - Secao 8: ano de paridade sob ajuste logit-linear (sensibilidade ao ajuste linear).
-#  - Secao 10: Fig. 11 (parcela negra entre declarados por modalidade e por categoria administrativa).
+#  - Secao 6.3: ano de paridade sob ajuste logit-linear (sensibilidade ao ajuste linear).
+#  - Secao 6.5: Fig. 11 (parcela negra entre declarados por modalidade e por categoria administrativa).
 # Uso: python analysis/run_recomposicao.py   (sem argumentos)
 # Entradas:
 #  - pkl de build_dataset.py, na variavel de ambiente CENSO_PKL (padrao analysis/data/computacao_2009_2024.pkl);

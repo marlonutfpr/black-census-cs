@@ -11,7 +11,7 @@ except Exception:
     SCIPY_AVAILABLE = False
 
 
-# Mesma definicao do artigo (Secao 8): parcela preta sobre estudantes com cor declarada, janela 2010-2024.
+# Mesma definicao do artigo (Secao 6.3): parcela preta sobre estudantes com cor declarada, janela 2010-2024.
 # A parcela sobre o total mistura a queda da cor nao declarada com mudanca de representacao.
 ANO_INICIAL = 2010
 

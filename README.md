@@ -44,10 +44,11 @@ Scripts de análise (versão estendida do artigo)
 
 A pasta [`analysis/`](analysis/) contém os scripts que geram os resultados
 da versão estendida do artigo: as lições das dezesseis edições do Censo
-(Seção 5.2), as RQ1–RQ4 na base declarada (Seção 6), a definição oficial e a
-cor não declarada (Seção 7), tendências e horizonte de paridade (Seção 8),
-razões de conclusão defasadas e seu teste contra as coortes acompanhadas
-pelo INEP (Seção 9) e ação afirmativa (Seção 10). Eles leem os arquivos
+(Seção 5.2) e os resultados da Seção 6: as RQ1–RQ4 na base declarada
+(Seção 6.1), a definição oficial e a cor não declarada (Seção 6.2),
+tendências e horizonte de paridade (Seção 6.3), razões de conclusão
+defasadas e seu teste contra as coortes acompanhadas pelo INEP (Seção 6.4)
+e ação afirmativa (Seção 6.5). Eles leem os arquivos
 brutos do INEP (não versionados; os SHA-256 estão em
 `analysis/data/checksums_sha256.txt`) e gravam em `analysis/output/` as
 tabelas por trás dos números do artigo, que ficam versionadas. Instruções,
