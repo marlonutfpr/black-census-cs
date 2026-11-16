@@ -155,7 +155,7 @@ plt.close(fig)
 NULO = OUT / "val_teste_nulo.csv"
 if NULO.exists():
     nulo = pd.read_csv(NULO)
-    fig, axes = plt.subplots(1, 2, figsize=(4.8, 1.8), sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(4.8, 1.53), sharey=True)
     for ax, k, nome_val, tit in zip(axes, (2, 4), ("Technologist", "Bachelor"), ("Technologist, k=2", "Bachelor, k=4")):
         n = nulo[(nulo["recorte"] == "Brazil") & (nulo["grau"] == nome_val) & (nulo["k"] == k)]
         ax.plot(n["ano"], n["nulo_negro_bruto"], ls="--", lw=1.1, color="#777777", label="Mechanical, national")

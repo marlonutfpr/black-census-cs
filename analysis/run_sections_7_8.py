@@ -115,7 +115,7 @@ ROTULOS = {"branca": "White (branca)", "preta": "preta", "parda": "parda",
            "amarela": "Asian (amarela)", "indigena": "Indigenous", "cornd": "Undeclared"}
 WIN = slice(2010, 2024)
 
-fig, ax = plt.subplots(figsize=(2.4, 2.1))
+fig, ax = plt.subplots(figsize=(2.352, 1.806), layout="constrained")
 w = comp.loc[WIN]
 ax.stackplot(w.index, [w[f"pct_{r}"] for r in RACAS],
              labels=[ROTULOS[r] for r in RACAS], colors=[CORES[r] for r in RACAS])
@@ -124,13 +124,12 @@ ax.set_title("(a) Composition", fontsize=7, loc="left", pad=2)
 ax.set_xticks(range(2010, 2025, 4))
 ax.set_xlabel("Census year", fontsize=6.5); ax.set_ylabel("Share of enrolled (%)", fontsize=6.5)
 ax.tick_params(labelsize=6)
-ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), fontsize=5.5, ncol=3, frameon=False, handlelength=1, columnspacing=0.8)
-fig.tight_layout()
+fig.legend(*ax.get_legend_handles_labels(), loc="outside lower center", ncol=3, fontsize=5.5, frameon=False, handlelength=1, columnspacing=0.8)
 fig.savefig(FIG / "sec7_racial_composition_2010_2024.pdf")
 fig.savefig(FIG / "sec7_racial_composition_2010_2024.png", dpi=200)
 plt.close(fig)
 
-fig, ax = plt.subplots(figsize=(2.4, 2.1))
+fig, ax = plt.subplots(figsize=(2.352, 1.806))
 for b, nome in SERIES.items():
     s = inds[b]["taxa_nao_declarada"].loc[WIN]
     ax.plot(s.index, s.values, marker="o", ms=2, lw=1.1, label=nome)

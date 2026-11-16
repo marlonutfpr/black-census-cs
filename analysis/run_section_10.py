@@ -133,7 +133,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # Fig 1: uptake das politicas
-fig, ax = plt.subplots(figsize=(2.4, 2.1))
+fig, ax = plt.subplots(figsize=(2.352, 1.806), layout="constrained")
 for col, rot, cor in (("pct_reserva", "Quota entrants (any)", "#2E7D32"),
                       ("pct_rvetnico", "Ethnic-racial quota", "#1B5E20"),
                       ("pct_prouni", "PROUNI (full+partial)", "#1565C0"),
@@ -144,14 +144,13 @@ ax.set_title("(a) Policy uptake", fontsize=7, loc="left", pad=2)
 ax.set_xticks(range(2010, 2025, 4))
 ax.set_xlabel("Census year", fontsize=6.5); ax.set_ylabel("Share of entrants (%)", fontsize=6.5)
 ax.tick_params(labelsize=6)
-ax.legend(fontsize=5.5, loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=False, handlelength=1.2, columnspacing=0.8); ax.grid(alpha=0.3)
-fig.tight_layout()
+fig.legend(*ax.get_legend_handles_labels(), loc="outside lower center", ncol=2, fontsize=5.5, frameon=False, handlelength=1.2, columnspacing=0.8); ax.grid(alpha=0.3)
 fig.savefig(FIG / "sec10_policy_uptake.pdf")
 fig.savefig(FIG / "sec10_policy_uptake.png", dpi=200)
 plt.close(fig)
 
 # Fig 2: share negra media por grupo de intensidade de cota
-fig, ax = plt.subplots(figsize=(2.4, 2.1))
+fig, ax = plt.subplots(figsize=(2.352, 1.806), layout="constrained")
 CORES_G = {"0_sem_cota": "#9E9E9E", "T1": "#64B5F6", "T2": "#FB8C00", "T3": "#C62828"}
 ROT_G = {"0_sem_cota": "No quota entrants", "T1": "Low quota intensity",
          "T2": "Mid quota intensity", "T3": "High quota intensity"}
@@ -164,8 +163,7 @@ ax.set_title("(b) Quota intensity", fontsize=7, loc="left", pad=2)
 ax.set_xticks(range(2010, 2025, 4))
 ax.set_xlabel("Census year", fontsize=6.5); ax.set_ylabel("Mean negro share (%)", fontsize=6.5)
 ax.tick_params(labelsize=6)
-ax.legend(fontsize=5.5, loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=False, handlelength=1.2, columnspacing=0.8); ax.grid(alpha=0.3)
-fig.tight_layout()
+fig.legend(*ax.get_legend_handles_labels(), loc="outside lower center", ncol=2, fontsize=5.5, frameon=False, handlelength=1.2, columnspacing=0.8); ax.grid(alpha=0.3)
 fig.savefig(FIG / "sec10_quota_terciles.pdf")
 fig.savefig(FIG / "sec10_quota_terciles.png", dpi=200)
 plt.close(fig)

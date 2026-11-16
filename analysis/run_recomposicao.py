@@ -144,7 +144,7 @@ for base in ("qt_ing", "qt_mat", "qt_conc"):
         nota(f"paridade {base} {nome}: linear {(alvo - lin_.intercept) / lin_.slope:.1f}; logit {(np.log(alvo / (1 - alvo)) - r_.intercept) / r_.slope:.1f}")
 
 # Figura
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(4.8, 2.1))
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(4.8, 1.785), layout="constrained")
 rec = rq1.loc[2009:2024]
 a1.plot(rec.index, rec.lido_fig4, "o", ms=4.5, mfc="none", color="#C62828", label="Fig. 4 of the conference paper (read)")
 a1.plot(rec.index, rec.reconstruido, "-", lw=1.2, color="#C62828", label="Count treated as 0/1 flag")
@@ -155,7 +155,7 @@ a1.set_xlabel("Census year")
 a1.set_ylabel("Share (%)")
 a1.set_title("(a) RQ1 series", loc="left", pad=2)
 a1.set_xticks(range(2010, 2025, 4))
-a1.legend(fontsize=5.5, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2, frameon=False, handlelength=1.4, columnspacing=0.8)
+fig.legend(*a1.get_legend_handles_labels(), loc="outside lower center", ncol=2, fontsize=5.5, frameon=False, handlelength=1.4, columnspacing=0.8)
 abs_ = nac.loc[2010:2024]
 a2.plot(abs_.index, abs_.qt_ing_preta / 1000, "o-", ms=2.5, lw=1.2, color="#222222", label="preta entrants")
 a2.plot(abs_.index, abs_.qt_conc_preta / 1000, "s-", ms=2.5, lw=1.2, color="#B07AA1", label="preta graduates")
@@ -167,7 +167,6 @@ a2.legend(fontsize=6)
 for a in (a1, a2):
     a.tick_params(labelsize=6.5)
     a.grid(alpha=0.3)
-fig.tight_layout()
 fig.savefig(FIG / "sec6_rq1_absolutos.pdf")
 fig.savefig(FIG / "sec6_rq1_absolutos.png", dpi=200)
 plt.close(fig)
@@ -178,7 +177,7 @@ NOMES = {"ADS": "Analysis and Systems Dev.", "Sistemas de Informacao": "Informat
          "Gestao de TI": "IT Management", "Redes": "Computer Networks", "Eng. Software": "Software Engineering", "Internet": "Internet Systems",
          "Seguranca": "Information Security", "Jogos": "Digital Games"}
 cur = cur.loc[list(NOMES)].iloc[::-1]
-fig, ax = plt.subplots(figsize=(4.8, 2.0))
+fig, ax = plt.subplots(figsize=(4.8, 1.7))
 y = np.arange(len(cur))
 h = 0.2
 for i, (col, rot, cor, alfa) in enumerate((("qt_conc_branca", "White graduates", "#4C78A8", 0.5), ("qt_ing_branca", "White entrants", "#4C78A8", 1.0),
@@ -197,7 +196,7 @@ plt.close(fig)
 # Modalidade e categoria administrativa em uma so figura
 mod = pd.read_csv(OUT / "sec10_modality_share_negra.csv", index_col=0)
 cat = pd.read_csv(OUT / "sec10_share_negra_categoria_adm.csv", index_col=0).loc[2010:2024]
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(4.8, 1.85))
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(4.8, 1.5725))
 a1.plot(mod.index, mod["1"], "o-", ms=2.2, lw=1.1, color="#4C78A8", label="On-site")
 a1.plot(mod.index, mod["2"], "o-", ms=2.2, lw=1.1, color="#E45756", label="Distance")
 a1.set_title("(a) By modality", loc="left", pad=2)
