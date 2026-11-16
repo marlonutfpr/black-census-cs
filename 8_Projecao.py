@@ -97,7 +97,7 @@ def projecao_page():
                 # ano_paridade_float é o valor de 'ano' (não delta); se for > max_ano então haverá paridade no futuro
                 # recomputar somente se ano_paridade_float > max_ano
                 if ano_paridade_float > max_ano:
-                    # arredondar ao ano mais proximo, como na Tabela 7 do artigo
+                    # arredondar ao ano mais proximo, como na Tabela 6 do artigo
                     ano_paridade_int = int(round(ano_paridade_float))
                     # limitar extensão para evitar horizontes absurdos (cap 100 anos a partir do último ano)
                     cap_ano = max_ano + 100

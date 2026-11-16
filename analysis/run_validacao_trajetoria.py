@@ -2,7 +2,7 @@
 # Indicadores de Fluxo da Educacao Superior do INEP (trajetoria; coortes 2015, 2016 e 2017, acompanhadas ate 2024).
 # Os indicadores nao trazem raca: o teste vale para todos os estudantes e para contrastes entre estratos.
 # Apoia, no manuscrito, a Secao 6.4 (RQ7): derivacao de k na abertura da secao (identidade de NU_ANO_INTEGRALIZACAO e
-# distribuicao do prazo de integralizacao) e o teste contra coortes acompanhadas (Tabela 11, razoes contra as turmas), os
+# distribuicao do prazo de integralizacao) e o teste contra coortes acompanhadas (Tabela 10, razoes contra as turmas), os
 # contrastes entre setores e modalidades (k adotado e k=3 para tecnologo), o teste nulo (serie mecanica), o cenario do
 # curso de entrada e o de conclusao atrasada; e os numeros por segmento da Secao 7 (Discussao). A serie mecanica de
 # val_teste_nulo.csv e desenhada na Fig. 9 por run_section_9.py, que por isso deve rodar depois deste script.

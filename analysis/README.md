@@ -84,13 +84,13 @@ minutes each and the others a few seconds.
 | Script | Paper | Main outputs (`analysis/output/`) |
 |---|---|---|
 | `build_dataset.py` | Base of 331,023 offerings (Sections 4–5) | `data/computacao_2009_2024.pkl` (not versioned) |
-| `run_robustez.py` | Section 5.2 counts; Table 5 (declared-basis sector cells); Tables 7 (except Gap 2040), 8, 9, 10 and 12 (net columns); point numbers in Sections 4.4, 6.1, 6.2, 6.4, 6.5, 7 and 8 | `rob_*.csv`, `rob_numeros_texto.txt` |
-| `run_sections_7_8.py` | Fig. 6, Table 6, Table 7 (Gap 2040), Fig. 7 | `sec7_*.csv`, `sec8_trend_parity.csv` |
-| `run_section_10.py` | Fig. 10, Table 12 (gross columns), uptake numbers in Section 6.5 | `sec10_policy_uptake.csv`, `sec10_tercis_quota.csv`, `sec10_share_negra_*.csv` |
-| `run_figuras_extras.py` | Fig. 8, modality rows of Table 5, cross-checks | `sec10_modality_*.csv`, `sec6_share_by_course.csv`, `figuras_extras_check.txt` |
-| `run_validacao_trajetoria.py` | Lag choice and the test against followed cohorts (Section 6.4), Table 11 and the followed-cohort numbers of Section 7 | `val_*.csv`, `val_numeros_texto.txt` |
+| `run_robustez.py` | Section 5.2 counts; Table 4 (declared-basis sector cells); Tables 6 (except Gap 2040), 7, 8, 9 and 11 (net columns); point numbers in Sections 4.4, 6.1, 6.2, 6.4, 6.5, 7 and 8 | `rob_*.csv`, `rob_numeros_texto.txt` |
+| `run_sections_7_8.py` | Fig. 6, Table 5, Table 6 (Gap 2040), Fig. 7 | `sec7_*.csv`, `sec8_trend_parity.csv` |
+| `run_section_10.py` | Fig. 10, Table 11 (gross columns), uptake numbers in Section 6.5 | `sec10_policy_uptake.csv`, `sec10_tercis_quota.csv`, `sec10_share_negra_*.csv` |
+| `run_figuras_extras.py` | Fig. 8, modality rows of Table 4, cross-checks | `sec10_modality_*.csv`, `sec6_share_by_course.csv`, `figuras_extras_check.txt` |
+| `run_validacao_trajetoria.py` | Lag choice and the test against followed cohorts (Section 6.4), Table 10 and the followed-cohort numbers of Section 7 | `val_*.csv`, `val_numeros_texto.txt` |
 | `run_section_9.py` | Fig. 9 and the lagged ratios of Section 6.4 | `sec9_cohort_completion.csv` |
-| `run_recomposicao.py` | Tables 4 and 5, Figs. 4, 5 and 11, numbers of Section 6.1 | `rec_*.csv`, `rec_numeros_texto.txt` |
+| `run_recomposicao.py` | Tables 3 and 4, Figs. 4, 5 and 11, numbers of Section 6.1 | `rec_*.csv`, `rec_numeros_texto.txt` |
 | `run_complementos.py` | Numbers the other scripts do not write: category 7 sensitivity and teaching degrees (Section 4.3), technologist shares by color and the yearly public–private comparison (Section 6.1), log decompositions and representation relative to the 2022 Census (Section 6.2), Kruskal–Wallis by year with tie sensitivity and 2024 entrants by administrative category (Section 6.5), bounds of the representation ratio (Section 7) | `comp_numeros_texto.txt`, `comp_series_anuais.csv` |
 
 The section numbers in script and output names (`run_sections_7_8.py`,
@@ -99,10 +99,10 @@ earlier numbering of the paper; the Paper column gives the current sections.
 
 Each script's header lists its inputs and outputs in detail. The
 `*_numeros_texto.txt` files hold the point numbers quoted in the text, as
-printed on screen. Table 5 combines `rec_regioes.csv` and
+printed on screen. Table 4 combines `rec_regioes.csv` and
 `rec_numeros_texto.txt` (`run_recomposicao.py`), `rob_numeros_texto.txt`
 (`run_robustez.py`) and `sec10_modality_share_negra.csv`
-(`run_figuras_extras.py`); Table 7 combines `rob_parity_windows.csv` with the
+(`run_figuras_extras.py`); Table 6 combines `rob_parity_windows.csv` with the
 Gap 2040 column of `sec8_trend_parity.csv`.
 
 Some outputs are auxiliary and do not appear in the paper:

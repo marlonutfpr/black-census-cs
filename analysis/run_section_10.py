@@ -7,7 +7,7 @@
 #       sem ingressantes via cota + tercis de intensidade entre as demais; Kruskal-Wallis por ano.
 #  10.3 share negra (declarados) por categoria administrativa (codigos 1-9 do INEP) e por organizacao academica.
 # No artigo: Fig. 10 (fig:uptake), paineis (a) sec10_policy_uptake e (b) sec10_quota_terciles; colunas brutas
-# ("Gross") da Tabela 12 (tab:quota) e numeros do texto da Secao 6.5. As colunas liquidas ("Net") da Tabela 12
+# ("Gross") da Tabela 11 (tab:quota) e numeros do texto da Secao 6.5. As colunas liquidas ("Net") da Tabela 11
 # vem de run_robustez.py. O painel (b) da Fig. 11 (fig:modality) e desenhado por run_recomposicao.py a partir
 # de sec10_share_negra_categoria_adm.csv; por isso este script deve rodar antes de run_recomposicao.py.
 # Uso: python analysis/run_section_10.py   (sem argumentos)

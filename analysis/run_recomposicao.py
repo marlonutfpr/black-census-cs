@@ -1,6 +1,6 @@
 # Numeros, tabelas e figuras para a recomposicao da Secao 6.1 (RQ1-RQ4) com a base atual, mais duas sensibilidades
 # citadas nas Secoes 6.3 e 6.5 do manuscrito.
-#  - Secao 6.1: Tabela 4 (composicao por cor em cada etapa); Tabela 5 (linhas das regioes e parte das linhas de setor e
+#  - Secao 6.1: Tabela 3 (composicao por cor em cada etapa); Tabela 4 (linhas das regioes e parte das linhas de setor e
 #    modalidade); Fig. 4 ((a) serie da RQ1 lida da Fig. 4 da versao da conferencia x reconstrucao com a contagem tratada
 #    como indicador 0/1 x parcela preta nas bases declarada e total; (b) absolutos de ingressantes e concluintes pretos);
 #    Fig. 5 (concentracao por curso, 2010-2024 acumulado); numeros do texto de RQ1-RQ4.

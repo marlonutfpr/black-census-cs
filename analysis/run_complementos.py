@@ -17,7 +17,7 @@
 #  - Secao 7: limites da razao de representacao negro/branco de 2024 sob a nao declaracao.
 # Mesmas definicoes de run_robustez.py e run_recomposicao.py: publico = categorias 1-3 e privado = as demais
 # (inclusive a 7 e as ofertas sem categoria); base total divide por qt_ing, base declarada por qt_ing - qt_ing_cornd;
-# negro = preta + parda; benchmarks exatos do Censo 2022 (IBGE) fixos no codigo; grupos de cota como na Tabela 12
+# negro = preta + parda; benchmarks exatos do Censo 2022 (IBGE) fixos no codigo; grupos de cota como na Tabela 11
 # (ofertas com qt_ing > 0 e ao menos um declarado, grupo "0" sem ingressantes via cota e tercis por pd.qcut).
 # O desempate aleatorio dos tercis e calculado pela distribuicao exata (enumeracao de todas as atribuicoes
 # igualmente provaveis), sem sorteio.
@@ -504,7 +504,7 @@ nota(f"2014: blocos inteiros {fp(min(t.loc[2014, alt[:4]]))}-{fp(max(t.loc[2014,
 nota(f"2014, ofertas que mudam de tercil: bb {int(t.loc[2014, 'mudam_bb'])}, bc {int(t.loc[2014, 'mudam_bc'])}, cb {int(t.loc[2014, 'mudam_cb'])}, "
      f"cc {int(t.loc[2014, 'mudam_cc'])}; tamanhos bb {t.loc[2014, 'tam_bb']}, bc {t.loc[2014, 'tam_bc']}, cb {t.loc[2014, 'tam_cb']}, cc {t.loc[2014, 'tam_cc']}")
 # pd.qcut calcula a posicao do quantil em ponto flutuante; onde isso poe ofertas empatadas no corte em outro tercil
-# que os cortes exatos, compara as medias brutas por tercil (colunas "Gross" da Tabela 12)
+# que os cortes exatos, compara as medias brutas por tercil (colunas "Gross" da Tabela 11)
 nota(f"anos em que pd.qcut e os cortes exatos separam ofertas de forma diferente: { {a: int(t.loc[a, 'mudam_bb']) for a in t.index if t.loc[a, 'corte_pub_difere']} } (ofertas)")
 for a, mm in medias.items():
     nota(f"  {a}: media negra bruta T1/T2/T3 pd.qcut {'/'.join(f'{x:.2f}' for x in mm['pub'])}; cortes exatos {'/'.join(f'{x:.2f}' for x in mm['bb'])}")

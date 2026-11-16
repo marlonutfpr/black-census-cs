@@ -1,7 +1,7 @@
 # Robustez e numeros pontuais do artigo estendido: contagens das licoes de ETL (Secao 5.2), numeros do texto
 # das Secoes 4.4, 6.1 (RQ1-RQ4), 6.2, 6.4, 6.5, 7 e 8, robustez das tendencias e IC de Fieller do ano de paridade
-# (Tabelas 7 e 8), tabela regional com benchmarks do Censo 2022 (Tabela 9), sensibilidade a k e a cobertura de
-# cor (Tabela 10), gradiente de cotas bruto e liquido (Tabela 12), comparacao acesso x conclusao e limites da
+# (Tabelas 6 e 7), tabela regional com benchmarks do Censo 2022 (Tabela 8), sensibilidade a k e a cobertura de
+# cor (Tabela 9), gradiente de cotas bruto e liquido (Tabela 11), comparacao acesso x conclusao e limites da
 # nao declaracao (Secoes 6.2 e 7). rob_cursos_acumulado.csv alimenta a Figura 5, desenhada por
 # run_recomposicao.py, que deve rodar depois deste script.
 # Le os zips brutos do INEP, com alinhamento por nome de coluna, sem depender do pkl de build_dataset.py
@@ -270,7 +270,7 @@ gr_a = df[df.tp_grau_academico.isna()].groupby("ano").size()
 nota(f"sem grau por ano: {gr_a.to_dict()}")
 
 # ------------------------------------------------------------------
-# Sensibilidade da tendencia e do ano de paridade (Tabelas 7 e 8; Theil-Sen na Secao 4.4)
+# Sensibilidade da tendencia e do ano de paridade (Tabelas 6 e 7; Theil-Sen na Secao 4.4)
 # ------------------------------------------------------------------
 BEN = {g: (100 * IBGE["Brazil"][2] / IBGE["Brazil"][0], 100 * (IBGE["Brazil"][2] + IBGE["Brazil"][3]) / IBGE["Brazil"][0]) for g in ["x"]}
 nota(f"\nbenchmarks nacionais calculados: preta {BEN['x'][0]:.2f} negra {BEN['x'][1]:.2f} branca {100 * IBGE['Brazil'][1] / IBGE['Brazil'][0]:.2f}")
@@ -284,7 +284,7 @@ for base, nome in (("qt_ing", "Entrants"), ("qt_mat", "Enrolled"), ("qt_conc", "
 pd.DataFrame(linhas_t).round(4).to_csv(OUT / "rob_parity_windows.csv", index=False)
 
 # ------------------------------------------------------------------
-# Tabela regional nas duas definicoes, com benchmark da propria regiao (Tabela 9; lider por ano na Secao 6.1, RQ3)
+# Tabela regional nas duas definicoes, com benchmark da propria regiao (Tabela 8; lider por ano na Secao 6.1, RQ3)
 # ------------------------------------------------------------------
 reg = df.groupby(["ano", "co_regiao"])[med].sum(min_count=1)
 linhas_r = []
@@ -307,7 +307,7 @@ for grupo in ("preta", "negra"):
     nota(f"ultimo por ano ({grupo}): {m.idxmin(axis=1).value_counts().to_dict()}")
 
 # ------------------------------------------------------------------
-# Gradiente de cotas bruto e liquido (Tabela 12 e Secao 6.5)
+# Gradiente de cotas bruto e liquido (Tabela 11 e Secao 6.5)
 # ------------------------------------------------------------------
 d = df[df.ano.isin(WIN) & (df.qt_ing > 0)].copy()
 d["decl"] = d.qt_ing - d.qt_ing_cornd
@@ -353,7 +353,7 @@ c24 = d[(d.ano == 2024)]
 nota(f"ofertas 2024: {len(c24)}; com cota {int((c24.iq > 0).sum())}")
 
 # ------------------------------------------------------------------
-# Coortes, sensibilidade a k e vies de cobertura (Tabela 10 e Secao 6.4)
+# Coortes, sensibilidade a k e vies de cobertura (Tabela 9 e Secao 6.4)
 # ------------------------------------------------------------------
 linhas_k = []
 for rotulo, sub in (("Brazil", df), ("Public", df[df.tp_categoria_administrativa.isin([1, 2, 3])]),

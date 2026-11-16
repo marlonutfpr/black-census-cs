@@ -3,14 +3,14 @@
 # taxa_coorte(t) = concluintes(t) / ingressantes(t - k), com k = prazo oficial - 1 (convencao do INEP em
 # NU_ANO_INTEGRALIZACAO): k=2 para tecnologo (prazo 3 em 74,6% dos ingressantes) e k=4 para bacharelado (prazo 5 em 86,8%).
 # A razao nao acompanha estudantes: nao e coorte real nem taxa de conclusao. O teste contra turmas acompanhadas
-# (Secao 6.4, teste contra coortes acompanhadas, Tabela 11) fica em run_validacao_trajetoria.py.
+# (Secao 6.4, teste contra coortes acompanhadas, Tabela 10) fica em run_validacao_trajetoria.py.
 # Grupos: preta, negra (preta+parda), branca. Contagens brutas por grupo; a cobertura de cor e tratada em run_robustez.py.
 # Estratificacao: rede (publica x privada) e modalidade (presencial x EaD).
 #
 # Sustenta no manuscrito:
 #  - Figura 9: razao negro/branco observada (Brasil, publica, privada) contra a serie mecanica nacional, 2017-2024;
 #  - as faixas da razao de disparidade em 2017-2024 e a comparacao publica x privada do texto da Secao 6.4.
-# A Tabela 10 (sensibilidade a k e ajuste de cobertura) vem de rob_k_sensitivity.csv (run_robustez.py).
+# A Tabela 9 (sensibilidade a k e ajuste de cobertura) vem de rob_k_sensitivity.csv (run_robustez.py).
 #
 # Uso: python analysis/run_section_9.py   (sem argumentos)
 # Entradas: pkl de build_dataset.py, lido de CENSO_PKL (padrao analysis/data/computacao_2009_2024.pkl), e

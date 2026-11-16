@@ -7,12 +7,12 @@
 #
 # Sustenta no manuscrito:
 #  - Figura 6: (a) composicao racial dos matriculados e (b) cor nao declarada por etapa;
-#  - Tabela 6 (tres indicadores entre ingressantes) e os numeros de nao-declaracao do texto da Secao 6.2;
-#  - Tabela 7: beta, R2, p, participacao em 2024 e gap em 2040 (linhas "Brasil" de sec8_trend_parity.csv).
-#    O ano de paridade com IC de Fieller e o DW da Tabela 7, e as janelas da Tabela 8, vem de rob_parity_windows.csv
+#  - Tabela 5 (tres indicadores entre ingressantes) e os numeros de nao-declaracao do texto da Secao 6.2;
+#  - Tabela 6: beta, R2, p, participacao em 2024 e gap em 2040 (linhas "Brasil" de sec8_trend_parity.csv).
+#    O ano de paridade com IC de Fieller e o DW da Tabela 6, e as janelas da Tabela 7, vem de rob_parity_windows.csv
 #    (run_robustez.py); a coluna parity_year daqui arredonda para cima e pode ficar um ano acima do texto;
 #  - Figura 7 (horizonte de paridade dos ingressantes).
-# As linhas regionais de sec8_trend_parity.csv usam o benchmark nacional; a Tabela 9 (benchmark de cada regiao)
+# As linhas regionais de sec8_trend_parity.csv usam o benchmark nacional; a Tabela 8 (benchmark de cada regiao)
 # vem de rob_regional.csv (run_robustez.py) e a Figura 8 de run_figuras_extras.py.
 #
 # Uso: python analysis/run_sections_7_8.py   (sem argumentos)
