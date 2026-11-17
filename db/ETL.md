@@ -21,8 +21,13 @@ Documentação do pipeline de dados do projeto. As três etapas:
 
 ### Fonte
 
-`dados/microdados/MICRODADOS_CADASTRO_CURSOS_<ANO>.CSV`, anos **2009 a 2023**
-no repositório (o consolidado também contém **2024** — ver nota adiante).
+`MICRODADOS_CADASTRO_CURSOS_<ANO>.CSV`, dentro do zip de microdados de cada
+edição, anos **2009 a 2024** (16 edições). Os arquivos do INEP **não** são
+versionados: a pasta `dados/` está no `.gitignore` e nenhum microdado faz
+parte do repositório. Para baixá-los e conferir a integridade, ver a seção
+*Data* de [`analysis/README.md`](../analysis/README.md) e os hashes em
+[`analysis/data/checksums_sha256.txt`](../analysis/data/checksums_sha256.txt);
+por padrão os zips ficam em `dados/microdados/` na raiz do repositório.
 
 - **Separador:** `;`
 - **Encoding:** `latin-1` (ISO-8859-1) — caracteres acentuados confirmados
@@ -34,25 +39,30 @@ no repositório (o consolidado também contém **2024** — ver nota adiante).
 
 | Período      | Nº de colunas | Observação |
 |--------------|---------------|------------|
-| 2009 – 2022  | 200           | Conjunto base estável |
+| 2009 – 2022  | 200           | Conjunto base; em **2020** `CO_CINE_ROTULO` aparece com o nome `CO_CINE_ROTULO2` (renomeação só nessa edição; a transição 2020→2021 volta ao nome original) |
 | 2023         | 202           | Adiciona `IN_COMUNITARIA`, `IN_CONFESSIONAL` |
-| 2024 (fora do repo) | +25 | Adiciona subcategorias de reserva de vaga |
+| 2024         | 223           | Adiciona 24 subcategorias de reserva de vaga e remove 3 colunas (`QT_ING_RVETNICO`, `QT_MAT_RVETNICO`, `QT_CONC_RVETNICO`) |
+
+A união dos cabeçalhos das 16 edições tem **227 nomes**, mas **226
+variáveis**, porque `CO_CINE_ROTULO` e `CO_CINE_ROTULO2` são a mesma variável.
 
 Fatos relevantes detectados na comparação de cabeçalhos:
 
-1. **A ordem das colunas muda entre anos** (2009 ≠ 2023 na ordem, embora as
-   200 colunas comuns sejam as mesmas). Logo, a consolidação **alinha por
-   nome de coluna, não por posição**.
-2. **2009 não tem nenhuma coluna ausente em 2023** — o schema só cresce
-   (aditivo); nenhuma coluna foi removida no período.
-3. As 25 colunas extras presentes só no consolidado são:
-   - `CO_CINE_ROTULO2` — coluna **derivada** (versão "limpa" de
-     `CO_CINE_ROTULO`, que no CSV vem com aspas extras, ex.: `"""0615S02"""`).
+1. **A ordem das colunas muda uma vez**, entre 2022 e 2023. Logo, a
+   consolidação **alinha por nome de coluna, não por posição**, e precisa de
+   um mapa explícito para renomeações.
+2. **O schema é majoritariamente aditivo, mas não só:** afora a renomeação
+   de 2020, nenhuma coluna de 2009 some até 2023; já a edição de 2024 remove
+   `QT_{ING,MAT,CONC}_RVETNICO` e introduz, entre outras, as subcategorias
+   `RVPPI` e `RVQUILO`. Coluna ausente num ano deve ficar nula, não zero.
+3. Em relação às 202 colunas de 2023, a união tem 25 nomes a mais:
+   - `CO_CINE_ROTULO2` — nome que `CO_CINE_ROTULO` recebe no arquivo de
+     2020 (não é uma coluna derivada). Com qualquer dos dois nomes, o código
+     vem no CSV com aspas extras (ex.: `"""0615S02"""`).
    - 24 subcategorias de reserva de vaga:
      `QT_{ING,MAT,CONC}_RV{PPI,QUILO,REFU,POVT,IDOSO,INTERN,MEDAL,TRANS}`
-     — introduzidas no microdado de **2024** (arquivo não versionado no
-     repositório, mas cujos dados aparecem no consolidado: ~63 mil linhas de
-     2024).
+     — introduzidas no microdado de **2024** (~63 mil linhas de 2024 no
+     consolidado).
 
 ### Etapas inferidas do processamento
 
@@ -68,10 +78,15 @@ O script original de consolidação não está versionado; o processo abaixo é
    (`NU_ANO_CENSO` → `nu_ano_censo`).
 4. **Reindexar** cada ano para o *superset* de colunas de todos os anos
    (preenchendo com vazio onde a coluna não existia naquele ano — por isso
-   anos antigos têm `in_comunitaria`/`qt_*_rvppi` nulos).
+   anos antigos têm `in_comunitaria`/`qt_*_rvppi` nulos e 2024 tem
+   `qt_*_rvetnico` nulos).
 5. **Concatenar** todos os anos num único DataFrame.
-6. **Derivar** `co_cine_rotulo2` a partir de `co_cine_rotulo` (remoção das
-   aspas extras).
+6. **Renomeação de 2020 não mapeada.** A consolidação anterior (o CSV de
+   319.196 linhas carregado no banco) uniu as colunas só pelo nome, sem
+   mapear `co_cine_rotulo2` de volta para `co_cine_rotulo`: as duas ficaram
+   como colunas separadas (daí as 227 colunas, uma por nome da união). Pelo
+   mesmo alinhamento por nome, o código CINE das linhas de 2020 fica em
+   `co_cine_rotulo2`, e o das demais edições em `co_cine_rotulo`.
 7. **Persistir** como `dados_censo_computacao_consolidado.csv`
    (`sep=','`, `encoding='utf-8'`, **227 colunas**, **319.196 linhas**).
 
@@ -88,7 +103,8 @@ Verificado: 319.196 combinações distintas = 319.196 linhas (**0 duplicatas**).
 Por que `co_curso` sozinho **não** é único por ano: cursos EaD têm uma linha
 por **município de oferta (polo)** — um único `co_curso` chega a ter >1.100
 municípios num mesmo ano. Isso explica o crescimento das linhas por ano
-(3.012 em 2009 → 66.790 em 2023).
+(3.012 em 2009 → 66.790 em 2023 na consolidação anterior, de 319.196 linhas;
+3.015 → 67.325 nos arquivos atuais, Seção 5.2 do artigo).
 
 ---
 
@@ -98,7 +114,10 @@ municípios num mesmo ano. Isso explica o crescimento das linhas por ano
 
 - `pd.read_csv(..., encoding='utf-8', low_memory=False)`.
 - `co_cine_rotulo` / `co_cine_rotulo2`: remoção de aspas (`"`) e strip;
-  string vazia → `NULL`.
+  string vazia → `NULL`. As duas colunas são mantidas no fato como vêm do
+  consolidado; a dimensão `cine_rotulo` é montada só a partir de
+  `co_cine_rotulo`. Para o rótulo CINE de todas as edições, inclusive 2020,
+  use `COALESCE(co_cine_rotulo, co_cine_rotulo2)`.
 - Colunas `qt_*`, `co_*`, `tp_*`, `in_*`, `nu_*` (exceto `co_cine_rotulo*`):
   `pd.to_numeric(errors='coerce')` → `Int64` (inteiro nullable). Resolve os
   valores como `80.0`, `11.0` do CSV.
@@ -126,12 +145,14 @@ Cada dimensão é derivada por `drop_duplicates()` sobre sua chave:
 
 - **Atributos que variam ano a ano ficam no FATO**, não em dimensões:
   `co_ies` (121 cursos mudam de IES), `co_cine_rotulo` (≈42% dos cursos
-  mudam a classificação CINE), `co_municipio`, `tp_grau_academico`,
+  mudam a classificação CINE na consolidação anterior; nos arquivos atuais, a
+  edição de 2024 recodifica 74,9% dos cursos presentes em 2023 e 2024), `co_municipio`, `tp_grau_academico`,
   `tp_modalidade_ensino` etc. `curso` guarda só `co_curso` + um nome
   representativo para rótulo.
 - **PK do fato:** surrogate `id INTEGER PRIMARY KEY AUTOINCREMENT`. A chave
   natural `(nu_ano_censo, co_curso, co_municipio, tp_dimensao)` **não** é
-  declarada `UNIQUE` porque `co_municipio` é nulo em ~4.681 linhas e o
+  declarada `UNIQUE` porque `co_municipio` é nulo em ~4.681 linhas (consolidação
+  anterior; 4.947 nos arquivos atuais) e o
   SQLite trata `NULL` como distinto (quebraria o `UNIQUE`). Em vez disso há
   um índice não-único cobrindo a chave; a unicidade já foi verificada na
   origem.
@@ -166,7 +187,7 @@ cine_area_geral ─1:N─ cine_area_especifica ─1:N─ cine_area_detalhada ─
         │  chave natural: (nu_ano_censo, co_curso, co_municipio, tp_dimensao)
         │  FKs: co_curso→curso, co_ies→ies, co_municipio→municipio,
         │       co_cine_rotulo→cine_rotulo, tp_*→ref_tp_*
-        │  + ~180 métricas qt_*
+        │  + 196 métricas qt_*
         └──────────────── curso (co_curso, no_curso representativo)
 
 ref_tp_dimensao · ref_tp_organizacao_academica · ref_tp_categoria_administrativa
@@ -196,10 +217,13 @@ ref_tp_rede · ref_tp_grau_academico · ref_tp_modalidade_ensino · ref_tp_nivel
 pip install pandas                       # sqlite3 é stdlib
 python db/etl.py                         # usa o CSV padrão e gera db/censo.db
 python db/etl.py --csv <csv> --db <out>  # caminhos custom
+python db/load_supabase.py --csv <csv>   # carga no Supabase a partir de outro CSV
 ```
 
-O caminho padrão do CSV aponta para
-`dados/dados_censo_computacao_consolidado.csv` na raiz do projeto principal.
+O caminho padrão do CSV é `dados/dados_censo_computacao_consolidado.csv`,
+com `dados/` na raiz do repositório (pasta não versionada). Tanto
+`db/etl.py` quanto `db/load_supabase.py` aceitam `--csv` para apontar outro
+arquivo.
 
 ### Consultar
 

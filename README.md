@@ -5,18 +5,20 @@ Este repositório contém um dashboard Streamlit para explorar a representativid
 Conteúdo principal
 
 - app.py - ponto de entrada do Streamlit 
-- Páginas: `1_Visao_Geral.py`, `2_Comparativo_por_Curso.py`, `3_Analise_Regional.py`, `4_Analise_Institucional.py`, `5_Comparativo_Geral.py`, `6_Comparativo_Formato.py`, `7_Analise_Geral.py`, `8_Projecao.py`
+- Páginas (as oito do mapeamento `paginas` em `app.py`): `0_Home.py`, `1_Visao_Geral.py`, `2_Comparativo_por_Curso.py`, `3_Analise_Regional.py`, `4_Analise_Institucional.py`, `5_Comparativo_Geral.py`, `6_Comparativo_Formato.py`, `8_Projecao.py`. O arquivo `7_Analise_Geral.py` continua no repositório, mas não está ligado à navegação.
 - `db/` - carga do banco (SQLite e Supabase) e esquema
 - `analysis/` - scripts de análise da versão estendida do artigo
 
 Requisitos
 
-- Python 3.9+ recomendado
-- Dependências principais:
+- Python 3.11+ (`db/load_supabase.py` usa o módulo `tomllib`, disponível a partir do 3.11; o deploy no Render usa Python 3.12.7, definido em `render.yaml`)
+- Dependências (versões em `requirements.txt`):
   - streamlit
   - pandas
   - plotly
-  - scipy (opcional, usado para projeções; instalar para habilitar regressões)
+  - numpy
+  - SQLAlchemy e psycopg2-binary (conexão com o PostgreSQL do Supabase)
+  - scipy (usado para projeções; sem ele a página de projeção não roda as regressões)
 
 Instalação rápida
 
@@ -27,18 +29,19 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-2. Instale dependências (exemplo mínimo):
+2. Instale as dependências:
 
 ```bash
-pip install streamlit pandas plotly scipy
+pip install -r requirements.txt
 ```
 
 Fonte de dados
 
 O dashboard lê de um PostgreSQL no **Supabase** (materialized view
 `mv_censo_rollup`, agregação server-side). O pipeline é:
-microdados → CSV consolidado → SQLite (`db/etl.py`) → Supabase
-(`db/load_supabase.py`). Detalhes em [db/ETL.md](db/ETL.md).
+microdados → CSV consolidado, carregado no SQLite (`db/etl.py`, para
+desenvolvimento) e no Supabase (`db/load_supabase.py`, que lê o mesmo CSV).
+Detalhes em [db/ETL.md](db/ETL.md).
 
 Scripts de análise (versão estendida do artigo)
 

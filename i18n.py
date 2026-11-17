@@ -563,6 +563,20 @@ _STRINGS: dict[str, dict[str, str]] = {
         "fr": "Représentativité des Étudiants Noirs ({dtype}) par Type d'Institution en {year}",
         "it": "Rappresentatività degli Studenti Neri ({dtype}) per Tipo di Istituzione in {year}",
     },
+    "inst_by_type_sub": {
+        "pt": "Representatividade de Pretos ({dtype}) por Tipo de Instituição",
+        "en": "Black Students Representativeness ({dtype}) by Institution Type",
+        "es": "Representatividad de Negros ({dtype}) por Tipo de Institución",
+        "fr": "Représentativité des Étudiants Noirs ({dtype}) par Type d'Institution",
+        "it": "Rappresentatività degli Studenti Neri ({dtype}) per Tipo di Istituzione",
+    },
+    "inst_by_type_title": {
+        "pt": "Representatividade de Pretos ({dtype}) por Tipo de Instituição em {year}",
+        "en": "Black Students Representativeness ({dtype}) by Institution Type in {year}",
+        "es": "Representatividad de Negros ({dtype}) por Tipo de Institución en {year}",
+        "fr": "Représentativité des Étudiants Noirs ({dtype}) par Type d'Institution en {year}",
+        "it": "Rappresentatività degli Studenti Neri ({dtype}) per Tipo di Istituzione in {year}",
+    },
     "inst_evol_sub": {
         "pt": "Evolução da Representatividade por Tipo de Instituição ao Longo dos Anos",
         "en": "Evolution of Representativeness by Institution Type Over the Years",
@@ -655,13 +669,6 @@ _STRINGS: dict[str, dict[str, str]] = {
         "es": "Proyección para: {dtype}",
         "fr": "Projection pour : {dtype}",
         "it": "Proiezione per: {dtype}",
-    },
-    "proj_chart_title": {
-        "pt": "Tendência e Projeção de Representatividade ({dtype})",
-        "en": "Representativeness Trend & Projection ({dtype})",
-        "es": "Tendencia y Proyección de Representatividad ({dtype})",
-        "fr": "Tendance et Projection de Représentativité ({dtype})",
-        "it": "Tendenza e Proiezione della Rappresentatività ({dtype})",
     },
     "proj_stats_sub": {
         "pt": "Estatísticas da Tendência",
@@ -1183,40 +1190,12 @@ _STRINGS: dict[str, dict[str, str]] = {
         "fr": "Évolution de la Représentativité par Région",
         "it": "Evoluzione della Rappresentatività per Regione",
     },
-    "participation_pct": {
-        "pt": "Participação (%)",
-        "en": "Share (%)",
-        "es": "Participación (%)",
-        "fr": "Part (%)",
-        "it": "Quota (%)",
-    },
     "category": {
         "pt": "Categoria",
         "en": "Category",
         "es": "Categoría",
         "fr": "Catégorie",
         "it": "Categoria",
-    },
-    "count": {
-        "pt": "Contagem",
-        "en": "Count",
-        "es": "Conteo",
-        "fr": "Nombre",
-        "it": "Conteggio",
-    },
-    "annual_growth": {
-        "pt": "Taxa de Crescimento (%)",
-        "en": "Growth Rate (%)",
-        "es": "Tasa de Crecimiento (%)",
-        "fr": "Taux de Croissance (%)",
-        "it": "Tasso di Crescita (%)",
-    },
-    "course": {
-        "pt": "Curso",
-        "en": "Course",
-        "es": "Curso",
-        "fr": "Cours",
-        "it": "Corso",
     },
     # ── Institutional page missing keys ──────────────────────────────────────
     "inst_admin_category": {
@@ -1423,21 +1402,6 @@ _STRINGS: dict[str, dict[str, str]] = {
         "es": "Proporción de estudiantes autodeclarados pretos entre quienes declararon color, 2010-2024, frente al 10,2% de la población (Censo 2022). Sobre el total, la caída del color no declarado inflaría la tendencia. Regresión lineal simple, sin intervalo de confianza: el año de paridad es muy sensible a la ventana.",
         "fr": "Part des étudiants autodéclarés pretos parmi ceux ayant déclaré leur couleur, 2010-2024, comparée aux 10,2 % de la population (recensement 2022). Sur l'ensemble, la baisse de la couleur non déclarée gonflerait la tendance. Régression linéaire simple, sans intervalle de confiance : l'année de parité est très sensible à la fenêtre.",
         "it": "Quota di studenti autodichiarati pretos tra quelli con colore dichiarato, 2010-2024, rispetto al 10,2% della popolazione (Censimento 2022). Sul totale, il calo del colore non dichiarato gonfierebbe la tendenza. Regressione lineare semplice, senza intervallo di confidenza: l'anno di parità è molto sensibile alla finestra.",
-    },
-    # ── Course page missing keys ──────────────────────────────────────────────
-    "course_slider": {
-        "pt": "Número de Cursos para o Gráfico de Pizza",
-        "en": "Number of Courses for Pie Chart",
-        "es": "Número de Cursos para el Gráfico de Pastel",
-        "fr": "Nombre de Cours pour le Graphique Circulaire",
-        "it": "Numero di Corsi per il Grafico a Torta",
-    },
-    "other_courses": {
-        "pt": "Outros Cursos",
-        "en": "Other Courses",
-        "es": "Otros Cursos",
-        "fr": "Autres Cours",
-        "it": "Altri Corsi",
     },
 }
 

@@ -35,7 +35,8 @@ sha256sum -c --ignore-missing <repo>/analysis/data/checksums_sha256.txt
 Run it in each folder that holds some of the files; all nineteen should end
 up reported as `OK`.
 
-The base is frozen at the 2024 edition. INEP occasionally re-releases files;
+The base is frozen at the 2024 edition, the latest available: INEP had not
+yet published the 2025 edition when the files were accessed. INEP occasionally re-releases files;
 a re-released file will fail the checksum and may change the numbers.
 
 By default the census zips are read from `dados/microdados/` at the

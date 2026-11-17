@@ -20,7 +20,7 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 PROJECT_ROOT = HERE.parent
-DEFAULT_CSV = PROJECT_ROOT.parent.parent.parent / "dados" / "dados_censo_computacao_consolidado.csv"
+DEFAULT_CSV = PROJECT_ROOT / "dados" / "dados_censo_computacao_consolidado.csv"
 DEFAULT_DB = HERE / "censo.db"
 SCHEMA_PATH = HERE / "schema.sql"
 
@@ -332,7 +332,7 @@ def run(csv_path: Path, db_path: Path) -> None:
         total = conn.execute("SELECT COUNT(*) FROM fato_curso_ano").fetchone()[0]
         print(f"[etl] OK — anos {ano_min}..{ano_max}, total fato: {total:,}")
 
-        # Contagem por ano (confirma os 15 censos 2009..2023)
+        # Contagem por ano (lista as edições presentes; esperado: 16 censos 2009..2024)
         print("[etl] linhas por ano:")
         for ano, qtd in conn.execute(
             "SELECT nu_ano_censo, COUNT(*) FROM fato_curso_ano "

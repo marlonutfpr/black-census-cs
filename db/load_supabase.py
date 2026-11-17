@@ -10,8 +10,12 @@ Connection string (escolha uma fonte, nesta ordem de prioridade):
   2. variável de ambiente  SUPABASE_DB_URL
   3. .streamlit/secrets.toml   ->   [supabase]\n db_url = "postgresql://..."
 
+CSV de entrada: por padrão o mesmo de `etl.py` (`etl.DEFAULT_CSV`); use
+--csv para apontar outro arquivo.
+
 Uso:
     python db/load_supabase.py
+    python db/load_supabase.py --csv caminho/para/dados.csv
     python db/load_supabase.py --db-url "postgresql://postgres.<ref>:<senha>@aws-0-<regiao>.pooler.supabase.com:5432/postgres"
 """
 
@@ -165,7 +169,7 @@ def copy_df(cur, table: str, df: pd.DataFrame) -> int:
     return len(df)
 
 
-def run(db_url: str) -> None:
+def run(db_url: str, csv_path: Path = etl.DEFAULT_CSV) -> None:
     sqlite_sql = SCHEMA_SQLITE.read_text(encoding="utf-8")
     pg_sql = to_postgres_schema(sqlite_sql)
     SCHEMA_PG_OUT.write_text(pg_sql, encoding="utf-8")
@@ -173,7 +177,7 @@ def run(db_url: str) -> None:
 
     tables = table_names(sqlite_sql)
 
-    df = etl.clean(etl.load_csv(etl.DEFAULT_CSV))
+    df = etl.clean(etl.load_csv(csv_path))
 
     conn = psycopg2.connect(**parse_pg_url(db_url))
     conn.autocommit = False
@@ -251,8 +255,12 @@ def run(db_url: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--db-url", default=None, help="Connection string PostgreSQL do Supabase")
+    parser.add_argument("--csv", type=Path, default=etl.DEFAULT_CSV,
+                        help="CSV consolidado (padrão: etl.DEFAULT_CSV)")
     args = parser.parse_args()
-    run(resolve_db_url(args.db_url))
+    if not args.csv.exists():
+        raise SystemExit(f"CSV não encontrado: {args.csv}")
+    run(resolve_db_url(args.db_url), args.csv)
 
 
 if __name__ == "__main__":

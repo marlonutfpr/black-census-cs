@@ -5,9 +5,10 @@
 -- Estratégia:
 --   * Dimensões normalizadas (geografia, classificação CINE, IES, curso) com
 --     tabelas de lookup para os códigos tipados (tp_*).
---   * Uma tabela fato única `fato_curso_ano`, com PK composta
---     (nu_ano_censo, co_curso), guardando todas as métricas qt_* e os atributos
---     do curso/IES que variam ano a ano.
+--   * Uma tabela fato única `fato_curso_ano`, com PK surrogate (id) e chave
+--     natural (nu_ano_censo, co_curso, co_municipio, tp_dimensao) coberta por
+--     um índice não-único, guardando todas as métricas qt_* e os atributos do
+--     curso/IES que variam ano a ano.
 --
 -- Nota: o enforcement de foreign keys é controlado pelo conector
 -- (PRAGMA foreign_keys) no momento da carga, não aqui no DDL.
@@ -164,7 +165,7 @@ CREATE TABLE IF NOT EXISTS fato_curso_ano (
     in_gratuito                   INTEGER,
     tp_modalidade_ensino          INTEGER REFERENCES ref_tp_modalidade_ensino(codigo),
     tp_nivel_academico            INTEGER REFERENCES ref_tp_nivel_academico(codigo),
-    co_cine_rotulo2               TEXT,                   -- coluna derivada presente no consolidado
+    co_cine_rotulo2               TEXT,                   -- nome de CO_CINE_ROTULO no arquivo de 2020
 
     -- ---------------- Vagas e inscrições ----------------
     qt_curso                      INTEGER,
